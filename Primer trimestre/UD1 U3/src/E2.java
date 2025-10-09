@@ -11,7 +11,7 @@ public class E2 {
             double valor2;
 
             do {
-                System.out.println("1. Sumar\n" +
+                System.out.println("\n1. Sumar\n" +
                         "2. Restar\n" +
                         "3. Multiplicar\n" +
                         "4. Dividir\n" +
@@ -31,10 +31,11 @@ public class E2 {
 
                         double suma = valor1 + valor2;
 
-                        System.out.println("El resultado es: " + suma);
+                        System.out.println("\nEl resultado es: " + suma);
                         break;
 
                     case "2":
+                        sc = new Scanner(System.in);
 
                         System.out.println("Ingresa el valor del primer numero: ");
                         valor1 = sc.nextDouble();
@@ -44,10 +45,11 @@ public class E2 {
 
                         double resta = valor1 - valor2;
 
-                        System.out.println("El resultado es: " + resta);
+                        System.out.println("\nEl resultado es: " + resta);
                         break;
 
                     case "3":
+                        sc = new Scanner(System.in);
 
                         System.out.println("Ingresa el valor del primer numero: ");
                         valor1 = sc.nextDouble();
@@ -56,10 +58,11 @@ public class E2 {
                         valor2 = sc.nextDouble();
 
                         double multiplicacion = valor1 * valor2;
-                        System.out.println("El resultado es: " + multiplicacion);
+                        System.out.println("\nEl resultado es: " + multiplicacion);
                         break;
 
                     case "4":
+                        sc = new Scanner(System.in);
 
                         System.out.println("Ingresa el valor del primer numero: ");
                         valor1 = sc.nextDouble();
@@ -69,16 +72,17 @@ public class E2 {
 
                         double division = valor1 / valor2;
 
-                        System.out.println("El resultado es: " + division);
+                        System.out.println("\nEl resultado es: " + division);
                         break;
 
                     case "5":
+                        sc = new Scanner(System.in);
 
-                        System.out.println("Saliendo del programa. Hasta pronto");
+                        System.out.println("\nSaliendo del programa. Hasta pronto");
                         break;
 
                     default:
-                        System.out.print("Opcion invalida. Por favor, intentelo de nuevo");
+                        System.out.print("\nOpcion invalida. Por favor, intentelo de nuevo");
                         break;
 
                 }
