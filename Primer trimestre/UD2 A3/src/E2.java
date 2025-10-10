@@ -11,6 +11,8 @@ public class E2 {
             double valor2;
 
             do {
+                sc = new Scanner(System.in);
+
                 System.out.println("\n1. Sumar\n" +
                         "2. Restar\n" +
                         "3. Multiplicar\n" +
