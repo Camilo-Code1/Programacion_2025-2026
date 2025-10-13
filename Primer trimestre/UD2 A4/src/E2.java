@@ -19,8 +19,5 @@ public class E2 {
 
             System.out.print(suma +" ");
 
-
-
-
     }
 }

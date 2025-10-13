@@ -12,11 +12,22 @@ public class E3 {
             valores[i] = sc.nextDouble();
         }
 
-        System.out.println("Los numeros que hay en el array son: ");
-        for (int i = 0; i < valores.length; i++){
-            Math.max(valores[i], valores[i+1]);
-            Math.min(valores[i], valores[i+1]);
+
+        double maximo = valores[0];
+        double minimo = valores[0];
+
+
+        for (int i = 1; i < valores.length; i++){
+                if  (valores[i] > maximo){
+                    maximo = valores[i];
+                }
+                if  (valores[i] < minimo){
+                    minimo = valores[i];
+                }
         }
+
+        System.out.println("\nEl numero maximo es:  " + maximo);
+        System.out.println("El numerEno minimo es:  " + minimo);
 
     }
 }
