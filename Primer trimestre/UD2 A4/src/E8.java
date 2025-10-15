@@ -11,6 +11,9 @@ public class E8 {
         Random rand = new Random();
 
         for (int i = 0; i < numerosAleatorios.length; i++) {
+
+
+
             numerosAleatorios[i] = rand.nextDouble(2);
         }
 
