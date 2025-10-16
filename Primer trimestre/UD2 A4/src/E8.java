@@ -8,13 +8,14 @@ public class E8 {
 
         double [] numerosAleatorios = new double [100];
 
-        Random rand = new Random();
+//        Random rand = new Random();
+
 
         for (int i = 0; i < numerosAleatorios.length; i++) {
 
+//            numerosAleatorios[i] = rand.nextDouble(2);
+            numerosAleatorios[i] = Math.random();
 
-
-            numerosAleatorios[i] = rand.nextDouble(2);
         }
 
         System.out.println("Los numeros almacenados en el array son: ");
