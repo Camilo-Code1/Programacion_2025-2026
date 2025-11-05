@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
 
         Scanner sc = new Scanner(System.in);
 
@@ -12,15 +12,17 @@ public class Main {
         int derrotas = 0;
         int empates = 0;
 
-        ///  Apartado de computadora
-
-        String Papel;
-        String Piedra;
-        String Tijeras;
         String opcionJugador = "";
 
 
-        String menu = "a. Explicar reglas\n" +
+        String explicacion = "¿Cómo ganar? Ten en cuenta lo siguiente:\n" +
+                "Piedra gana a Tijeras\n" +
+                "Tijeras gana a Papel\n" +
+                "Papel gana a Piedra\n" +
+                "¡Si eligen lo mismo es empate!" +
+                "¡Si tu oponente elige lo contrario a ti gana!";
+
+        String menu = "\n\033[32ma. Explicar reglas\n" +
                 "b. Jugar\n" +
                 "c. Victorias y derrotas\n" +
                 "d. Salir";
@@ -37,7 +39,8 @@ public class Main {
             switch (opcion.toLowerCase()) {
                 case "a":
 
-//                    System.out.println("Valor random: " + decisionIA);
+                    System.out.println(explicacion);
+//                    Thread.sleep(2000);
 
                     break;
                 case "b":
@@ -66,6 +69,7 @@ public class Main {
                                 System.out.println("Saliendo al menu principal");
                                 break;
                         }
+           //         } while (!opcionJugador.equals("S"));
 
                         // Ordenador
                     int [] numeros = {1, 2 , 3};
@@ -117,8 +121,6 @@ public class Main {
                             derrotas ++;
                         }
 
-//                    } while (!opcionJugador.equals("S"));
-
                     break;
                 case "c":
                     System.out.println("");
@@ -135,9 +137,7 @@ public class Main {
             }
 
 
-        } while(!opcion.equals("d"));{}
-
-
+        } while(!opcion.equals("d"));
 
 
     }
