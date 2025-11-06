@@ -12,8 +12,8 @@ public class Main {
         int contador = 0;
         int suma = 0;
         int media = 0;
-        double maximo = Double.MIN_VALUE; // empieza muy pequeño
-        double minimo = Double.MAX_VALUE; // empieza muy grande
+        double maximo = Double.MIN_VALUE;
+        double minimo = Double.MAX_VALUE;
 
 
         String menu = "\nCrear un colección de edades (Por ahora no: y peso en kilogramo) de una serie de personas.\n" +
@@ -77,22 +77,26 @@ public class Main {
 
                     break;
                 case "3":
-                    for (int i = 0; i < coleccion.length; i++) {
-                        suma += coleccion[i];
+                    if (contador == 0) {
+                        System.out.println("No hay edades registradas todavía.");
+                    } else {
+                        suma = 0;
+                        maximo = coleccion[0];
+                        minimo = coleccion[0];
 
-                        media = suma / coleccion.length;
+                        for (int i = 0; i < contador; i++) {
+                            suma += coleccion[i];
+                            if (coleccion[i] > maximo) maximo = coleccion[i];
+                            if (coleccion[i] < minimo) minimo = coleccion[i];
+                        }
 
-                        maximo = Math.max(coleccion[i], maximo);
-                        minimo = Math.min(coleccion[i], minimo);
+                        media = suma / contador;
 
+                        System.out.println("Número de edades registradas: " + contador);
+                        System.out.println("La media es: " + media);
+                        System.out.println("La edad máxima es: " + maximo);
+                        System.out.println("La edad mínima es: " + minimo);
                     }
-
-                    System.out.println("Numero de edades registradas: " + contador);
-                    System.out.println("La media es: " + media);
-                    System.out.println("La edad maxima es: " + maximo);
-                    System.out.println("La edad minima es: " + minimo);
-
-
 
                     break;
 
