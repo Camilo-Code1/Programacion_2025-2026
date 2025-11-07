@@ -101,7 +101,28 @@ public class Main {
                     break;
 
                 case "4":
+                    if (contador == 0) {
+                        System.out.println("No hay edades para eliminar.");
+                    } else {
+                        System.out.print("Ingrese el índice (posición) que desea eliminar (1 - " + contador + "): ");
+                        // le pedimos índice 1-based para coincidir con la forma de mostrar
+                        int indice = sc.nextInt();
+                        sc.nextLine(); // consumir newline
 
+                        if (indice < 1 || indice > contador) {
+                            System.out.println("Índice inválido. Debe estar entre 1 y " + contador);
+                        } else {
+                            int pos = indice - 1; // convertir a 0-based
+                            // desplazamos a la izquierda desde pos
+                            for (int j = pos; j < contador - 1; j++) {
+                                coleccion[j] = coleccion[j + 1];
+                            }
+                            // opcional: limpiar la última posición (no necesaria, pero más "limpio")
+                            coleccion[contador - 1] = 0;
+                            contador--;
+                            System.out.println("Elemento en la posición " + indice + " eliminado correctamente.");
+                        }
+                    }
                     break;
 
                 case "5":

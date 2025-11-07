@@ -1,15 +1,116 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+  /*\nCrear un colección de edades  de una serie de personas.\n" +
+                "\n" +
+                "Recuerda preguntar al comienzo del programa cuantas personas serán censadas\n" +
+                "\n" +
+                "1. Agregar una edad\n" +
+                "2. Mostrar colección\n" +
+                "3. Estadísticas: Cantidad de edades registradas, media, el mayor de todos y menor de todos\n" +
+                "4. Eliminar una edad de la colección\n" +
+                "5. Modificar el tamaño de la colección\n" +
+                "6. Salir \*/
+
+         Scanner sc = new Scanner(System.in);
+
+        System.out.println("Personas a censar: ");
+        int n = sc.nextInt();
+
+        int[] edades = new int[n];
+
+        String opcion = "";
+        int contadorEdadesT = 0;
+
+
+        do{
+            sc = new Scanner(System.in);
+            System.out.println("\t1. Agregar una edad\\n\" +\n" +
+                    "                \"2. Mostrar colección\\n\" +\n" +
+                    "                \"3. Estadísticas: Cantidad de edades registradas, media, el mayor de todos y menor de todos\\n\" +\n" +
+                    "                \"4. Eliminar una edad de la colección\\n\" +\n" +
+                    "                \"5. Modificar el tamaño de la colección\\n\" +\n" +
+                    "                \"6. Salir");
+            opcion = sc.nextLine();
+
+
+            switch(opcion) {
+                case "1":
+                    sc = new Scanner(System.in);
+
+                    for (int i = 0; i < edades.length; i++) {
+                        System.out.println("Edad: (si es 0, se sale)");
+                        edades[i] = sc.nextInt();
+
+                        if (edades[i] == 0) {
+                            break;
+                        }
+                    }
+                    break;
+
+                case "2":
+                    for (int nums : edades) {
+                        System.out.println(nums);
+                    }
+
+
+                    break;
+
+                case "3":
+                    int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+
+                    for (int i = 0; i < edades.length; i++) {
+                        if (edades[i] != 0) {
+                            contadorEdadesT++;
+                        }
+
+                        max = Math.max(edades[i], max);
+                        min = Math.min(edades[i], min);
+                    }
+
+                    System.out.println("Numero de edades: " + contadorEdadesT);
+                    System.out.println("Maximo: " + max);
+                    System.out.println("Minimo: " + min);
+                    break;
+
+                case "4":
+                    System.out.println("Edad a eliminar: ");
+                    int edadE = sc.nextInt();
+
+                    for (int i = 0; i < edades.length; i++) {
+                        if (edades[i] == edadE) {
+                            edades[i] = 0;
+                        }
+                    }
+                    break;
+
+                case "5":
+                    System.out.println("Tamanio array a crear(copia del anterior): ");
+                    int edadesC = sc.nextInt();
+
+                    int[] edades2 = Arrays.copyOf(edades, edadesC);
+
+                    for(int a : edades2){
+                        System.out.print(a + " ");
+                    }
+                    break;
+
+                case "6":
+                    System.out.println("Saliendo...");
+                    break;
+
+                default:
+                    System.out.println("Elige una opcion de las dispuestas");
+            }
+
+        }while(!opcion.equals("6"));
+
+        
+
     }
 }
