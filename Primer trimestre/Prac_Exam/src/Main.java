@@ -93,9 +93,9 @@ public class Main {
                                         System.out.println("Índice inválido. Debe estar entre 1 y " + cantidad);
 
                                     } else {
-                                    System.out.println("Por favor, ahora inserte el valor: ");
-                                    coleccion[posicion - 1] = sc.nextInt();
-                                    contador++;
+                                        System.out.println("Por favor, ahora inserte el valor: ");
+                                        coleccion[posicion - 1] = sc.nextInt();
+                                        contador++;
                                     }
                                     break;
                                 default:
