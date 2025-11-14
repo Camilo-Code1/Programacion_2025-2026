@@ -1,3 +1,7 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CuentaBancaria {
 
     private String iban;
@@ -7,6 +11,10 @@ public class CuentaBancaria {
     private Movimiento[] movimientos_t;
     private final int dimensionInicial = 100;
     private int nMovimientosActuales;
+
+    private static final double saldoMinimo = -50;
+    private static final double saldoMaximo = 3000;
+
 
     public CuentaBancaria(String iban, String titular, double saldo) {
         this.iban = iban;
@@ -33,20 +41,33 @@ public class CuentaBancaria {
         return this.saldo;
     }
 
-    public String infoCuentaBancaria() {
-        String info = String.format("Cuenta bancaria - Iban:  %s, Titular: %s, Saldo: %d\n ", this.iban, this.titular, this.saldo);
 
-        StringBuilder sb = new StringBuilder("Cuenta Bancaria: \n");
-        sb.append("IBAN: " + this.iban + "\n");
-        sb.append("Titular: " + this.titular + "\n");
-        sb.append("Saldo: " + this.saldo + "\n");
-
-
-//        infoCuentaBancaria += "IBAN: " + this.iban + "\n";
-//        infoCuentaBancaria += "Titular: " + this.titular + "\n";
-//        infoCuentaBancaria += "Saldo: " + this.saldo + "\n";
-
-        return sb.toString();
+    private boolean ibanCorrec(String IBAN) {
+        return IBAN != null && IBAN.matches("[A-Z]{2}\\d{22}");
     }
+
+    private void Ingreso (double Cantidad) {
+        if (Cantidad <= 0) {
+            System.out.println("El Cantidad debe ser mayor o igual a 0");
+            return;
+        }
+
+    }
+
+
+
+
+    public String infoCuentaBancaria() {
+        return String.format(
+                "Cuenta bancaria:\n" +
+                        "IBAN: %s\n" +
+                        "Titular: %s\n" +
+                        "Saldo: %.2f€\n",
+                this.iban,
+                this.titular,
+                this.saldo
+        );
+    }
+
 
 }
