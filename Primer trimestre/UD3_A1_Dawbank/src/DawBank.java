@@ -62,6 +62,7 @@ public class DawBank {
                     System.out.println("Saldo: " + nuevoUsuario.getSaldo());
                     break;
                 case "5":
+
                     break;
                 case "6":
                     break;
@@ -83,6 +84,20 @@ public class DawBank {
 
 
 
+    }
+
+    private void realizarIngreso(CuentaBancaria nuevoUsuario) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Inserte la cantidad a ingresar: ");
+        double cantidadIngresada = sc.nextDouble();
+        nuevoUsuario.Ingreso(cantidadIngresada);
+    }
+
+    private void realizarRetirada(CuentaBancaria nuevoUsuario) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Inserte la cantidad a retirar: ");
+        double cantidadRetirada = sc.nextDouble();
+        nuevoUsuario.Retiro(cantidadRetirada);
     }
 
     private static String obtenerIbanValido(Scanner scanner){

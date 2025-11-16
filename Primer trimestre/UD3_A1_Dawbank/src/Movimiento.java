@@ -11,32 +11,32 @@ public class Movimiento {
     private String tipoMovimiento;
     private double cantidad;
 
-    public Movimiento(int contadorMovimientos, int id, String fecha, String tipoMovimiento, double cantidad) {
+    public Movimiento(String tipoMovimiento, double cantidad) {
         this.contadorMovimientos = 0;
         this.id = id;
-        this.fecha = fecha;
         this.tipoMovimiento = tipoMovimiento;
-        this.cantidad = 0;
+        this.cantidad = cantidad;
 
         this.fecha = LocalDateTime.now().format(dtf);
     }
 
-    public int getContadorMovimientos() {
-        return contadorMovimientos;
-    }
+//    public int getContadorMovimientos() {
+//        return contadorMovimientos;
+//    }
+//
+//    public int getId() {
+//        return id;
+//    }
+//    public String getFecha() {
+//        return fecha;
+//    }
+//    public String getTipoMovimiento() {
+//        return tipoMovimiento;
+//    }
+//    public double getCantidad() {
+//        return cantidad;
+//    }
 
-    public int getId() {
-        return id;
-    }
-    public String getFecha() {
-        return fecha;
-    }
-    public String getTipoMovimiento() {
-        return tipoMovimiento;
-    }
-    public double getCantidad() {
-        return cantidad;
-    }
 
     public String mostrarInfoMovimiento() {
         String infoLibro = "";
