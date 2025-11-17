@@ -83,10 +83,6 @@ public class DawBank {
 
         } while (!opcion.equals("8"));
 
-
-
-
-
     }
 
     private static void realizarIngreso(CuentaBancaria nuevoUsuario) {

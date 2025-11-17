@@ -103,7 +103,7 @@ public class CuentaBancaria {
             System.out.println("\nNo hay movimientos registrados.");
             return;
         }
-
+        System.out.println("\nMostrando movimientos:");
         for (int i = 0; i < contadorMovimientos; i++) {
             movimientos_t[i].mostrarInfoMovimiento();
         }
