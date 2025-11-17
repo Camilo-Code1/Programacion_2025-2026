@@ -21,7 +21,6 @@ public class CuentaBancaria {
         this.movimientos_t = new Movimiento[dimensionInicial];
         this.contadorMovimientos = 0;
     }
-
     public String getIban() {
         return this.iban;
     }
@@ -50,45 +49,46 @@ public class CuentaBancaria {
         }
 
         if (cantidad > limiteHacienda) {
-            System.out.println("\sAVISo: El ingreso supera el limite de hacienda");
+            System.out.println("\nAVISO: El ingreso supera el limite de hacienda");
         }
 
-        saldo -= cantidad;
-        agregarMovimiento("Ingreso", cantidad);
+        saldo += cantidad;
+        agregarMovimiento(new Movimiento("Ingreso", cantidad));
     }
 
     public void Retiro(double cantidad) {
         if (cantidad <= 0) {
-            System.out.println("El Cantidad debe ser mayor o igual a 0");
+            System.out.println("\nEl Cantidad debe ser mayor o igual a 0");
             return;
         }
         if (saldo - cantidad < saldoMinimo) {
-            System.out.println("\sMovimiento no permitido. No hay suficiente saldo en la cuenta.");
+            System.out.println("\nMovimiento no permitido. No hay suficiente saldo minimo en la cuenta.");
             return;
         }
 
-        saldo += cantidad;
-        agregarMovimiento("Retiro", cantidad);
+        saldo -= cantidad;
+        agregarMovimiento(new Movimiento("Retiro", cantidad));
 
         if (saldo <= 0) {
-            System.out.println("\sAVISO: Saldo negativo.");
+            System.out.println("\nAVISO: Saldo negativo.");
         }
     }
 
-    public void agregarMovimiento(String tipoMovimiento, double cantidad) {
-        if (contadorMovimientos >= 100) {
-            System.out.println("\nNo se pueden realizar más movimientos");
-            return;
+    public void agregarMovimiento(Movimiento m) {
+        if (contadorMovimientos < movimientos_t.length) {
+            movimientos_t [contadorMovimientos] = m;
+            contadorMovimientos++;
+
+        } else {
+            System.out.println("\sNo se puede registrar más movimientos");
         }
 
-        movimientos_t[contadorMovimientos] = new Movimiento(tipoMovimiento, cantidad);
-        contadorMovimientos++;
     }
 
 
     public String infoCuentaBancaria() {
         return String.format(
-                "Cuenta bancaria:\n" +
+                "<---------Cuenta bancaria:--------->\n" +
                         "IBAN: %s\n" +
                         "Titular: %s\n" +
                         "Saldo: %.2f€\n",
@@ -100,7 +100,7 @@ public class CuentaBancaria {
 
     public void MostrarMovimientos() {
         if (contadorMovimientos == 0) {
-            System.out.println("\sNo hay movimientos registrados.");
+            System.out.println("\nNo hay movimientos registrados.");
             return;
         }
 

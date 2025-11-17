@@ -11,10 +11,10 @@ public class DawBank {
                 "2. IBAN.\n" +
                 "3. Titular.\n" +
                 "4. Saldo.\n" +
-                "5. Ingreso\n" +
+                "5. Ingreso.\n" +
                 "6. Retirada.\n" +
-                "7. Movimientos \n" +
-                "8. Salir";
+                "7. Movimientos.\n" +
+                "8. Salir.";
 
         String opcion = "";
 
@@ -62,13 +62,16 @@ public class DawBank {
                     System.out.println("Saldo: " + nuevoUsuario.getSaldo());
                     break;
                 case "5":
-
+                    realizarIngreso(nuevoUsuario);
                     break;
                 case "6":
+                    realizarRetirada(nuevoUsuario);
                     break;
                 case "7":
+                    nuevoUsuario.MostrarMovimientos();
                     break;
                 case "8":
+                    System.out.println("Aviso: Saliendo del sistema.");
                     break;
                 default:
                     System.out.print("Opción invalida. Por favor vuelva a intentarlo.");
@@ -86,14 +89,14 @@ public class DawBank {
 
     }
 
-    private void realizarIngreso(CuentaBancaria nuevoUsuario) {
+    private static void realizarIngreso(CuentaBancaria nuevoUsuario) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Inserte la cantidad a ingresar: ");
         double cantidadIngresada = sc.nextDouble();
         nuevoUsuario.Ingreso(cantidadIngresada);
     }
 
-    private void realizarRetirada(CuentaBancaria nuevoUsuario) {
+    private static void realizarRetirada(CuentaBancaria nuevoUsuario) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Inserte la cantidad a retirar: ");
         double cantidadRetirada = sc.nextDouble();
