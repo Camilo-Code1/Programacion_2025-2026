@@ -38,9 +38,9 @@ public class CuentaBancaria {
     }
 
 
-    private boolean ibanCorrec(String IBAN) {
-        return IBAN != null && IBAN.matches("[A-Z]{2}\\d{22}");
-    }
+//    private boolean ibanCorrec(String IBAN) {
+//        return IBAN != null && IBAN.matches("[A-Z]{2}\\d{22}");
+//    }
 
     public void Ingreso(double cantidad) {
         if (cantidad <= 0) {
