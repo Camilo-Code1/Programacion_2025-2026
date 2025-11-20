@@ -35,8 +35,8 @@ public class RegistroUso {
         System.out.println("ID: " + idRegistroUso);
         System.out.println("Registro Uso: " + idRegistroUso);
         System.out.println("Kilometros realizados: " + kilometrosRealizados);
-        System.out.println("Bateria consumida: " + bateriaConsumida);
-        System.out.println("Fecha Registro Uso: " + fechaRegistroUso);
+        System.out.println("Bateria consumida: " + bateriaConsumida +"%");
+        System.out.println("Fecha de registro de uso: " + fechaRegistroUso);
         System.out.println("-----------------------------");
     }
 

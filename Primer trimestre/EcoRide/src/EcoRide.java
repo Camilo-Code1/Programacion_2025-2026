@@ -55,13 +55,17 @@ public class EcoRide {
                     System.out.println("Modelo: " + nuevoUsuario.getModelo());
                     break;
                 case "4":
-                    System.out.println("Bateria: " + nuevoUsuario.getBateria());
+                    System.out.println("Bateria: " + nuevoUsuario.getBateria() + "%") ;
                     break;
                 case "5":
+                    System.out.println("¿Cuantos kilometros desea recorrer?");
+                    int km = sc.nextInt();
+                    nuevoUsuario.usarBicicleta(km);
                     break;
                 case "6":
                     break;
                 case "7":
+                    nuevoUsuario.mostrarHistorial();
                     break;
                 case "8":
                     System.out.println("\nAviso: Saliendo del sistema.");

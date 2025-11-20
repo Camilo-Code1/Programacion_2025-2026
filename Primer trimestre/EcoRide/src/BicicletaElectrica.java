@@ -11,6 +11,8 @@ public class BicicletaElectrica {
 
     private int contadorMovimientos;
 
+    private static final int bateriaBaja = 15;
+
     public BicicletaElectrica(String idBici, String modelo) {
         this.idBici = idBici;
         this.modelo = modelo;
@@ -39,10 +41,52 @@ public class BicicletaElectrica {
         return kilometrosTotales;
     }
 
+    public void usarBicicleta(int kilometrosRealizados){
 
+        if (kilometrosRealizados <= 0) {
+            System.out.println("\nError: La distancia que recorrera siempre debe ser mayor a 0.");
+            return;
+        }
+        int bateriaConsumida = kilometrosRealizados * 2;
 
+        if (bateriaConsumida > bateria) {
+            System.out.println("ERROR: No hay batería suficiente para el trayecto");
+            return;
+        }
 
+        bateria -= bateriaConsumida;
 
+        kilometrosTotales += kilometrosRealizados;
+
+        agregarRegistro(kilometrosRealizados, bateriaConsumida);
+
+        if (bateria <= bateriaBaja) {
+            System.out.println("AVISO: Bateria baja, cargue el dispositivo.");
+
+        }
+
+    }
+
+    public void agregarRegistro(int km, int consumo) {
+        if (contadorMovimientos < movimientos.length) {
+            movimientos[contadorMovimientos] = new RegistroUso(km, consumo);
+            contadorMovimientos++;
+        }
+        else {
+            System.out.println("\nERROR: No se pueden registrar más elementos");
+        }
+    }
+
+    public void mostrarHistorial(){
+        if (contadorMovimientos == 0) {
+            System.out.println("AVISO: No hay registros todavía");
+            return;
+        }
+
+        for (int i = 0; i < contadorMovimientos; i++) {
+            movimientos[i].mostrarInfoRegistro();
+        }
+    }
 
 
     public String infoBicicleta() {
