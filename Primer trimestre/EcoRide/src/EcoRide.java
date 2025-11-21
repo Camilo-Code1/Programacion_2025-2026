@@ -63,6 +63,7 @@ public class EcoRide {
                     nuevoUsuario.usarBicicleta(km);
                     break;
                 case "6":
+                    nuevoUsuario.reiniciarBateria();
                     break;
                 case "7":
                     nuevoUsuario.mostrarHistorial();

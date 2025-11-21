@@ -67,6 +67,14 @@ public class BicicletaElectrica {
 
     }
 
+    public void reiniciarBateria(){
+
+        bateria = 100;
+
+        System.out.println("¡Bateria cargada con exito!");
+    }
+
+
     public void agregarRegistro(int km, int consumo) {
         if (contadorMovimientos < movimientos.length) {
             movimientos[contadorMovimientos] = new RegistroUso(km, consumo);
@@ -91,7 +99,7 @@ public class BicicletaElectrica {
 
     public String infoBicicleta() {
         return String.format(
-                "<---------Bicicleta:--------->\n" +
+                "<---------Bicicleta--------->\n" +
                         "ID: %s\n" +
                         "Modelo: %s\n" +
                         "Bateria: %s%%\n" +
