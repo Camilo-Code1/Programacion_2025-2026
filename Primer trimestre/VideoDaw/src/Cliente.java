@@ -13,7 +13,7 @@ public class Cliente {
 
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    public Cliente(String dni, String nombre, String numSocio, String direccion, String fechaNacimiento, String fechaBaja) {
+    public Cliente(String dni, String nombre, String numSocio, String direccion, String fechaNacimiento) {
         this.dni = dni;
         this.nombre = nombre;
         this.numSocio = numSocio;
