@@ -18,8 +18,6 @@ public class DawBank {
 
         String opcion = "";
 
-//        CuentaBancaria nuevoUsuario = new CuentaBancaria("ES6621000418401234567891", "Aitor Gutierrez", 30);
-
         CuentaBancaria nuevoUsuario;
         Movimiento mov;
 
@@ -30,7 +28,7 @@ public class DawBank {
         System.out.print("Bienvenido a Dawbank" +
                 " (Presione intro para continuar)");
 
-        iban = obtenerIbanValido(sc);
+        iban = obtenerIbanValido(sc).toUpperCase();
         System.out.println("Ingrese el titular de la cuenta: ");
         titular  = sc.nextLine();
 
@@ -48,9 +46,7 @@ public class DawBank {
 
             switch (opcion) {
                 case "1":
-
                     System.out.println(nuevoUsuario.infoCuentaBancaria());
-
                     break;
                 case "2":
                     System.out.println("IBAN: " + nuevoUsuario.getIban());
@@ -59,7 +55,7 @@ public class DawBank {
                     System.out.println("Titular: " + nuevoUsuario.getTitular());
                     break;
                 case "4":
-                    System.out.println("Saldo: " + nuevoUsuario.getSaldo());
+                    System.out.println("Saldo: " + nuevoUsuario.getSaldo()+ "$");
                     break;
                 case "5":
                     realizarIngreso(nuevoUsuario);
@@ -76,14 +72,10 @@ public class DawBank {
                 default:
                     System.out.print("Opción invalida. Por favor vuelva a intentarlo.");
                     break;
-
             }
-
-
-
         } while (!opcion.equals("8"));
-
     }
+
 
     private static void realizarIngreso(CuentaBancaria nuevoUsuario) {
         Scanner sc = new Scanner(System.in);

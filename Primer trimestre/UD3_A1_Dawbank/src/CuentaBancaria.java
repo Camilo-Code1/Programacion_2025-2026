@@ -54,6 +54,8 @@ public class CuentaBancaria {
 
         saldo += cantidad;
         agregarMovimiento(new Movimiento("Ingreso", cantidad));
+        System.out.println("\nMovimiento confirmado" + "" +
+                "\nUsted ha ingresado: " + cantidad + "$");
     }
 
     public void Retiro(double cantidad) {
@@ -69,9 +71,12 @@ public class CuentaBancaria {
         saldo -= cantidad;
         agregarMovimiento(new Movimiento("Retiro", cantidad));
 
+
         if (saldo <= 0) {
             System.out.println("\nAVISO: Saldo negativo.");
         }
+        System.out.println("\nMovimiento confirmado." +
+                "\nUsted ha retirado: " + cantidad + "$");
     }
 
     public void agregarMovimiento(Movimiento m) {
