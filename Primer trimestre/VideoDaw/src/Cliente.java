@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -7,14 +8,14 @@ public class Cliente {
     private String nombre;
     private String numSocio; // S-0001
     private String direccion;
-    private String fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String fechaBaja;
     private int peliculasAlquiladas;
 
     private static int numSociosReg = 1;
 
 
-    public Cliente(String dni, String nombre, String direccion, String fechaNacimiento) {
+    public Cliente(String dni, String nombre, String direccion, LocalDate fechaNacimiento) {
         this.dni = dni;
         this.nombre = nombre;
         this.numSocio = String.format("S-%03d", numSociosReg);
@@ -50,10 +51,10 @@ public class Cliente {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    public String getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
     public String getFechaBaja() {
