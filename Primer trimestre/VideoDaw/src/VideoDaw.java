@@ -4,19 +4,19 @@ import java.time.format.DateTimeFormatter;
 public class VideoDaw {
 
     private String cif;
-    private String direccion;
+    private String direccionEm;
     private String fechaAlta;
     private Pelicula [] peliculasRegistradas;
     private Cliente [] clientesRegistrados  ;
 
-    private int contadorPeliculas = 0; // para saber cuántas películas se han registrado
+    private int contadorPeliculas = 0;
     private int contadorClientes = 0;
 
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    public VideoDaw(String cif, String direccion) {
+    public VideoDaw(String cif, String direccionEm) {
         this.cif = cif;
-        this.direccion = direccion;
+        this.direccionEm = direccionEm;
         this.fechaAlta = LocalDateTime.now().format(dtf);
         this.peliculasRegistradas = new Pelicula[100];
         this.clientesRegistrados = new Cliente[100];
@@ -28,11 +28,11 @@ public class VideoDaw {
     public void setCif(String cif) {
         this.cif = cif;
     }
-    public String getDireccion() {
-        return direccion;
+    public String getDireccionEm() {
+        return direccionEm;
     }
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDireccionEm(String direccionEm) {
+        this.direccionEm = direccionEm;
     }
     public String getFechaAlta() {
         return fechaAlta;
@@ -56,11 +56,29 @@ public class VideoDaw {
         }
     }
 
+    public void agregarCliente(Cliente c) {
+        if (contadorClientes < clientesRegistrados.length) {
+            clientesRegistrados[contadorClientes] = c;
+            contadorClientes++;
+        }  else {
+            System.out.println("No se pueden registrar más clientes (límite alcanzado).");
+        }
+    }
+
+    public void mostrarClientes() {
+        if (contadorClientes == 0) {
+            System.out.println("No hay clientes registradas.");
+        } else {
+            for (int i = 0; i < contadorClientes; i++) {
+                clientesRegistrados[i].mostrarInfoCliente();
+            }
+        }
+    }
 
     public String mostrarInfoVideoDaw() {
         StringBuilder sb = new StringBuilder("VideoDaw:\n");
         sb.append("CIF: " + this.cif + "\n");
-        sb.append("Direccion: " + this.direccion + "\n");
+        sb.append("Direccion: " + this.direccionEm + "\n");
         sb.append("Fecha de alta: " + this.fechaAlta + "\n");
 
         return sb.toString();

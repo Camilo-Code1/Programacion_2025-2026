@@ -15,13 +15,13 @@ public class Pelicula {
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     public Pelicula(String titulo, Genero genero, boolean isAlquilada) {
-        this.cod = String.format("P%03d", contadorPeliculas);
+        this.cod = String.format("P-%03d", contadorPeliculas);
         contadorPeliculas++;
 
         this.titulo = titulo;
         this.genero = genero;
         this.fechaRegistro = LocalDateTime.now().format(dtf);
-        this.fechaBaja = LocalDateTime.now().format(dtf);
+        this.fechaBaja = null;
         this.isAlquilada = isAlquilada;
     }
 
@@ -59,10 +59,11 @@ public class Pelicula {
         System.out.println("Titulo: " + titulo);
         System.out.println("Genero: " + genero);
         System.out.println("Fecha registro: " + fechaRegistro);
-        System.out.println("Fecha de baja: " + fechaBaja);
-        System.out.println("Alquilada: " + isAlquilada);
+        System.out.println("Fecha de baja: " + (fechaBaja == null ? "—" : fechaBaja));
+        System.out.println("Alquilada: " + (isAlquilada ? "Sí" : "No"));
         System.out.println("-----------------------------");
     }
+
 
 
 }

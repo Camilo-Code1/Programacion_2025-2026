@@ -21,8 +21,8 @@ public class GestionVideoDaw {
         Cliente victima;
 
         String cif = "";
-        String direccion = "";
-        String fechaAlta = "";
+        String direccionEm = "";
+
 
         System.out.print("Bienvenido a Dawbank" +
                 " (Presione intro para continuar)");
@@ -30,9 +30,9 @@ public class GestionVideoDaw {
         cif = obtenerCIFValido().toUpperCase();
 
         System.out.println("Ingrese la dirección de la empresa: ");
-        direccion = sc.nextLine();
+        direccionEm = sc.nextLine();
 
-        nuevoUsuario = new VideoDaw(direccion, cif);
+        nuevoUsuario = new VideoDaw(direccionEm, cif);
 
         do {
             sc = new Scanner(System.in);
@@ -51,37 +51,52 @@ public class GestionVideoDaw {
                     System.out.println("Introduzca el titulo:");
                     String titulo = sc.nextLine();
 
+                    Genero genero;
+                    int gen = -1;
+
+                    do {
+                        System.out.println("Seleccione un género:");
+                        for (Genero g : Genero.values()) {
+                            System.out.println((g.ordinal() + 1) + ". " + g);
+                        }
+                        System.out.print("Opción: ");
+
+                        String entrada = sc.nextLine();
 
 
+                        if (entrada.matches("\\d+")) {
+                            gen = Integer.parseInt(entrada);
+                        } else {
+                            System.out.println("Error: Debe ingresar un número.");
+                            continue;
+                        }
 
-                    System.out.println("Seleccione un género:");
-                    for (Genero g  : Genero.values()) {
-                        System.out.println(g.ordinal() + 1 + "." + g);
-                    }
-                    int gen = sc.nextInt();
+                        if (gen < 1 || gen > Genero.values().length) {
+                            System.out.println("Opción fuera de rango. Intente nuevamente.");
+                        }
 
-                    Genero genero = Genero.values()[gen - 1];
+                    } while (gen < 1 || gen > Genero.values().length);
 
-
-//                    Genero genero;
-//                    int gen;
-//
-//                    do {
-//                        System.out.println("Seleccione un género:");
-//                        for (Genero g : Genero.values()) {
-//                            System.out.println((g.ordinal() + 1) + ". " + g);
-//                        }
-//                        System.out.print("Opción: ");
-//                        gen = sc.nextInt();
-//                        sc.nextLine(); // limpiar buffer
-//                    } while (gen < 1 || gen > Genero.values().length);
-//
-//                    genero = Genero.values()[gen - 1];
-//
+                    genero = Genero.values()[gen - 1];
 
 
-                    System.out.println("¿Esta alquilada? (true/false):) ");
-                    boolean alquilada = sc.nextBoolean();
+                    String entrada;
+                    boolean alquiladaValida = false;
+                    boolean alquilada = false;
+
+                    do {
+                        System.out.print("¿Está alquilada? (true/false): ");
+                        entrada = sc.nextLine().toLowerCase();
+
+                        if (entrada.equals("true") || entrada.equals("false")) {
+                            alquilada = Boolean.parseBoolean(entrada);
+                            alquiladaValida = true;
+                        } else {
+                            System.out.println("Debe ingresar 'true' o 'false'.");
+                        }
+
+                    } while (!alquiladaValida);
+
 
                     Pelicula p = new Pelicula(titulo, genero, alquilada);
                     nuevoUsuario.agregarPelicula(p);
@@ -89,7 +104,19 @@ public class GestionVideoDaw {
 
                     break;
                 case "3":
-                    System.out.println();
+                    String dni = obtenerDNIValido().toUpperCase();
+
+                    System.out.println("Introduzca el nombre del cliente: ");
+                    String nombre = sc.nextLine();
+
+                    System.out.println("Introduzca la dirección del cliente: ");
+                    String direccion = sc.nextLine();
+
+                    System.out.println("Introduzca el año de nacimiento del cliente: ");
+                    String fechaNacimiento = sc.nextLine();
+
+                    victima = new Cliente(dni, nombre, direccion, fechaNacimiento);
+                    nuevoUsuario.agregarCliente(victima);
                     break;
                 case "4":
                     System.out.println();
@@ -98,10 +125,10 @@ public class GestionVideoDaw {
 
                     break;
                 case "6":
-
+                    nuevoUsuario.mostrarPeliculas();
                     break;
                 case "7":
-
+                    nuevoUsuario.mostrarClientes();
                     break;
                 case "8":
                     System.out.println("\nAviso: Saliendo del sistema.");
@@ -134,5 +161,23 @@ public class GestionVideoDaw {
     private static boolean validarCIF(String cif) {
         return cif.matches("^[A-HJNP-S]\\d{7}[0-9A-J]$");
     }
+
+    private static String obtenerDNIValido () {
+        Scanner sc = new Scanner(System.in);
+        String dni;
+        while (true) {
+            System.out.println("Ingrese el DNI del cliente (Ejemplo: 87654321M):");
+            dni = sc.nextLine().toUpperCase();
+            if (validarDNI(dni)) {
+                return dni;
+            }
+            System.out.println("DNI invalido. Por favor vuelva a intentarlo.");
+        }
+    }
+    private static boolean validarDNI(String dni) {
+        return dni.matches("^\\d{8}[A-Za-z]$");
+    }
+
+
 
 }

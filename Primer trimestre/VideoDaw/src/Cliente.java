@@ -11,15 +11,17 @@ public class Cliente {
     private String fechaBaja;
     private int peliculasAlquiladas;
 
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private static int numSociosReg = 1;
 
-    public Cliente(String dni, String nombre, String numSocio, String direccion, String fechaNacimiento) {
+
+    public Cliente(String dni, String nombre, String direccion, String fechaNacimiento) {
         this.dni = dni;
         this.nombre = nombre;
-        this.numSocio = numSocio;
+        this.numSocio = String.format("S-%03d", numSociosReg);
+        numSociosReg++;
         this.direccion = direccion;
-        this.fechaNacimiento = LocalDateTime.now().format(dtf);
-        this.fechaBaja = fechaBaja;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaBaja = null;
         this.peliculasAlquiladas = 0;
 
     }
@@ -59,6 +61,9 @@ public class Cliente {
     }
 
 
+
+
+
     public void mostrarInfoCliente() {
         System.out.println("-----------------------------");
         System.out.println("DNI: " + dni);
@@ -66,7 +71,7 @@ public class Cliente {
         System.out.println("Numero de socio: " + numSocio);
         System.out.println("Dirección: " + direccion);
         System.out.println("Fecha de nacimiento: " + fechaNacimiento);
-        System.out.println("Fecha de baja: " + fechaBaja);
+        System.out.println("Fecha de baja: " + (fechaBaja == null ? "—" : fechaBaja));
         System.out.println("Peliculas alquidas: " + peliculasAlquiladas);
         System.out.println("-----------------------------");
     };
