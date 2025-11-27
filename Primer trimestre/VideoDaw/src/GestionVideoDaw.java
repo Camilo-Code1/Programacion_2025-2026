@@ -57,7 +57,16 @@ public class GestionVideoDaw {
                     crearRegistrarCliente(sc, nuevoUsuario);
                     break;
                 case "4":
-                    System.out.println();
+                    System.out.println("Ingrese el número de socio (Ej: S-005):");
+                    String numSocio = sc.nextLine().toUpperCase();
+
+                    boolean darBajon = nuevoUsuario.darBajaCliente(numSocio);
+
+                    if (darBajon) {
+                        System.out.println("Cliente dado de baja correctamente");
+                    } else {
+                        System.out.println("No se pudo dar de baja. El cliente no existe o ya esta dado de baja");
+                    }
 
                     break;
                 case "5":
@@ -208,13 +217,13 @@ public class GestionVideoDaw {
             fecha = sc.nextLine();
 
             if (validarFecha(fecha)) {
-                // Convertir "dd-MM-yyyy" → LocalDate SIN try/catch
+
                 String[] partes = fecha.split("-");
                 int dia = Integer.parseInt(partes[0]);
                 int mes = Integer.parseInt(partes[1]);
                 int año = Integer.parseInt(partes[2]);
 
-                return LocalDate.of(año, mes, dia);  // ✔ devuelve LocalDate
+                return LocalDate.of(año, mes, dia);
             }
 
             System.out.println("Fecha inválida. Por favor vuelva a intentarlo.");
@@ -225,7 +234,6 @@ public class GestionVideoDaw {
     private static boolean validarFecha(String fecha) {
         return fecha.matches("^\\d{2}-\\d{2}-\\d{4}$");
     }
-
 
 
 }

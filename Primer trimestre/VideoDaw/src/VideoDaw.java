@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -74,6 +75,32 @@ public class VideoDaw {
             }
         }
     }
+
+    public Cliente buscarCliente(String numSocio) {
+        for (int i = 0; i < contadorClientes; i++) {
+            if (clientesRegistrados[i].getNumSocio().equals(numSocio)) {
+                return clientesRegistrados[i];
+            }
+        }
+        return null;
+    }
+    public boolean darBajaCliente(String numSocio) {
+        Cliente c = buscarCliente(numSocio);
+
+        if (c == null) {
+            return false;
+        }
+
+        if (c.getFechaBaja() != null) {
+            return false;
+        }
+
+        c.setFechaBaja(LocalDate.now().toString());
+        return true;
+    }
+
+
+
 
     public String mostrarInfoVideoDaw() {
         StringBuilder sb = new StringBuilder("VideoDaw:\n");

@@ -60,10 +60,9 @@ public class Cliente {
     public String getFechaBaja() {
         return fechaBaja;
     }
-
-
-
-
+    public void setFechaBaja(String fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
 
     public void mostrarInfoCliente() {
         System.out.println("-----------------------------");
