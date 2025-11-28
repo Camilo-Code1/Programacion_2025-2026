@@ -63,6 +63,14 @@ public class Cliente {
     public void setFechaBaja(String fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
+    public int getPeliculasAlquiladas() {
+        return peliculasAlquiladas;
+    }
+
+    public void setPeliculasAlquiladas(int peliculasAlquiladas) {
+        this.peliculasAlquiladas = peliculasAlquiladas;
+    }
+
 
     public void mostrarInfoCliente() {
         System.out.println("-----------------------------");

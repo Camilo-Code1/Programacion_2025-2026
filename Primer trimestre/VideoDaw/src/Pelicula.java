@@ -49,8 +49,14 @@ public class Pelicula {
     public String getFechaBaja() {
         return fechaBaja;
     }
+    public void setFechaBaja(String fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
     public boolean isAlquilada() {
         return isAlquilada;
+    }
+    public void setAlquilada(boolean alquilada) {
+        this.isAlquilada = alquilada;
     }
 
     public void mostrarInfoPelicula() {

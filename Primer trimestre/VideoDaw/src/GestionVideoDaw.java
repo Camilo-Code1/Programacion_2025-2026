@@ -57,15 +57,18 @@ public class GestionVideoDaw {
                     crearRegistrarCliente(sc, nuevoUsuario);
                     break;
                 case "4":
-                    System.out.println("Ingrese el número de socio (Ej: S-005):");
-                    String numSocio = sc.nextLine().toUpperCase();
+                    System.out.println("Ingrese el numero de socio:");
+                    String socio = sc.nextLine().toUpperCase();
 
-                    boolean darBajon = nuevoUsuario.darBajaCliente(numSocio);
+                    System.out.println("Ingrese el codigo de pelicula:");
+                    String codPeli = sc.nextLine().toUpperCase();
 
-                    if (darBajon) {
-                        System.out.println("Cliente dado de baja correctamente");
+                    boolean alquilado = nuevoUsuario.alquilarPeicula(socio, codPeli);
+
+                    if (alquilado) {
+                        System.out.println("¡Pelicula alquilada exitosamente!");
                     } else {
-                        System.out.println("No se pudo dar de baja. El cliente no existe o ya esta dado de baja");
+                        System.out.println("Error: No se pudo realizar el alquiler");
                     }
 
                     break;
@@ -73,10 +76,27 @@ public class GestionVideoDaw {
 
                     break;
                 case "6":
+                    System.out.println("Ingrese el número de socio (Ej: S-005):");
+                    String numSocio = sc.nextLine().toUpperCase();
 
+                    boolean darBajonCliente = nuevoUsuario.darBajaCliente(numSocio);
+
+                    if (darBajonCliente) {
+                        System.out.println("Cliente dado de baja correctamente");
+                    } else {
+                        System.out.println("No se pudo dar de baja. El cliente no existe o ya esta dado de baja");
+                    }
                     break;
                 case "7":
+                    System.out.println("Ingrese el codigo de la pelicula (Ej: P-007)");
+                    String cod = sc.nextLine().toUpperCase();
 
+                    boolean darBajonPelicula = nuevoUsuario.darBajaPelicula(cod);
+                    if (darBajonPelicula) {
+                        System.out.println("Pelicula dado de baja correctamente");
+                    } else {
+                        System.out.println("No se pudo dar de baja. La pelicula no existe o ya esta dado de baja");
+                    }
                     break;
                 case "8":
                     System.out.println("\nAviso: Saliendo del sistema.");

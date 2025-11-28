@@ -99,6 +99,58 @@ public class VideoDaw {
         return true;
     }
 
+    public Pelicula buscarPelicula(String cod) {
+        for (int i = 0; i < contadorPeliculas; i++) {
+            if (peliculasRegistradas[i].getCod().equals(cod)) {
+                return peliculasRegistradas[i];
+            }
+        }
+        return null;
+    }
+    public boolean darBajaPelicula(String cod) {
+        Pelicula p = buscarPelicula(cod);
+        if (p == null) {
+            return false;
+        }
+        if (p.getFechaBaja() != null) {
+            return false;
+        }
+
+        p.setFechaBaja(LocalDate.now().toString());
+        return true;
+    }
+
+    public boolean alquilarPeicula (String numSocio, String cod) {
+        Cliente c = buscarCliente(numSocio);
+        Pelicula p = buscarPelicula(cod);
+
+        // Verificar existencia
+        if (c == null) {
+            System.out.println("Error: Cliente no encontrado");
+            return false;
+        }
+        if (p == null) {
+            System.out.println("Error: Pelicula no encontrada");
+            return false;
+        }
+
+        if (p.getFechaBaja() != null) {
+            System.out.println("Error: La pelicula esta dada de baja");
+            return false;
+        }
+        if (p.isAlquilada()) {
+            System.out.println("Error: La pelicula ya esta alquilada");
+            return false;
+        }
+
+        p.setAlquilada(true);
+        c.setPeliculasAlquiladas(c.getPeliculasAlquiladas() + 1);
+
+        System.out.println("Alquiler realizado correctamente");
+        return true;
+
+    }
+
 
 
 
