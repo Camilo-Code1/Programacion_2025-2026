@@ -73,6 +73,19 @@ public class GestionVideoDaw {
 
                     break;
                 case "5":
+                    System.out.println("Ingrese el numero de socio:");
+                    socio = sc.nextLine().toUpperCase();
+
+                    System.out.println("Ingrese el codigo de pelicula:");
+                    codPeli = sc.nextLine().toUpperCase();
+
+                    boolean devuelto = nuevoUsuario.devolverPelicula(socio, codPeli);
+
+                    if (devuelto) {
+                        System.out.println("¡Pelicula devuelta exitosamente!");
+                    } else {
+                        System.out.println("Error: No se pudo realizar el alquiler");
+                    }
 
                     break;
                 case "6":
@@ -152,26 +165,7 @@ public class GestionVideoDaw {
 
         genero = Genero.values()[gen - 1];
 
-
-        String entrada;
-        boolean alquiladaValida = false;
-        boolean alquilada = false;
-
-        do {
-            System.out.print("¿Está alquilada? (true/false): ");
-            entrada = sc.nextLine().toLowerCase();
-
-            if (entrada.equals("true") || entrada.equals("false")) {
-                alquilada = Boolean.parseBoolean(entrada);
-                alquiladaValida = true;
-            } else {
-                System.out.println("Debe ingresar 'true' o 'false'.");
-            }
-
-        } while (!alquiladaValida);
-
-
-        Pelicula p = new Pelicula(titulo, genero, alquilada);
+        Pelicula p = new Pelicula(titulo, genero);
         nuevoUsuario.agregarPelicula(p);
         System.out.println("Película agregada correctamente.");
     }

@@ -14,7 +14,7 @@ public class Pelicula {
 
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    public Pelicula(String titulo, Genero genero, boolean isAlquilada) {
+    public Pelicula(String titulo, Genero genero) {
         this.cod = String.format("P-%03d", contadorPeliculas);
         contadorPeliculas++;
 
@@ -22,7 +22,7 @@ public class Pelicula {
         this.genero = genero;
         this.fechaRegistro = LocalDateTime.now().format(dtf);
         this.fechaBaja = null;
-        this.isAlquilada = isAlquilada;
+        this.isAlquilada = false;
     }
 
     public String getCod() {

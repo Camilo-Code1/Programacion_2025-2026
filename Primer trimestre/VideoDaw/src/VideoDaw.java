@@ -134,14 +134,23 @@ public class VideoDaw {
             return false;
         }
 
+        // Verificar si esta dado de baja
+        if (c.getFechaBaja() != null) {
+            System.out.println("Error: El cliente esta dado de baja y no puede alquilar");
+            return false;
+        }
         if (p.getFechaBaja() != null) {
             System.out.println("Error: La pelicula esta dada de baja");
             return false;
         }
+
+
+
         if (p.isAlquilada()) {
             System.out.println("Error: La pelicula ya esta alquilada");
             return false;
         }
+
 
         p.setAlquilada(true);
         c.setPeliculasAlquiladas(c.getPeliculasAlquiladas() + 1);
@@ -151,7 +160,44 @@ public class VideoDaw {
 
     }
 
+    public boolean devolverPelicula(String nunSocio, String cod) {
+        Cliente c = buscarCliente(nunSocio);
+        Pelicula p = buscarPelicula(cod);
 
+        if (c == null) {
+            System.out.println("Error: Cliente no encontrado");
+            return false;
+        }
+        if (p == null) {
+            System.out.println("Error: Pelicula no encontrada");
+            return false;
+        }
+
+        if (c.getFechaBaja() != null) {
+            System.out.println("Error: El cliente esta dado de baja y no puede devolver");
+            return false;
+        }
+        if (p.getFechaBaja() != null) {
+            System.out.println("Error: La pelicula esta dada de baja");
+            return false;
+        }
+
+        if (!p.isAlquilada()) {
+            System.out.println("Error: La pelicula no esta alquilada");
+            return false;
+        }
+
+        if (c.getPeliculasAlquiladas() <= 0) {
+            System.out.println("Error: El cliente no tiene peliculas para devolver");
+            return false;
+        }
+
+        p.setAlquilada(false);
+        c.setPeliculasAlquiladas(c.getPeliculasAlquiladas() - 1);
+
+        System.out.println("La pelicula fue devuelta correctamente");
+        return true;
+    }
 
 
     public String mostrarInfoVideoDaw() {
