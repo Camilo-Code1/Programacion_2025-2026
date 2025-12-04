@@ -11,7 +11,7 @@ public class Trabajador {
     private static int contadorTrabajadores = 0;
 
     public Trabajador(String nombre, LocalDate fechaNacimieto, String dni, String direccion, String numeroSS) {
-        this.contadorTrabajadores = contadorTrabajadores++;
+        contadorTrabajadores++;
         this.nombre = nombre;
         this.fechaNacimieto = fechaNacimieto;
         this.dni = dni;
