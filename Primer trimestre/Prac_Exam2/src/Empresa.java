@@ -70,6 +70,7 @@ public class Empresa {
         sb.append("Nombre de empresa: " + nombreEmp + "\n");
         sb.append("CIF: " + cif + "\n");
         sb.append("Fecha fundacion: " + fechaFundacion + "\n");
+        sb.append("Numero de trabajadores: " + trabajadores.size() + "\n");
         return sb.toString();
     }
 

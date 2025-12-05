@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -47,7 +48,17 @@ public class Gestion {
                     System.out.println("Ingrese el nombre de la persona: ");
                     String nombre = sc.nextLine();
 
-                    LocalDate fechaNacimiento = obtenerFechaValida();
+                    LocalDate fechaNacimiento;
+
+                    while (true) {
+                        fechaNacimiento = obtenerFechaValida();
+
+                        if(esMayorDeEdad(fechaNacimiento)) {
+                            break;
+                        } else {
+                            System.out.println("Error: El cliente debe de ser mayor de edad");
+                        }
+                    }
 
                     String dni = obtenerDNIValido();
 
@@ -63,12 +74,12 @@ public class Gestion {
                 case "2":
                     if (personasTemporales.isEmpty()) {
                         System.out.println("No hay personas creadas para poder registrar");
-                        return;
+                        continue;
                     }
                     System.out.println("Personas disponibles para registrar: ");
                     for (int i = 0; i < personasTemporales.size(); i++) {
                         Trabajador tra = personasTemporales.get(i);
-                        System.out.println(i + ", " + tra.getNombre() + " - " + tra.getDni());
+                        System.out.println(i + ". " + tra.getNombre() + " - " + tra.getDni());
                     }
 
                     System.out.println("Seleccione el índice de la persona a registrar: ");
@@ -81,10 +92,9 @@ public class Gestion {
 
                     Trabajador trabajadorRegistrar = personasTemporales.get(index);
 
-                    // REGISTRAR EN LA EMPRESA
                     nuevoUsuario.agregarTrabajador(trabajadorRegistrar);
 
-                    // ELIMINAR DE TEMPORALES
+
                     personasTemporales.remove(index);
 
                     System.out.println("\n¡Trabajador registrado con éxito!");
@@ -93,13 +103,32 @@ public class Gestion {
                     System.out.println(nuevoUsuario.mostrarinfoEmpresa());
                     break;
                 case "4":
-                    nuevoUsuario.mostrarTrabajadores();
+
                     break;
                 case "5":
+                    nuevoUsuario.mostrarTrabajadores();
                     break;
                 case "6":
                     break;
                 case "7":
+                    System.out.println("Personas disponibles para eliminar: ");
+                    for (int i = 0; i < personasTemporales.size(); i++) {
+                        Trabajador tra = personasTemporales.get(i);
+                        System.out.println(i + ". " + tra.getNombre() + " - " + tra.getDni());
+                    }
+
+                    System.out.println("Seleccione el índice de la persona a registrar: ");
+                    int inde = Integer.parseInt(sc.nextLine());
+
+                    if (inde < 0 || inde >= personasTemporales.size()) {
+                        System.out.println("Índice inválido.");
+                        break;
+                    }
+
+                    Trabajador trabajadorEliminar = personasTemporales.get(inde);
+                    personasTemporales.remove(inde);
+
+                    System.out.println("¡La persona " + trabajadorEliminar.getNombre() + " ha sido eliminada con exito!");
                     break;
                 case "8":
                     break;
@@ -192,4 +221,8 @@ public class Gestion {
         return nss.matches("^\\d{12}$");
     }
 
+    private static boolean esMayorDeEdad(LocalDate fechaNacimiento) {
+        int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
+        return edad >= 18;
+    }
 }

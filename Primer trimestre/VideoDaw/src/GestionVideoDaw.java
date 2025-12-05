@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -18,7 +19,7 @@ public class GestionVideoDaw {
 
         String opcion = "";
 
-        VideoDaw nuevoUsuario;
+        VideoDaw nuevoUsuario = null;
         Pelicula peliculon;
         Cliente victima;
 
@@ -29,12 +30,7 @@ public class GestionVideoDaw {
         System.out.print("Bienvenido a Dawbank" +
                 " (Presione intro para continuar)");
 
-        cif = obtenerCIFValido().toUpperCase();
 
-        System.out.println("\nIngrese la dirección de la empresa: ");
-        direccionEm = sc.nextLine();
-
-        nuevoUsuario = new VideoDaw(direccionEm, cif);
 
         do {
             sc = new Scanner(System.in);
@@ -47,16 +43,38 @@ public class GestionVideoDaw {
 
             switch (opcion) {
                 case "1":
+                    cif = obtenerCIFValido().toUpperCase();
+
+                    System.out.println("\nIngrese la dirección de la empresa: ");
+                    direccionEm = sc.nextLine();
+
+                    nuevoUsuario = new VideoDaw(direccionEm, cif);
+
                     System.out.println(nuevoUsuario.mostrarInfoVideoDaw());
                     break;
                 case "2":
-                    registrarPelicula(sc, nuevoUsuario);
+                    if (nuevoUsuario == null) {
+                        System.out.println("No existe el videoClub en la empresa");
+                        continue;
+                    }
+                        registrarPelicula(sc, nuevoUsuario);
+                        break;
 
-                    break;
+
+
                 case "3":
+                    if (nuevoUsuario == null) {
+                        System.out.println("No existe el videoClub en la empresa");
+                        continue;
+                    }
                     crearRegistrarCliente(sc, nuevoUsuario);
                     break;
+
                 case "4":
+                    if (nuevoUsuario == null) {
+                        System.out.println("No existe el videoClub en la empresa");
+                        continue;
+                    }
                     System.out.println("Ingrese el numero de socio:");
                     String socio = sc.nextLine().toUpperCase();
 
@@ -73,6 +91,10 @@ public class GestionVideoDaw {
 
                     break;
                 case "5":
+                    if (nuevoUsuario == null) {
+                        System.out.println("No existe el videoClub en la empresa");
+                        continue;
+                    }
                     System.out.println("Ingrese el numero de socio:");
                     socio = sc.nextLine().toUpperCase();
 
@@ -89,6 +111,10 @@ public class GestionVideoDaw {
 
                     break;
                 case "6":
+                    if (nuevoUsuario == null) {
+                        System.out.println("No existe el videoClub en la empresa");
+                        continue;
+                    }
                     System.out.println("Ingrese el número de socio (Ej: S-005):");
                     String numSocio = sc.nextLine().toUpperCase();
 
@@ -101,6 +127,10 @@ public class GestionVideoDaw {
                     }
                     break;
                 case "7":
+                    if (nuevoUsuario == null) {
+                        System.out.println("No existe el videoClub en la empresa");
+                        continue;
+                    }
                     System.out.println("Ingrese el codigo de la pelicula (Ej: P-007)");
                     String cod = sc.nextLine().toUpperCase();
 
@@ -167,7 +197,7 @@ public class GestionVideoDaw {
 
         Pelicula p = new Pelicula(titulo, genero);
         nuevoUsuario.agregarPelicula(p);
-        System.out.println("Película agregada correctamente.");
+        System.out.println("Película agregada correctamente. El codigo de la pelicula es: "+ p.getCod());
     }
 
     private static void crearRegistrarCliente(Scanner sc, VideoDaw nuevoUsuario) {
@@ -181,15 +211,27 @@ public class GestionVideoDaw {
         String direccion = sc.nextLine();
 
 
-        LocalDate fechaNacimiento = obtenerFechaValida();
+        LocalDate fechaNacimiento;
+
+        while (true) {
+            fechaNacimiento = obtenerFechaValida();
+
+            if (esMayorDeEdad(fechaNacimiento)) {
+                break;
+            } else {
+                System.out.println("Error: El cliente debe ser mayor de edad.");
+            }
+        }
 
         victima = new Cliente(dni, nombre, direccion, fechaNacimiento);
         nuevoUsuario.agregarCliente(victima);
+
+        System.out.println("Cliente agregada correctamente. Su numero de socio es: " + victima.getNumSocio());
     }
 
     private static String obtenerCIFValido () {
         Scanner sc = new Scanner(System.in);
-        String cif = sc.nextLine();
+        String cif;
         while (true) {
             System.out.println("Ingrese un CIF valido para la empresa (Ejemplo: A1234567J):");
             cif = sc.nextLine().toUpperCase();
@@ -247,6 +289,10 @@ public class GestionVideoDaw {
 
     private static boolean validarFecha(String fecha) {
         return fecha.matches("^\\d{2}-\\d{2}-\\d{4}$");
+    }
+    private static boolean esMayorDeEdad(LocalDate fechaNacimiento) {
+        int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
+        return edad >= 18;
     }
 
 

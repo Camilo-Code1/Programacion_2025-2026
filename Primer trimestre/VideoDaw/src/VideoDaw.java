@@ -201,7 +201,7 @@ public class VideoDaw {
 
 
     public String mostrarInfoVideoDaw() {
-        StringBuilder sb = new StringBuilder("VideoDaw:\n");
+        StringBuilder sb = new StringBuilder("\nVideoDaw:\n");
         sb.append("CIF: " + this.cif + "\n");
         sb.append("Direccion: " + this.direccionEm + "\n");
         sb.append("Fecha de alta: " + this.fechaAlta + "\n");
