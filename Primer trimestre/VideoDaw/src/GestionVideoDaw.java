@@ -150,6 +150,13 @@ public class GestionVideoDaw {
                 case "10":
                     nuevoUsuario.mostrarClientes();
                     break;
+                case "11":
+                    System.out.println("Inserte el codigo de la pelicula:");
+                    cod = sc.nextLine().toUpperCase();
+
+
+                    
+
                 default:
                     System.out.print("\nOpción invalida. Por favor vuelva a intentarlo.");
                     break;
@@ -294,6 +301,4 @@ public class GestionVideoDaw {
         int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
         return edad >= 18;
     }
-
-
 }
