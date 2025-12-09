@@ -1,0 +1,3 @@
+public enum TipoIncidencia {
+    SALUD, PELIGRO, COMPORTAMIENTO, MANTENIMIENTO, ANOMALIA, OTRO
+}
