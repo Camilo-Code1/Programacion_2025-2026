@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Empresa {
 
@@ -64,6 +65,57 @@ public class Empresa {
 
     }
 
+    public void mostrarTrabajadoresEnumerados() {
+        if (trabajadores.isEmpty()) {
+            System.out.println("No existe ningun trabajador registrado");
+            return;
+        }
+
+    }
+
+    public void eliminarTrabajador() {
+        Scanner sc = new Scanner(System.in);
+
+        if (trabajadores.isEmpty()) {
+            System.out.println("No hay trabajadores registrados por eliminar");
+            return;
+        }
+
+        System.out.println("Trabajadores disponibles para eliminar: ");
+        for (int i = 0; i<trabajadores.size(); i++) {
+            Trabajador traba= trabajadores.get(i);
+            System.out.println(i + " . " + traba.getNombre() + " - " + traba.getDni());
+        }
+
+        int indice = -1;
+
+        do {
+            System.out.println("Seleccione el índice del trabajador a registrar: ");
+            String entrada = sc.nextLine();
+
+            if (!entrada.matches("\\d+")) {
+                System.out.println("Error: Debe ingresar un numero valido");
+                continue;
+            }
+            indice = Integer.parseInt(entrada);
+
+            if (indice < 0 || indice >= trabajadores.size()) {
+                System.out.println("Error: Opcion fuera de rango. Intente de nuevo");
+
+            }
+
+        } while (indice < 0 || indice >= trabajadores.size());
+
+        Trabajador eliminado = trabajadores.remove(indice);
+        numTrabajadores--;
+
+        System.out.println("Trabajador " + eliminado.getNombre()+ " eliminado correctamente");
+
+    }
+
+    public int getNumTrabajadores() {
+        return trabajadores.size();
+    }
 
     public String mostrarinfoEmpresa() {
         StringBuilder sb = new StringBuilder("GestoresEmpresas:\n");
