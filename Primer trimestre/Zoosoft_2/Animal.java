@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Animal {
@@ -9,7 +10,7 @@ public class Animal {
 
     private String nombreAnimal;
     private String especie;
-    private TipoAnimal tipoAnimal;
+    private TipoAnimal tipoAnimalAnim;
     private LocalDate fechaNacimiento;
     private LocalDate fechaIngreso;
 
@@ -19,13 +20,16 @@ public class Animal {
 
     private ArrayList<TicketIncidencia> incidencias;
 
-    public Animal(String nombreAnimal, String especie, TipoAnimal tipoAnimal, LocalDate fechaNacimiento, LocalDate fechaIngreso, Cuidador cuidadorAsignado) {
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+
+    public Animal(String nombreAnimal, String especie, TipoAnimal tipoAnimalAnim, LocalDate fechaNacimiento, LocalDate fechaIngreso, Cuidador cuidadorAsignado) {
         this.idAnimal = String.format("A-%03d", contadorAnimal);
         contadorAnimal++;
 
         this.nombreAnimal = nombreAnimal;
         this.especie = especie;
-        this.tipoAnimal = tipoAnimal;
+        this.tipoAnimalAnim = tipoAnimalAnim;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaIngreso = fechaIngreso;
         this.cuidadorAsignado = cuidadorAsignado;
@@ -54,12 +58,12 @@ public class Animal {
         this.especie = especie;
     }
 
-    public TipoAnimal getTipoAnimal() {
-        return tipoAnimal;
+    public TipoAnimal getTipoAnimalAnim() {
+        return tipoAnimalAnim;
     }
 
-    public void setTipoAnimal(TipoAnimal tipoAnimal) {
-        this.tipoAnimal = tipoAnimal;
+    public void setTipoAnimalAnim(TipoAnimal tipoAnimalAnim) {
+        this.tipoAnimalAnim = tipoAnimalAnim;
     }
 
     public LocalDate getFechaNacimiento() {
@@ -101,18 +105,32 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "idAnimal='" + idAnimal + '\'' +
-                ", nombreAnimal='" + nombreAnimal + '\'' +
-                ", especie='" + especie + '\'' +
-                ", tipoAnimal=" + tipoAnimal +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", fechaIngreso=" + fechaIngreso +
-                ", activo=" + activo +
-                ", cuidadorAsignado=" + cuidadorAsignado +
-                ", incidencias=" + incidencias +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\n<---Animal--->")
+                .append("\nIDAnimal: ").append(idAnimal)
+                .append("\nNombre de animal: ").append(nombreAnimal)
+                .append("\nEspecie: ").append(especie)
+                .append("\nTipoAnimal: ").append(tipoAnimalAnim)
+                .append("\nFecha de nacimiento: ").append(fechaNacimiento)
+                .append("\nFecha de ingreso: ").append(fechaIngreso)
+                .append("\nEstado: ").append(activo ? "Sí" : "No")
+                .append("\nCuidador asignado: ").append(cuidadorAsignado.getNombre())
+                .append("\nIncidencias: ");
+
+        if (incidencias.isEmpty()) {
+            sb.append("Ninguna");
+        } else {
+            for (TicketIncidencia t : incidencias) {
+                sb.append("\n  - ").append(t.getDescripcion());
+            }
+        }
+
+        sb.append("\n<-------------->");
+
+        return sb.toString();
     }
+
 
     public void mostrarAnimal() {
         System.out.println(this);

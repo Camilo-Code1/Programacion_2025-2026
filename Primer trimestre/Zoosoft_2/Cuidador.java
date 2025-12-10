@@ -67,22 +67,44 @@ public class Cuidador {
 
     public List<Animal> getAnimalesACargo() { return animalesACargo; }
 
+    public void actualizarAnimalesACargo(List<Animal> listaAnimales) {
+        animalesACargo.clear();
+        for (Animal a : listaAnimales) {
+            if (a.getCuidadorAsignado() == this) {
+                animalesACargo.add(a);
+            }
+        }
+    }
 
     @Override
     public String toString() {
-        return "Cuidador{" +
-                "dni='" + dni + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", fechaContratacion=" + fechaContratacion +
-                ", tipoAnimal=" + tipoAnimal +
-                ", activo=" + activo +
-                ", animalesACargo=" + animalesACargo +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\n<---Cuidador--->")
+                .append("\nDNI: ").append(dni)
+                .append("\nNombre: ").append(nombre)
+                .append("\nFecha de contratacion: ").append(fechaContratacion)
+                .append("\nTipo de Animal: ").append(tipoAnimal)
+                .append("\nEstado: ").append(activo ? "Sí" : "No")
+                .append("\nAnimales a cargo: ");
+
+        if (animalesACargo.isEmpty()) {
+            sb.append("Ninguno");
+        } else {
+            for (Animal a : animalesACargo) {
+                sb.append("\n  - ").append(a.getNombreAnimal());
+            }
+        }
+
+        sb.append("\n<-------------->");
+
+        return sb.toString();
     }
 
     public void mostrarCuidador() {
         System.out.println(this);
     }
+
 
 
 }

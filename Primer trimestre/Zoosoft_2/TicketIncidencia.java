@@ -88,19 +88,24 @@ public class TicketIncidencia {
 
     @Override
     public String toString() {
-        return "TicketIncidencia{" +
-                "idTicket='" + idTicket + '\'' +
-                ", fechaIncidencia='" + fechaIncidencia + '\'' +
-                ", nombreIncidencia='" + nombreIncidencia + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", tipoIncidencia=" + tipoIncidencia +
-                ", animalRelacionado=" + animalRelacionado +
-                ", cuidadorRelacionado=" + cuidadorRelacionado +
-                ", resuelto=" + resuelto +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\n<---TicketIncidencia--->")
+                .append("\nIDTicket: ").append(idTicket)
+                .append("\nFechaIncidencia: ").append(fechaIncidencia)
+                .append("\nNombre de incidencia: ").append(nombreIncidencia)
+                .append("\nDescripcion: ").append(descripcion)
+                .append("\nTipo de incidencia: ").append(tipoIncidencia)
+                .append("\nAnimal relacionado: ").append(animalRelacionado != null ? animalRelacionado.getNombreAnimal() : "Ninguno")
+                .append("\nCuidador relacionado: ").append(cuidadorRelacionado != null ? cuidadorRelacionado.getNombre() : "Ninguno")
+                .append("\nResuelto: ").append(resuelto ? "Sí" : "No")
+                .append("\n--------------");
+
+        return sb.toString();
     }
 
     public void mostrarIncidencia() {
         System.out.println(this);
     }
+
 }
