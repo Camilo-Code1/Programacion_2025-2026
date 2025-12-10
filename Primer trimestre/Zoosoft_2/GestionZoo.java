@@ -46,7 +46,6 @@ public class GestionZoo {
         nuevoUsuario = new ZooSoft(nombreZoo, direccionZoo, fechaApertura);
 
 
-
         do {
             sc = new Scanner(System.in);
 
@@ -170,9 +169,26 @@ public class GestionZoo {
 
                     break;
                 case "6":
+                    System.out.println("Por favor, ingrese el codigo del Animal: ");
+                    String idAnimal = sc.nextLine();
 
+                    boolean darBajaAnimal = nuevoUsuario.darBajaAnimal(idAnimal);
+                    if (darBajaAnimal) {
+                        System.out.println("Se ha dado de baja correctamente al animal.");
+                    } else {
+                        System.out.println("Error: El animal no se ha a bajado.");
+                    }
                     break;
                 case "7":
+                    System.out.println("Por favor ingrese el nombre del cuidador: ");
+                    String nombreCuidador = sc.nextLine();
+
+                    boolean darBaja = nuevoUsuario.darDeBajaCuidador(nombreCuidador);
+                    if (darBaja) {
+                        System.out.println("Se ha dado de baja correctamente a : " + nombreCuidador);
+                    } else {
+                        System.out.println("No se ha podido de dar de baja a: " + nombreCuidador);
+                    }
 
                     break;
                 case "8":

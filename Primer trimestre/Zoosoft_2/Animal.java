@@ -15,6 +15,7 @@ public class Animal {
     private LocalDate fechaIngreso;
 
     private boolean activo;
+    private LocalDate fechaBaja;
 
     private Cuidador cuidadorAsignado;
 
@@ -34,6 +35,7 @@ public class Animal {
         this.fechaIngreso = fechaIngreso;
         this.cuidadorAsignado = cuidadorAsignado;
         this.activo = true;
+        this.fechaBaja = null;
 
         this.incidencias = new ArrayList<>();
     }
@@ -85,11 +87,24 @@ public class Animal {
     public boolean isActivo() {
         return activo;
     }
+    public boolean getActivo() {
+        return activo;
+    }
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
 
     public void darDeBaja() { activo = false; }
     public void reactivar() { activo = true; }
 
+    public LocalDate getFechaBaja() {
+        return fechaBaja;
+    }
 
+    public void setFechaBaja(LocalDate fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
     public Cuidador getCuidadorAsignado() {
         return cuidadorAsignado;
     }
@@ -114,7 +129,8 @@ public class Animal {
                 .append("\nTipoAnimal: ").append(tipoAnimalAnim)
                 .append("\nFecha de nacimiento: ").append(fechaNacimiento)
                 .append("\nFecha de ingreso: ").append(fechaIngreso)
-                .append("\nEstado: ").append(activo ? "Sí" : "No")
+                .append("\nActivo: ").append(activo ? "Sí" : "No")
+                .append("\nFecha de baja: ").append(fechaBaja == null ? "N/A" : fechaBaja)
                 .append("\nCuidador asignado: ").append(cuidadorAsignado.getNombre())
                 .append("\nIncidencias: ");
 

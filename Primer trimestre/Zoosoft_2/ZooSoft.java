@@ -131,9 +131,54 @@ public class ZooSoft {
     }
 
 
+    public boolean darDeBajaCuidador(String cuidadorEntrada) {
+        Cuidador c = buscarCuidador(cuidadorEntrada);
+
+        if (c == null) {   // no existe
+            return false;
+        }
+        if (!c.getActivo()) {   // ya está inactivo
+            return false;
+        }
+
+        c.setActivo(false);
+        c.setFechaBaja(LocalDate.now());
+
+        return true;
+    }
 
 
+    public Cuidador buscarCuidador(String cuidadorEntrada) {
+        for (int i = 0; i < listaCuidadores.size(); i++) {
+            if (listaCuidadores.get(i).getNombre().equals(cuidadorEntrada)) {
+                return listaCuidadores.get(i);
+            }
+        }
+        return null;
+    }
 
+    public boolean darBajaAnimal(String animalEntrada) {
+        Animal a = buscarAnimal(animalEntrada);
+        if (a == null) {
+            return false;
+        }
+        if (!a.getActivo()) {
+            return false;
+        }
+        a.setActivo(false);
+        a.setFechaBaja(LocalDate.now());
+
+        return true;
+    }
+
+    public Animal buscarAnimal(String animalEntrada) {
+        for (int i = 0; i < listaAnimales.size(); i++) {
+            if (listaAnimales.get(i).getIdAnimal().equals(animalEntrada)) {
+                return listaAnimales.get(i);
+            }
+        }
+        return null;
+    }
 
 
 

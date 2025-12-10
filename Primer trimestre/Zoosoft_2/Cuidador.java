@@ -9,6 +9,7 @@ public class Cuidador {
     private LocalDate fechaContratacion;
     private TipoAnimal tipoAnimal;
     private boolean activo;
+    private LocalDate fechaBaja;
 
     private ArrayList <Animal> animalesACargo;
 
@@ -18,6 +19,7 @@ public class Cuidador {
         this.fechaContratacion = fechaContratacion;
         this.tipoAnimal = tipoAnimal;
         this.activo = true;
+        this.fechaBaja = null;
 
         this.animalesACargo = new ArrayList<>();
     }
@@ -53,6 +55,7 @@ public class Cuidador {
     public void setTipoAnimal(TipoAnimal tipoAnimal) {
         this.tipoAnimal = tipoAnimal;
     }
+
     public boolean getActivo() {
         return activo;
     }
@@ -63,6 +66,14 @@ public class Cuidador {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public LocalDate getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(LocalDate fechaBaja) {
+        this.fechaBaja = fechaBaja;
     }
 
     public List<Animal> getAnimalesACargo() { return animalesACargo; }
@@ -85,7 +96,8 @@ public class Cuidador {
                 .append("\nNombre: ").append(nombre)
                 .append("\nFecha de contratacion: ").append(fechaContratacion)
                 .append("\nTipo de Animal: ").append(tipoAnimal)
-                .append("\nEstado: ").append(activo ? "Sí" : "No")
+                .append("\nActivo: ").append(activo ? "Sí" : "No")
+                .append("\nFecha de baja: ").append(fechaBaja == null ? "N/A" : fechaBaja)
                 .append("\nAnimales a cargo: ");
 
         if (animalesACargo.isEmpty()) {
