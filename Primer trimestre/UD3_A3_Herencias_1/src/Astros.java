@@ -1,16 +1,28 @@
 public abstract class Astros {
 
+    private String designacion;
     private double radioEcuatorial;
-    private double rotacionSobreEjeMasa;
+    private double rotacionSobreEje;
+    private double masa;
     private double temperaturaMedia;
     private double gravedad;
 
-    public Astros(double radioEcuatorial, double rotacionSobreEjeMasa, double temperaturaMedia, double gravedad) {
+    public Astros(String designacion, double radioEcuatorial, double rotacionSobreEje, double masa, double temperaturaMedia, double gravedad) {
+        this.designacion = designacion;
         this.radioEcuatorial = radioEcuatorial;
-        this.rotacionSobreEjeMasa = rotacionSobreEjeMasa;
+        this.rotacionSobreEje = rotacionSobreEje;
+        this.masa = masa;
         this.temperaturaMedia = temperaturaMedia;
         this.gravedad = gravedad;
 
+    }
+
+    public String getDesignacion() {
+        return designacion;
+    }
+
+    public void setDesignacion(String designacion) {
+        this.designacion = designacion;
     }
 
     public double getRadioEcuatorial() {
@@ -21,12 +33,20 @@ public abstract class Astros {
         this.radioEcuatorial = radioEcuatorial;
     }
 
-    public double getRotacionSobreEjeMasa() {
-        return rotacionSobreEjeMasa;
+    public double getRotacionSobreEje() {
+        return rotacionSobreEje;
     }
 
-    public void setRotacionSobreEjeMasa(double rotacionSobreEjeMasa) {
-        this.rotacionSobreEjeMasa = rotacionSobreEjeMasa;
+    public void setRotacionSobreEje(double rotacionSobreEje) {
+        this.rotacionSobreEje = rotacionSobreEje;
+    }
+
+    public double getMasa() {
+        return masa;
+    }
+
+    public void setMasa(double masa) {
+        this.masa = masa;
     }
 
     public double getTemperaturaMedia() {
@@ -49,7 +69,7 @@ public abstract class Astros {
     public String toString() {
         return "Astros" +
                 "\nRadio ecuatorial: " + radioEcuatorial +
-                "\nRotacion sobre su eje de masa: " + rotacionSobreEjeMasa +
+                "\nRotacion sobre su eje de masa: " + rotacionSobreEje +
                 "\nTemperatura media: " + temperaturaMedia +
                 "\nGravedad: " + gravedad +
                 "<------>";

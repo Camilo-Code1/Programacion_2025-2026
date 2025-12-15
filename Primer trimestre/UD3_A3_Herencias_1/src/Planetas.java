@@ -4,8 +4,9 @@ public class Planetas extends Astros{
     private double orbitaSol;
     private boolean tieneSatelites;
 
-    public Planetas(double radioEcuatorial, double rotacionSobreEjeMasa, double temperaturaMedia, double gravedad, double distanciaSol, double orbitaSol, boolean tieneSatelites) {
-        super(radioEcuatorial, rotacionSobreEjeMasa, temperaturaMedia, gravedad);
+    public Planetas(String designacion,double radioEcuatorial, double rotacionSobreEje, double masa, double temperaturaMedia, double gravedad,
+                    double distanciaSol, double orbitaSol, boolean tieneSatelites) {
+        super(designacion, radioEcuatorial, rotacionSobreEje, masa, temperaturaMedia, gravedad);
         this.distanciaSol = distanciaSol;
         this.orbitaSol = orbitaSol;
         this.tieneSatelites = false;
@@ -44,5 +45,7 @@ public class Planetas extends Astros{
                 "\nTiene satelites: " + tieneSatelites +
                 "-----";
     }
+
+
 
 }
