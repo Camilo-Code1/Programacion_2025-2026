@@ -1,16 +1,18 @@
 public class Agenda {
 
-        private Contacto [] contactosControl;
+        private Contacto[] contactosControl;
 
     public Agenda() {
         this.contactosControl = new Contacto[100];
     }
 
+
+
     public Contacto[] getContactosControl() {
         return contactosControl;
     }
 
-    public boolean verificarDuplicado (Contacto entrada) {
+    public boolean verificarDuplicado (ContactoPersonas entrada) {
         boolean resultado = false;
 
         for (int i = 0; i < contactosControl.length; i++) {
@@ -61,6 +63,7 @@ public class Agenda {
         int index = -1;
         for (int i = 0; i < contactosControl.length; i++) {
             if (contactosControl[i] != null && contactosControl[i].getNombreCompleto().equalsIgnoreCase(nombreCompleto)) {
+                System.out.println(contactosControl[i]);
                 i = index;
                 break;
             }
