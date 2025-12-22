@@ -29,9 +29,9 @@ public class ContactoEmpresa extends Contacto {
     @Override
     public String toString() {
         return super.toString() +
-                "<---ContactoEmpresa--->" +
+                "\n<---ContactoEmpresa--->" +
                 "\nPaginaWeb: " + paginaWeb +
                 "\nCorreo electronico:" + correoElectronico  +
-                "<--------------------->";
+                "\n<--------------------->";
     }
 }

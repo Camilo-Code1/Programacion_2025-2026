@@ -12,7 +12,7 @@ public class Agenda {
         return contactosControl;
     }
 
-    public boolean verificarDuplicado (ContactoPersonas entrada) {
+    public boolean verificarDuplicado (Contacto entrada) {
         boolean resultado = false;
 
         for (int i = 0; i < contactosControl.length; i++) {

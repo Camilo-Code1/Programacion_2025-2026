@@ -26,6 +26,7 @@ public class ProgramaAgenda {
 
         LocalDate cumpleanios;
         String nombreCompleto, numeroContacto;
+        boolean copia;
 
         do {
             System.out.println("\n---------------");
@@ -63,7 +64,7 @@ public class ProgramaAgenda {
 
                                 ContactoPersonas entrada = new ContactoPersonas(nombreCompleto, numeroContacto, cumpleanios, nota);
 
-                                boolean copia = nuevoAgenda.verificarDuplicado(entrada);
+                                copia = nuevoAgenda.verificarDuplicado(entrada);
 
                                 if (!copia) {
 
@@ -87,7 +88,14 @@ public class ProgramaAgenda {
 
                                 ContactoEmpresa contactoNuevo = new ContactoEmpresa(nombreCompleto, numeroContacto, paginaWeb, correoElectronico);
 
-                                if (!copia) {}
+                                copia = nuevoAgenda.verificarDuplicado(contactoNuevo);
+
+                                if (!copia) {
+                                    nuevoAgenda.agregarContacto(contactoNuevo);
+                                    System.out.println("\nContacto agregado correctamente.");
+                                } else {
+                                    System.err.println("El contacto ya existe");
+                                }
 
                                 break;
                         }
