@@ -7,11 +7,11 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Producto> productos = new ArrayList<Producto>();
 
-        Producto nuevo = new Producto("Suero de la verdad", 6);
-        Producto nuevo2 = new Producto("Suero de la mentira", 8);
-        Producto nuevo3 = new Producto("Suero de la pegamento", 4);
-        Producto nuevo4 = new Producto("Suero del desajuste", 3);
-        Producto nuevo5 = new Producto("Suero del charlatan", 9);
+        Producto nuevo = new Producto("Zuero de la verdad", 6);
+        Producto nuevo2 = new Producto("Puero de la mentira", 8);
+        Producto nuevo3 = new Producto("Auero de la pegamento", 4);
+        Producto nuevo4 = new Producto("Tuero del desajuste", 3);
+        Producto nuevo5 = new Producto("Auero del charlatan", 9);
 
         productos.add(nuevo);
         productos.add(nuevo2);
