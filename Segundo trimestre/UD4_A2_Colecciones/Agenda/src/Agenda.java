@@ -20,15 +20,27 @@ public class Agenda {
     }
 
     public Contacto buscarContacto(String nombre) {
+
+        if  (nombre == null || contactos.isEmpty()) {
+            return null;
+        }
+
         for (Contacto contacto : contactos) {
             if (contacto.getNombre().equalsIgnoreCase(nombre)) {
                 return contacto;
             }
         }
+
         return null;
     }
-    public void eliminarContacto(Contacto contacto) {
-        contactos.remove(contacto);
+    public boolean eliminarContacto(String nombre) {
+        Contacto contacto = buscarContacto(nombre);
+
+        if (contacto != null) {
+            contactos.remove(contacto);
+            return true;
+        }
+        return false;
     }
     public int numContactos() {
         return contactos.size();
