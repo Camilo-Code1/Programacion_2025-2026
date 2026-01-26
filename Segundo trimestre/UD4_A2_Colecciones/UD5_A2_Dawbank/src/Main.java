@@ -6,41 +6,47 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String menu = "\n1. Añadir coche.\n" +
-                "2. Eliminar coche.\n" +
-                "3. Mostrar coches.\n" +
-                "4. Salir. ";
+        String menu = "\n1. Datos de la cuenta.\n" +
+                "2. IBAN.\n" +
+                "3. Titular.\n" +
+                "4. Saldo.\n" +
+                "5. Ingreso.\n" +
+                "6. Retirada. \n" +
+                "7. Movimientos. \n" +
+                "8. Salir.  ";
 
         String opcion = "";
 
         do {
             sc = new Scanner(System.in);
-
+            System.out.print("");
             System.out.println(menu);
+            System.out.print("");
             opcion = sc.nextLine();
 
             switch (opcion) {
                 case "1":
-
-                    System.out.println("A");
-
                     break;
                 case "2":
-
-                    System.out.println("B");
-
                     break;
                 case "3":
-
-                    System.out.println("C");
-
                     break;
                 case "4":
                     break;
-
+                case "5":
+                    break;
+                case "6":
+                    break;
+                case "7":
+                    break;
+                case "8":
+                    break;
             }
+        } while (!opcion.equals("8"));
 
-        } while (!opcion.equals("4"));
+
+
+
 
 
     }
