@@ -13,7 +13,7 @@ public class Movimientos {
 
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    public Movimientos(String ID, String fecha, TipoMovimiento tipoMovi, double saldo) {
+    public Movimientos(TipoMovimiento tipoMovi, double saldo) {
         this.ID = incremental++;
         this.fecha = LocalDate.now().format(dtf);
         this.tipoMovi = tipoMovi;
