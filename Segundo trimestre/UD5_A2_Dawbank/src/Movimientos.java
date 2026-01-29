@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Movimientos {
@@ -15,9 +16,10 @@ public class Movimientos {
 
     public Movimientos(TipoMovimiento tipoMovi, double saldo) {
         this.ID = incremental++;
-        this.fecha = LocalDate.now().format(dtf);
         this.tipoMovi = tipoMovi;
         this.Cantidad = saldo;
+
+        this.fecha = LocalDateTime.now().format(dtf);
     }
 
     public int getID() {
@@ -43,6 +45,6 @@ public class Movimientos {
                 "\nFecha: " + fecha  +
                 "\nTipo de movimiento: " + tipoMovi +
                 "\nCantidad: " + Cantidad +
-                "<><><><><><><><><><><><><><><>";
+                "\n<><><><><><><><><><><><><><><>";
     }
 }

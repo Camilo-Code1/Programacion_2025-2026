@@ -40,22 +40,22 @@ public class CuentaBancaria {
         this.saldo = saldo;
     }
 
-    public void Ingreso (double cantidad) throws LimiteHacienda {
+    public void Ingreso (double cantidad) {
         double limite = 3000;
         if (cantidad <= 0) {
-            System.out.println("El cantidad debe ser mayor o igual a 0");
+            System.out.println("\nEl cantidad debe ser mayor o igual a 0");
             return;
         }
 
         if (cantidad >= limite) {
-            System.out.println("Se ha ingresado una cantidad superior a la permitida. Avisando a Hacienda");
+            System.out.println("\nAVISO: Se ha ingresado una cantidad superior a la permitida. Avisando a Hacienda");
         }
 
-        System.out.println("Cantidad procesada correctamente: " + cantidad + "\nEspere por favor...");
+        System.out.println("\nCantidad procesada correctamente: " + cantidad + "\nEspere por favor...");
 
 
         saldo += cantidad;
-        agregarMovimientos(new Movimientos(TipoMovimiento.Ingreso, saldo));
+        agregarMovimientos(new Movimientos(TipoMovimiento.Ingreso, cantidad));
 
 
         System.out.println(
@@ -80,7 +80,7 @@ public class CuentaBancaria {
 
 
         saldo -= cantidad;
-        agregarMovimientos(new Movimientos(TipoMovimiento.Retirada, saldo));
+        agregarMovimientos(new Movimientos(TipoMovimiento.Retirada, cantidad));
 
 
         System.out.println(
@@ -95,27 +95,27 @@ public class CuentaBancaria {
         nuevoMovimientos.add(mov);
     }
 
-    public void mostrarMovimientos(){
+    public void mostrarMovimientos() {
         if (nuevoMovimientos.isEmpty()) {
             System.out.println("\nNo hay movimientos registrados");
             return;
         }
         System.out.println("\nMostrando movimientos: ");
-        Iterator <Movimientos> itera = nuevoMovimientos.iterator();
-        itera = nuevoMovimientos.iterator();
-        while (itera.hasNext());
+        Iterator<Movimientos> itera = nuevoMovimientos.iterator();
+        while (itera.hasNext()) {
             System.out.println(itera.next());
+        }
     }
 
 
 
     @Override
     public String toString() {
-        return "<---CuentaBancaria--->" +
-                "\nIBAN:" + iban +
+        return "\n<---CuentaBancaria--->" +
+                "\nIBAN: " + iban +
                 "\nTitular: " + titular +
                 "\nSaldo: " + saldo +
-                "\n<---->";
+                "\n<><><><><><><><><><><><><><><>";
     }
 
 
