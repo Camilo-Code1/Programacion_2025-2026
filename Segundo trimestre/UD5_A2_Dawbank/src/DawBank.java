@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -22,14 +23,33 @@ public class DawBank {
         System.out.print("Bienvenido a Dawbank" +
                 " (Presione intro para continuar)");
 
+        System.out.println("\nNombre del cliente:");
+        String nombre = sc.nextLine();
+
+        System.out.println("DNI:");
+        String dni = sc.nextLine();
+
+        System.out.println("Fecha nacimiento (YYYY-MM-DD):");
+        LocalDate fecha = LocalDate.parse(sc.nextLine());
+
+        System.out.println("Telefono:");
+        String telefono = sc.nextLine();
+
+        System.out.println("Email:");
+        String email = sc.nextLine();
+
+        System.out.println("Direccion:");
+        String direccion = sc.nextLine();
+
+        Cliente cliente = new Cliente(nombre, dni, fecha, telefono, email, direccion);
+
+
         String iban = obtenerIbanValido(sc);
 
-        System.out.println("Ingrese el titular de la cuenta: ");
-        String titular = sc.nextLine();
 
         double saldo = 0;
 
-        nuevaCuenta = new CuentaBancaria(iban, titular, saldo);
+        nuevaCuenta = new CuentaBancaria(iban, cliente, saldo);
 
         do {
             sc = new Scanner(System.in);
@@ -51,7 +71,7 @@ public class DawBank {
                     break;
                 case "3":
 
-                    System.out.println("El Titular de la cuenta es: " + titular);
+                    System.out.println("El dueño de la cuenta es: " + cliente);
 
                     break;
                 case "4":

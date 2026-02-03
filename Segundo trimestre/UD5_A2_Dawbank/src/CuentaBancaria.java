@@ -4,15 +4,15 @@ import java.util.Iterator;
 public class CuentaBancaria {
 
     private String iban;
-    private String titular;
+    private Cliente cliente;
     private double saldo;
 
     ArrayList<Movimientos> nuevoMovimientos = new ArrayList<>();
 
 
-    public CuentaBancaria(String iban, String titular, double saldo) {
+    public CuentaBancaria(String iban, Cliente cliente, double saldo) {
         this.iban = iban;
-        this.titular = titular;
+        this.cliente = cliente;
         this.saldo = saldo;
     }
 
@@ -24,12 +24,12 @@ public class CuentaBancaria {
         this.iban = iban;
     }
 
-    public String getTitular() {
-        return titular;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setTitular(String titular) {
-        this.titular = titular;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public double getSaldo() {
@@ -113,7 +113,7 @@ public class CuentaBancaria {
     public String toString() {
         return "\n<---CuentaBancaria--->" +
                 "\nIBAN: " + iban +
-                "\nTitular: " + titular +
+                "\n" + cliente +
                 "\nSaldo: " + saldo +
                 "\n<><><><><><><><><><><><><><><>";
     }
