@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -16,107 +18,82 @@ public class DawBank {
                 "7. Movimientos. \n" +
                 "8. Salir.  ";
 
-        String opcion = "";
+        System.out.print("Bienvenido a DawBank (Presione intro para continuar)");
+        sc.nextLine();
 
-        CuentaBancaria nuevaCuenta;
+        String nombre = obtenerTextoNoVacio("Nombre del cliente:", sc);
+        String dni = obtenerDniValido(sc);
+        LocalDate fechaNacimiento = obtenerFechaValida(sc);
+        String telefono = obtenerTelefonoValido(sc);
+        String email = obtenerEmailValido(sc);
 
-        System.out.print("Bienvenido a Dawbank" +
-                " (Presione intro para continuar)");
+        sc = new Scanner(System.in);
 
-        System.out.println("\nNombre del cliente:");
-        String nombre = sc.nextLine();
+        String direccion = obtenerTextoNoVacio("Dirección:", sc);
 
-        System.out.println("DNI:");
-        String dni = sc.nextLine();
+        sc = new Scanner(System.in);
 
-        System.out.println("Fecha nacimiento (YYYY-MM-DD):");
-        LocalDate fecha = LocalDate.parse(sc.nextLine());
-
-        System.out.println("Telefono:");
-        String telefono = sc.nextLine();
-
-        System.out.println("Email:");
-        String email = sc.nextLine();
-
-        System.out.println("Direccion:");
-        String direccion = sc.nextLine();
-
-        Cliente cliente = new Cliente(nombre, dni, fecha, telefono, email, direccion);
-
+        Cliente cliente = new Cliente(nombre, dni, fechaNacimiento, telefono, email, direccion);
 
         String iban = obtenerIbanValido(sc);
+        CuentaBancaria nuevaCuenta = new CuentaBancaria(iban, cliente, 0);
 
-
-        double saldo = 0;
-
-        nuevaCuenta = new CuentaBancaria(iban, cliente, saldo);
-
+        String opcion;
         do {
-            sc = new Scanner(System.in);
-            System.out.print("");
+
             System.out.println(menu);
-            System.out.print("");
             opcion = sc.nextLine();
 
             switch (opcion) {
                 case "1":
-
                     System.out.println(nuevaCuenta);
-
                     break;
+
                 case "2":
-
                     System.out.println("El IBAN de la cuenta es: " + iban);
-
                     break;
+
                 case "3":
-
                     System.out.println("El dueño de la cuenta es: " + cliente);
-
                     break;
+
                 case "4":
-
                     System.out.println("El saldo de la cuenta es: " + nuevaCuenta.getSaldo());
-
                     break;
-                case "5":
 
-                    realizarIngreso(nuevaCuenta);
+                case "5":
+                    realizarIngreso(nuevaCuenta, sc);
                     break;
 
                 case "6":
-
-                    realizarRetirada(nuevaCuenta);
+                    realizarRetirada(nuevaCuenta, sc);
                     break;
+
                 case "7":
-
                     nuevaCuenta.mostrarMovimientos();
-
                     break;
+
                 case "8":
+                    System.out.println("Saliendo...");
+                    break;
 
-
+                default:
+                    System.out.println("Opción inválida");
                     break;
             }
+
         } while (!opcion.equals("8"));
-
-
-
-
-
-
     }
 
 
-    private static void realizarIngreso(CuentaBancaria nuevaCuenta) {
-        Scanner sc = new Scanner(System.in);
+    private static void realizarIngreso(CuentaBancaria nuevaCuenta, Scanner sc) {
+
         System.out.print("Inserte la cantidad a ingresar: ");
         double cantidadIngresada = sc.nextDouble();
         nuevaCuenta.Ingreso(cantidadIngresada);
     }
 
-    private static void realizarRetirada(CuentaBancaria nuevaCuenta) throws MinimoCuenta {
-        Scanner sc = new Scanner(System.in);
+    private static void realizarRetirada(CuentaBancaria nuevaCuenta, Scanner sc) throws MinimoCuenta {
 
         try {
             System.out.print("Inserte la cantidad a retirar: ");
@@ -144,5 +121,72 @@ public class DawBank {
         return IBAN.matches("[A-Z]{2}\\d{22}");
     }
 
+    private static String obtenerTextoNoVacio(String mensaje, Scanner sc) {
+        String entrada;
+        do {
+            System.out.println(mensaje);
+            entrada = sc.nextLine().trim();
 
+            if (entrada.isEmpty()) {
+                System.out.println("Error: El campo no puede quedar vacío.");
+            }
+        } while (entrada.isEmpty());
+        return entrada;
+    }
+
+    private static LocalDate obtenerFechaValida(Scanner sc) {
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        while (true) {
+            System.out.println("Ingrese la fecha (dd/MM/yyyy):");
+            String fecha = sc.nextLine();
+
+            try {
+                return LocalDate.parse(fecha, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Fecha inválida. Intente de nuevo.");
+            }
+        }
+    }
+    private static String obtenerDniValido(Scanner sc) {
+        while (true) {
+            System.out.print("\nDNI (7 u 8 dígitos): ");
+            String dni = sc.nextLine();
+
+            if (dni.matches("\\d{7,8}")) {
+                return dni;
+            }
+            System.out.println("DNI inválido.");
+        }
+    }
+    private static String obtenerTelefonoValido(Scanner sc) {
+        while (true) {
+            System.out.print("\nTeléfono (9 dígitos): ");
+            String tel = sc.nextLine();
+
+            if (tel.matches("\\d{9}")) {
+                return tel;
+            }
+            System.out.println("Teléfono inválido.");
+        }
+    }
+    private static String obtenerEmailValido(Scanner sc) {
+        while (true) {
+            System.out.print("\nEmail (Ejemplo: usuario@gmail.com): ");
+            String email = sc.nextLine();
+
+            if (email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                return email;
+            }
+            System.out.println("Email inválido.");
+        }
+    }
 }
+
+
+
+
+
+

@@ -60,7 +60,7 @@ public class CuentaBancaria {
 
         System.out.println(
                 "\nMovimiento confirmado" +
-                        "\nUsted ha retirado: " + cantidad + "$" +
+                        "\nUsted ha ingresado: " + cantidad + "$" +
                         "\nDe la cuenta: " + iban
         );
 
