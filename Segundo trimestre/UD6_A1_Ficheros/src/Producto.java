@@ -4,46 +4,51 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Producto {
-    private int codigo;
+    private String codigo;
     private String nombre;
     private int cantidad;
     private double precio;
 
+    private static int incremental = 1;
+
+
     public Producto (String nombre, int cantidad, double precio){
-        this.codigo = codigo;
+        this.codigo = String.format("PR-%03d", incremental);
+        incremental++;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
     }
 
 
+    public String getCodigo() {
+        return codigo;
+    }
 
+    public String getNombre() {
+        return nombre;
+    }
 
+    public int getCantidad() {
+        return cantidad;
+    }
 
+    public double getPrecio() {
+        return precio;
+    }
 
-//    public static void leerContenido() throws IOException{
-//
-//        String direccion = ".\\recursos\\almacen.dat";
-//
-//        try {
-//
-//            FileInputStream ficher = new FileInputStream(direccion);
-//            InputStreamReader lector = new InputStreamReader(ficher);
-//            BufferedReader leer = new BufferedReader(lector);{
-//
-//                String lin;
-//                while ((lin = leer.readLine())!= null) {
-//                    System.out.println(lin);
-//                }
-//
-//            }
-//
-//        }
-//    }
-
-
-
+    @Override
+    public String toString() {
+        return "Producto:" +
+                "codigo: " + codigo + '\'' +
+                ", nombre:" + nombre + '\'' +
+                ", cantidad: " + cantidad +
+                ", precio:" + precio;
+    }
 }
+
+
+
 
 
 

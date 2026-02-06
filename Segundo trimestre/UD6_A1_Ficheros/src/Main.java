@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -6,7 +7,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String menu = "1. Crear producto.\n" +
+        Enlace nuevoProducto = new Enlace();
+
+        String menu = "\n1. Crear producto.\n" +
                 "2. Mostrar productos existentes.\n" +
                 "3. Eliminar productos por codigo.\n" +
                 "4. Guardar productos en el fichero.\n" +
@@ -20,16 +23,35 @@ public class Main {
 
             switch (opcion){
                 case "1":
-                    System.out.println("1");
+                    sc = new Scanner(System.in);
+
+                    System.out.println("Inserte el nombre del producto: ");
+                    String nombre = sc.nextLine();
+
+                    System.out.println("Introduzca la cantidad del producto: ");
+                    int cantidad = sc.nextInt();
+
+                    System.out.println("Inserte el precio del producto: ");
+                    double precio = sc.nextDouble();
+
+                    nuevoProducto.agregarProducto(nombre, cantidad, precio);
+
+
                     break;
                 case "2":
-                    System.out.println("2");
+                    try {
+                        Enlace.leerContenido();
+                    } catch (IOException e) {
+                        System.out.println("Error: ");
+                        e.printStackTrace();
+                    }
+
                     break;
                 case "3":
-                    System.out.println("3");
+                    nuevoProducto.mostrarProductosPorEnviar();
                     break;
                 case "4":
-                    System.out.println("4");
+                    nuevoProducto.guardarProductosNuevos();
                     break;
                 case "5":
                     System.out.println("5");
