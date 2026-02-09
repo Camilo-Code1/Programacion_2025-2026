@@ -1,5 +1,8 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Enlace {
 
@@ -48,12 +51,51 @@ public class Enlace {
             for (Producto nuevo : productosEnvio){
                 bf.write(nuevo.getCodigo() + ", " + nuevo.getNombre() + ", " + nuevo.getCantidad() + ", " + nuevo.getPrecio());
                 bf.newLine();
+
             }
+
+            System.out.println("¡Productos guardados correctamente!");
+            productosEnvio.clear();
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
+    public void borrarProductoPorCodigo(String codigoABorrar) {
 
+        File archivo = new File("src/recursos/almacen.dat");
+        List<String> lineasRestantes = new ArrayList<>();
+
+        // 1. Leer archivo
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(archivo), StandardCharsets.UTF_8))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.startsWith(codigoABorrar + ",")) {
+                    lineasRestantes.add(linea);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error leyendo archivo: " + e.getMessage());
+            return;
+        }
+
+        // 2. Reescribir archivo
+        try (BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(archivo), StandardCharsets.UTF_8))) {
+
+            for (String linea : lineasRestantes) {
+                bw.write(linea);
+                bw.newLine();
+            }
+
+            System.out.println("Producto eliminado correctamente");
+
+        } catch (IOException e) {
+            System.out.println("Error escribiendo archivo: " + e.getMessage());
+        }
+    }
 
 }

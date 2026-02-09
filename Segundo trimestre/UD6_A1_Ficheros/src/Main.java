@@ -9,11 +9,12 @@ public class Main {
 
         Enlace nuevoProducto = new Enlace();
 
-        String menu = "\n1. Crear producto.\n" +
+        String menu = "1. Crear producto.\n" +
                 "2. Mostrar productos existentes.\n" +
-                "3. Eliminar productos por codigo.\n" +
-                "4. Guardar productos en el fichero.\n" +
-                "5. Salir";
+                "3. Mostrar productos por enviar.\n" +
+                "4. Eliminar productos por código.\n" +
+                "5. Guardar productos en el fichero. \n" +
+                "6. Salir. ";
 
         String opcion = "";
 
@@ -51,15 +52,23 @@ public class Main {
                     nuevoProducto.mostrarProductosPorEnviar();
                     break;
                 case "4":
-                    nuevoProducto.guardarProductosNuevos();
+
+                    sc = new Scanner(System.in);
+
+                    System.out.println("Introduce el código del producto a eliminar (ej: PR-003): ");
+                    String codigo = sc.nextLine();
+
+                    nuevoProducto.borrarProductoPorCodigo(codigo);
                     break;
                 case "5":
-                    System.out.println("5");
+                    nuevoProducto.guardarProductosNuevos();
                     break;
 
-
+                case "6":
+                    System.out.println("5");
+                    break;
             }
-        } while (!opcion.equals("5"));
+        } while (!opcion.equals("6"));
 
 
 
