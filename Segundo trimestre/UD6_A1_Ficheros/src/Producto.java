@@ -9,12 +9,11 @@ public class Producto {
     private int cantidad;
     private double precio;
 
-    private static int incremental = 1;
 
 
-    public Producto (String nombre, int cantidad, double precio){
-        this.codigo = String.format("PR-%03d", incremental);
-        incremental++;
+
+    public Producto (String codigo, String nombre, int cantidad, double precio){
+        this.codigo = codigo;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
@@ -39,8 +38,8 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto:" +
-                "codigo: " + codigo  +
+        return "\nProducto:" +
+                " Codigo: " + codigo  +
                 ", nombre: " + nombre   +
                 ", cantidad: " + cantidad +
                 ", precio: " + precio;

@@ -9,7 +9,9 @@ public class Main {
 
         Enlace nuevoProducto = new Enlace();
 
-        String menu = "1. Crear producto.\n" +
+//        nuevoProducto.leerProductos();
+
+        String menu = "\n1. Crear producto.\n" +
                 "2. Mostrar productos existentes.\n" +
                 "3. Mostrar productos por enviar.\n" +
                 "4. Eliminar productos por código.\n" +
@@ -26,6 +28,9 @@ public class Main {
                 case "1":
                     sc = new Scanner(System.in);
 
+                    System.out.println("Inserte el codigo del producto (Ejemplo: PR-001): ");
+                    String codigo = sc.nextLine();
+
                     System.out.println("Inserte el nombre del producto: ");
                     String nombre = sc.nextLine();
 
@@ -35,13 +40,13 @@ public class Main {
                     System.out.println("Inserte el precio del producto: ");
                     double precio = sc.nextDouble();
 
-                    nuevoProducto.agregarProducto(nombre, cantidad, precio);
+                    nuevoProducto.agregarProducto(codigo, nombre, cantidad, precio);
 
 
                     break;
                 case "2":
                     try {
-                        Enlace.leerContenido();
+                        Enlace.leerMostrarContenido();
                     } catch (IOException e) {
                         System.out.println("Error: ");
                         e.printStackTrace();
@@ -56,7 +61,7 @@ public class Main {
                     sc = new Scanner(System.in);
 
                     System.out.println("Introduce el código del producto a eliminar (ej: PR-003): ");
-                    String codigo = sc.nextLine();
+                    codigo = sc.nextLine();
 
                     nuevoProducto.borrarProductoPorCodigo(codigo);
                     break;

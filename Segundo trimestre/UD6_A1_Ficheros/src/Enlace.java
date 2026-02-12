@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +7,7 @@ public class Enlace {
 
     public LinkedList<Producto> productosEnvio = new LinkedList<>();
 
-    public static void leerContenido() throws IOException {
+    public static void leerMostrarContenido() throws IOException {
 
         String direccion = "src/recursos/almacen.dat";
 
@@ -19,16 +18,16 @@ public class Enlace {
                 BufferedReader leer = new BufferedReader(lector);){
 
             String lin;
-            while ((lin = leer.readLine())!= null) {
+            while ((lin = leer.readLine()) != null) {
                 System.out.println(lin);
             }
 
         }
     }
 
-    public void agregarProducto(String nombre, int cantidad, double precio){
+    public void agregarProducto(String codigo, String nombre, int cantidad, double precio){
 
-        productosEnvio.add(new Producto(nombre, cantidad, precio));
+        productosEnvio.add(new Producto(codigo, nombre, cantidad, precio));
 
     }
 
@@ -45,17 +44,25 @@ public class Enlace {
 
     public void guardarProductosNuevos(){
         try(
-             BufferedWriter bf = new BufferedWriter(new FileWriter("src/recursos/almacen.dat"))
+             BufferedWriter bf = new BufferedWriter(
+                     new FileWriter("src/recursos/almacen.dat", true))
 
                 ) {
             for (Producto nuevo : productosEnvio){
-                bf.write(nuevo.getCodigo() + ", " + nuevo.getNombre() + ", " + nuevo.getCantidad() + ", " + nuevo.getPrecio());
+                bf.write(nuevo.getCodigo() + ", "
+                        + nuevo.getNombre() + ", "
+                        + nuevo.getCantidad() + ", "
+                        + nuevo.getPrecio());
                 bf.newLine();
 
             }
 
-            System.out.println("¡Productos guardados correctamente!");
             productosEnvio.clear();
+
+            System.out.println("¡Productos guardados correctamente!");
+
+
+
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -68,7 +75,7 @@ public class Enlace {
 
         // 1. Leer archivo
         try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(archivo), StandardCharsets.UTF_8))) {
+                new InputStreamReader(new FileInputStream(archivo)))) {
 
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -84,7 +91,7 @@ public class Enlace {
 
         // 2. Reescribir archivo
         try (BufferedWriter bw = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(archivo), StandardCharsets.UTF_8))) {
+                new OutputStreamWriter(new FileOutputStream(archivo)))) {
 
             for (String linea : lineasRestantes) {
                 bw.write(linea);
