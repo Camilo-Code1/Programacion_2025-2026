@@ -37,8 +37,8 @@ public class Libro implements Serializable {
     public String toString() {
         return "\n<---Libro--->" +
                 "\nISBN: " + ISBN  +
-                "\nTitulo:" + titulo  +
-                "\nAutor='" + autor +
+                "\nTitulo: " + titulo  +
+                "\nAutor: " + autor +
                 "\nFecha de Publicacion: " + fechaPublicacion +
                 "\n<------------>";
     }

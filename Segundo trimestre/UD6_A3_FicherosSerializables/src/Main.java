@@ -44,22 +44,20 @@ public class Main {
                     nuevoContenido.agregarLibro(ISBN, Titulo, autor, fechaPublicacion);
                     break;
                 case "2":
-                    nuevoContenido.leerFichero();
+                    System.out.println(nuevoContenido.obtenerDatosPorValor());
                     break;
                 case "3":
-                    nuevoContenido.escribirFichero();
+                    nuevoContenido.mostrarLibros();
                     break;
                 case "4":
-                    nuevoContenido.mostrarLibros();
                     break;
                 case "5":
 
                     break;
                 case "6":
-
+                    nuevoContenido.escribirFichero();
                     break;
                 case "7":
-
                     break;
 
 

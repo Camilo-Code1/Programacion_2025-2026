@@ -1,24 +1,76 @@
 import java.io.*;
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Biblioteca implements Serializable {
 
     private static final long serialVersionUID = -4914514719223067957L;
 
-    LinkedList <Libro> nuevoLibro = new LinkedList<>();
+    private Map<String, Libro> libros;
 
-    public void agregarLibro(String ISBN, String titulo, String autor, LocalDate fechaPublicacion) {
-        nuevoLibro.add(new Libro(ISBN, titulo, autor, fechaPublicacion));
+    public Biblioteca() {
+        libros = new HashMap<>();
+    }
+
+    // ----------------------------
+    // CRUD EN MEMORIA
+    // ----------------------------
+
+    public boolean agregarLibro(String ISBN, String titulo, String autor, LocalDate fechaPublicacion) {
+
+        if (libros.containsKey(ISBN)) {
+            return false; // Ya existe
+        }
+
+        libros.put(ISBN, new Libro(ISBN, titulo, autor, fechaPublicacion));
+        return true;
+    }
+
+    public boolean eliminarLibro(String ISBN) {
+        return libros.remove(ISBN) != null;
     }
 
     public void mostrarLibros() {
-        for (Libro li : nuevoLibro) {
+
+        if (libros.isEmpty()) {
+            System.out.println("No hay libros registrados.");
+            return;
+        }
+
+        for (Libro li : libros.values()) {
             System.out.println(li);
         }
     }
 
+    public String obtenerDatosPorValor() {
+
+        if (libros.isEmpty()) {
+            return "No hay libros registrados.";
+        }
+
+        StringBuilder info = new StringBuilder();
+
+        for (Libro li : libros.values()) {
+            info.append(li.getISBN())
+                    .append(" - ")
+                    .append(li.getTitulo())
+                    .append("\n");
+        }
+
+        return info.toString();
+    }
+
+    public Libro buscarPorISBN(String ISBN) {
+        return libros.get(ISBN);
+    }
+
+    // ----------------------------
+    // PERSISTENCIA
+    // ----------------------------
+
     public void cargarDatos() {
+
         File archivo = new File("src/resource/almacen.dat");
 
         if (!archivo.exists()) {
@@ -26,48 +78,26 @@ public class Biblioteca implements Serializable {
         }
 
         try (ObjectInputStream ois =
-                new ObjectInputStream(new FileInputStream(archivo))) {
+                     new ObjectInputStream(new FileInputStream(archivo))) {
 
-            nuevoLibro = (LinkedList<Libro>) ois.readObject();
+            libros = (Map<String, Libro>) ois.readObject();
 
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-    }
-
-    public void leerFichero() {
-
-        try(FileInputStream fis = new FileInputStream("src/resource/almacen.dat");
-            ObjectInputStream ois = new ObjectInputStream(fis)) {
-
-            nuevoLibro = (LinkedList<Libro>) ois.readObject();
-
-            for (Libro lib : nuevoLibro) {
-                System.out.println(lib);
-            }
-
-        } catch (EOFException e) {
-            System.out.println("Archivo vacio.");
-        } catch (IOException |ClassNotFoundException e) {
-            System.out.println("Error: "+ e.getMessage());
+            System.out.println("Error cargando datos: " + e.getMessage());
         }
     }
 
     public void escribirFichero() {
-        try( FileOutputStream fos = new FileOutputStream("src/resource/almacen.dat");
-             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
-            oos.writeObject(nuevoLibro);
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(
+                             new FileOutputStream("src/resource/almacen.dat"))) {
 
-            System.out.println("Escritura completa");
+            oos.writeObject(libros);
+            System.out.println("Datos guardados correctamente.");
 
-
-            nuevoLibro.clear();
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error guardando datos: " + e.getMessage());
         }
     }
-
-
 }
