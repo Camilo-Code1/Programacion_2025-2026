@@ -13,14 +13,12 @@ public class Biblioteca implements Serializable {
         libros = new HashMap<>();
     }
 
-    // ----------------------------
-    // CRUD EN MEMORIA
-    // ----------------------------
+
 
     public boolean agregarLibro(String ISBN, String titulo, String autor, LocalDate fechaPublicacion) {
 
         if (libros.containsKey(ISBN)) {
-            return false; // Ya existe
+            return false;
         }
 
         libros.put(ISBN, new Libro(ISBN, titulo, autor, fechaPublicacion));
@@ -28,7 +26,24 @@ public class Biblioteca implements Serializable {
     }
 
     public boolean eliminarLibro(String ISBN) {
-        return libros.remove(ISBN) != null;
+        boolean eliminado = false;
+
+        if(libros.containsKey(ISBN)) {
+            libros.remove(ISBN);
+            eliminado = true;
+        }
+
+        return eliminado;
+    }
+
+    public String recorrerIsbn(){
+        String info = "";
+
+        for(String ISBN : libros.keySet()){
+            info += ISBN + "\n";
+        }
+
+        return info;
     }
 
     public void mostrarLibros() {
@@ -65,9 +80,7 @@ public class Biblioteca implements Serializable {
         return libros.get(ISBN);
     }
 
-    // ----------------------------
-    // PERSISTENCIA
-    // ----------------------------
+
 
     public void cargarDatos() {
 
@@ -88,16 +101,16 @@ public class Biblioteca implements Serializable {
     }
 
     public void escribirFichero() {
-
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream("src/resource/almacen.dat"))) {
+        try( FileOutputStream fos = new FileOutputStream("src/resource/almacen.dat");
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             oos.writeObject(libros);
-            System.out.println("Datos guardados correctamente.");
+
+            System.out.println("Datos enviados");
+
 
         } catch (IOException e) {
-            System.out.println("Error guardando datos: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
