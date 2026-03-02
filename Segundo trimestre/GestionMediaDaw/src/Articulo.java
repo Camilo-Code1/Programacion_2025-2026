@@ -10,7 +10,7 @@ public abstract class Articulo implements Serializable {
 
     private static int incremental = 1;
 
-    public Articulo(String id, String titulo, boolean disponible) {
+    public Articulo(String titulo) {
         this.id = String.format("A-%03d", incremental++);
         this.titulo = titulo;
         this.disponible = true;
@@ -28,10 +28,14 @@ public abstract class Articulo implements Serializable {
         return disponible;
     }
 
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
     @Override
     public String toString() {
-        return "Articulo: " +
-                "ID:" + id  +
+        return "[ Articulo: " +
+                "ID: " + id  +
                 " Titulo: " + titulo +
                 " Disponible:" + disponible;
     }
