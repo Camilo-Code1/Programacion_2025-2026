@@ -37,6 +37,6 @@ public abstract class Articulo implements Serializable {
         return "[ Articulo: " +
                 "ID: " + id  +
                 " Titulo: " + titulo +
-                " Disponible:" + disponible;
+                " Disponible: " + disponible;
     }
 }

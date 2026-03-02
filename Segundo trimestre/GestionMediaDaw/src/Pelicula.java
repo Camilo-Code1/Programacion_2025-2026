@@ -33,7 +33,7 @@ public class Pelicula extends Articulo {
     public String toString() {
         return super.toString() +
                 "\nPelicula: " +
-                "duración:" + duracionH +
+                "duración: " + duracionH +
                 " genero: " + genero +
                 " precio de entrada: " + precioEntrada + "$" + " ]";
     }

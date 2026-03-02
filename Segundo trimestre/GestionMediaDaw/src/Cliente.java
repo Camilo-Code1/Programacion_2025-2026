@@ -1,7 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente {
+public class Cliente implements Serializable {
+
+    private static final long serialVersionUID = -2331692428789509573L;
 
     private String dni;
     private String nombre;
@@ -22,6 +25,10 @@ public class Cliente {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Articulo> getListaAlquidados() {
+        return listaAlquidados;
     }
 
     public boolean agregarArticuloCliente (Articulo art){
@@ -47,8 +54,8 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente: " +
-                "DNI:" + dni + '\'' +
-                " nombre: " + nombre + '\'' +
+                "DNI:" + dni +
+                " nombre: " + nombre +
                 "\nLista de Articulos alquidados: " + listaAlquidados;
     }
 }

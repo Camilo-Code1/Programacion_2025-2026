@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,6 +6,8 @@ public class Gestion {
 
     private List<Cliente> GestionCliente = new ArrayList<Cliente>();
     private List<Articulo> Inventario = new ArrayList();
+
+    // MÉTODOS AGREGAR Y MOSTRAR
 
     public void agregarArticulo (Articulo nuevoArticulo) {
         Inventario.add(nuevoArticulo);
@@ -37,6 +40,56 @@ public class Gestion {
         }
     }
 
+    public void mostrarArticulosNO_Disponibles() {
+        for (Articulo articulo : Inventario) {
+            if (!articulo.isDisponible()) {
+                System.out.println(articulo);
+            }
+        }
+    }
+
+    // Eliminar
+
+    public boolean eliminarArticulo(String id) {
+        Articulo articulo = buscarArticulo(id);
+
+        if (articulo == null) {
+            System.out.println("Error: No se encontró el artículo con ID: " + id);
+            return false;
+        }
+
+        if (!articulo.isDisponible()) {
+            System.out.println("BLOQUEADO: El artículo '" + articulo.getTitulo() + "' está alquilado actualmente.");
+            return false;
+        }
+
+        Inventario.remove(articulo);
+        System.out.println("Artículo '" + articulo.getTitulo() + "' eliminado con éxito.");
+        return true;
+    }
+
+    public boolean eliminarCliente(String dni) {
+        Cliente cliente = buscarCliente(dni);
+
+        if (cliente == null) {
+            System.out.println("Error: No se encontró el cliente con DNI: " + dni);
+            return false;
+        }
+
+        if (!cliente.getListaAlquidados().isEmpty()) {
+            System.out.println("BLOQUEADO: El cliente " + cliente.getNombre() + " tiene artículos pendientes de devolución.");
+            return false;
+        }
+
+        GestionCliente.remove(cliente);
+        System.out.println("Cliente " + cliente.getNombre() + " eliminado con éxito.");
+        return true;
+    }
+
+
+
+    // METODOS DE BUSQUEDA, ALQUILER Y DEVOLUCIÓN
+
     public Articulo buscarArticulo (String id) {
         for (Articulo articulo : Inventario) {
             if (articulo.getId().equals(id)) {
@@ -54,6 +107,7 @@ public class Gestion {
         }
         return null;
     }
+
 
     public boolean alquilarArticulo (String id, String dni) {
        Articulo a = buscarArticulo(id);
@@ -106,6 +160,42 @@ public class Gestion {
 
     }
 
+
+
+    // FICHEROS
+
+    public void cargarDatos(){
+
+        File archivo = new File("src/resources/med.dat");
+
+        if(!archivo.exists()){
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream
+                (new FileInputStream(archivo))) {
+
+            Inventario = (List<Articulo>) ois.readObject();
+            GestionCliente = (List<Cliente>) ois.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al cargar los datos: " + e.getMessage());
+        }
+    }
+
+    public void escribirDatosFichero() {
+        try (FileOutputStream fos = new FileOutputStream("src/resources/med.dat");
+                ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+                oos.writeObject(Inventario);
+                oos.writeObject(GestionCliente);
+
+                System.out.println("Datos escritos correctamente en el archivo.");
+
+            } catch (IOException e) {
+                System.out.println("Error al escribir los datos: " + e.getMessage());
+            }
+    }
 
 
 }

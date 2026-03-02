@@ -8,6 +8,8 @@ public class Main {
 
         Gestion nuevoMovimiento = new Gestion();
 
+        nuevoMovimiento.cargarDatos();
+
         String menu = """
                 \n1. Crear y registrar plataforma en franquincia.\s
                 2. Registar articulo (Pelicula o Videojuego).
@@ -40,7 +42,7 @@ public class Main {
                     String titulo = sc.nextLine();
 
                     if (seleccion == 1) {
-                        System.out.println("Duracion de la pelicula: ");
+                        System.out.println("Duracion de la pelicula (Minutos): ");
                         int duracionH = sc.nextInt();
 
                         sc = new Scanner(System.in);
@@ -157,16 +159,46 @@ public class Main {
                     System.out.println("Ingrese el DNI del cliente: ");
                     dni = sc.nextLine();
 
-                    nuevoMovimiento.mostrarArticulosFiltro();
+                    nuevoMovimiento.mostrarArticulosNO_Disponibles();
 
                     System.out.println("Ingrese el ID del articulo: ");
                     id = sc.nextLine();
 
-                    boolean devolver = nuevoMovimiento.alquilarArticulo(id, dni);
+                    boolean devolver = nuevoMovimiento.devolverArticulo(id, dni);
                     break;
                 case "6":
+                    sc = new Scanner(System.in);
+
+                    nuevoMovimiento.mostrarClienteFiltro();
+
+                    System.out.println("Ingrese el DNI del cliente: ");
+                    dni = sc.nextLine();
+
+                    boolean borrarCliente = nuevoMovimiento.eliminarCliente(dni);
+
+                    if (borrarCliente) {
+                        System.out.println("Cliente dado de baja con éxito.");
+                    } else {
+                        System.out.println("No se pudo dar de baja al cliente. Verifique que el DNI sea correcto y que el cliente no tenga artículos alquilados.");
+                    }
+
                     break;
                 case "7":
+                    sc = new Scanner(System.in);
+
+                    nuevoMovimiento.mostrarArticulosNO_Disponibles();
+
+                    System.out.println("Ingrese el ID del articulo: ");
+                    id = sc.nextLine();
+
+                    boolean borrrarArticulo = nuevoMovimiento.eliminarArticulo(id);
+
+                    if (borrrarArticulo) {
+                        System.out.println("Artículo dado de baja con éxito.");
+                    } else {
+                        System.out.println("No se pudo dar de baja al artículo. Verifique que el ID sea correcto y que el artículo no esté alquilado.");
+                    }
+
                     break;
                 case "8":
                     nuevoMovimiento.mostrarInventario();
@@ -175,13 +207,12 @@ public class Main {
                     nuevoMovimiento.mostrarCliente();
                     break;
                 case "10":
+                    nuevoMovimiento.escribirDatosFichero();
                     System.out.println("Salir del programa.");
                     break;
 
             }
         } while (!opcion.equals("10"));
-
-
 
     }
 }
