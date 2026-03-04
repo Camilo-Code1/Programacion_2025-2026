@@ -10,6 +10,7 @@ public class Paciente extends Persona{
         this.diagnostico = diagnostico;
         this.atendido = false;
     }
+    
 
     public String getNumeroHistorial() {
         return numeroHistorial;
