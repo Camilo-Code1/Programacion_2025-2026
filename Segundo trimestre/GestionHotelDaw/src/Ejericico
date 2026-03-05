@@ -1,0 +1,53 @@
+Aquí tienes la "Ficha Técnica" del **Ejercicio 5 (Hotel Management)** resumida y estructurada. Está diseñada para que, si se la pasas a cualquier IA o la usas de repaso, se entienda perfectamente toda la arquitectura del sistema.
+
+---
+
+# 🏨 PROMPT: Sistema de Gestión de Hotel (DAW)
+
+**Objetivo:** Desarrollar una aplicación en Java que gestione habitaciones y huéspedes mediante Programación Orientada a Objetos (POO), Colecciones (`Map`), y Persistencia de datos.
+
+### 🛠 Arquitectura de Clases
+
+1. **`Persona` (abstracta & Serializable):**
+* **Atributos:** `id` (String), `nombre`, `edad`, `telefono` (String para evitar pérdida de ceros/prefijos).
+* **Método abstracto:** `public abstract String getRol();`.
+
+
+2. **`Huesped` (Hereda de `Persona`):**
+* **Atributos propios:** `nacionalidad`, `preferencias` (List<String>), `numeroHabitacion` (int), `hospedado` (boolean), `puntosClub` (int).
+* **Lógica:** Implementa `getRol()` retornando "VIP" si `puntosClub > 500`.
+
+
+3. **`Habitacion` (Serializable):**
+* **Atributos:** `numero` (int), `tipo` (Individual/Doble/Suite), `ocupada` (boolean), `idHuespedAsignado` (String).
+
+
+4. **`GestionHotelDaw` (Controlador):**
+* **Estructuras:** `Map<String, Huesped>` y `Map<Integer, Habitacion>`.
+* **Persistencia:** Métodos `cargarDatos()` y `guardarDatos()` usando `ObjectOutputStream` / `ObjectInputStream` sobre el archivo `hotel.dat`.
+
+
+
+### 📋 Lógica de Negocio y Menú
+
+* **Check-in (Asignar):** Validar que el huésped y la habitación existan, que la habitación esté libre y el huésped no tenga ya otra asignada. Vincular ambos objetos.
+* **Check-out (Liberar):** Desvincular el ID de la habitación y marcar al huésped como no hospedado.
+* **Validaciones Críticas:**
+* No permitir IDs o números de habitación duplicados.
+* No eliminar huéspedes que estén actualmente en una habitación.
+* No eliminar habitaciones que estén ocupadas.
+
+
+* **Polimorfismo:** Uso de `getRol()` y `instanceof` para listados filtrados y aplicación de lógica según tipo de cliente.
+
+### 🚀 Funciones del Menú
+
+1. Registrar Huésped | 2. Crear Habitación | 3. Mostrar Huéspedes | 4. Mostrar Habitaciones | 5. Check-in | 6. Check-out | 7. Eliminar Huésped/Habitación | 8. Guardar y Salir.
+
+---
+
+### ¿Cómo usar este resumen?
+
+Si alguna vez necesitas que genere el código completo basado en esto, solo tienes que decirme: *"Genera el código Java para el Ejercicio 5 usando este resumen"*.
+
+**¿Quieres que te ayude ahora mismo a escribir la clase `GestionHotelDaw` con el truco para guardar los dos Mapas en el mismo archivo?** Es la parte más técnica del ejercicio.

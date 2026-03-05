@@ -9,6 +9,8 @@ public class Main {
 
         Gestion nuevosDatos = new Gestion();
 
+        nuevosDatos.cargarDatos();
+
         String menu = """
                 \n1. Registrar médico
                 2. Registrar paciente
@@ -22,7 +24,7 @@ public class Main {
 
         String opcion = "";
 
-        String nombre;
+        String nombre, id, diagnostico;
         int edad;
 
         do {
@@ -51,7 +53,7 @@ public class Main {
                     double salario = sc.nextDouble();
 
                     Medico m = new Medico(nombre, edad, especialidad, salario);
-                    nuevosDatos.agregarMedico(m);
+                    nuevosDatos.registro(m);
 
                     break;
                 case "2":
@@ -67,10 +69,10 @@ public class Main {
                     String numeroHistorial = sc.nextLine();
 
                     System.out.println("Ingrese el diagnostico del paciente: ");
-                    String diagnostico = sc.nextLine();
+                    diagnostico = sc.nextLine();
 
                     Paciente p = new Paciente(nombre, edad, numeroHistorial, diagnostico);
-                    nuevosDatos.agregarPaciente(p);
+                    nuevosDatos.registro(p);
                     break;
                 case "3":
                     nuevosDatos.mostrarTodosPersonas();
@@ -82,17 +84,59 @@ public class Main {
                     nuevosDatos.mostrarPacientes();
                     break;
                 case "6":
+
+                    nuevosDatos.mostrarPacientesFiltro();
+
+                    System.out.println("Ingrese el ID del Paciente: ");
+                    id = sc.nextLine();
+
+                    System.out.println("Ingrese el nuevo diagnostico del Paciente: ");
+                    diagnostico = sc.nextLine();
+
+                    boolean nuevoDiagnostico = nuevosDatos.asignarDiagnostico(id, diagnostico);
+                    if (nuevoDiagnostico) {
+                        System.out.println("Nuevo diagnostico asignado correctamente");
+                    } else {
+                        System.out.println("Diagnostico no asignado");
+                    }
+
                     break;
                 case "7":
+
+                    nuevosDatos.mostrarPacientesNoAtendidos();
+
+                    System.out.println("Ingrese el ID del Paciente que se dara de alta: ");
+                    id = sc.nextLine();
+
+                    boolean darAlta = nuevosDatos.atenderPaciente(id);
+
+                    if (darAlta) {
+                        System.out.println("Paciente dado de alta correctamente");
+                    } else {
+                        System.out.println("No se ha podido dar de alta");
+                    }
                     break;
                 case "8":
+                    sc.nextLine();
+
+                    nuevosDatos.mostrarPacientesFiltro();
+
+                    System.out.println("Ingrese el ID del Paciente que se dara de alta: ");
+                    id = sc.nextLine();
+
+                    boolean eliminado = nuevosDatos.eliminarPersona(id);
+                    if (eliminado) {
+                        System.out.println("Persona eliminado correctamente");
+                    } else {
+                        System.out.println("No se ha podido eliminar el Persona");
+                    }
                     break;
                 case "9":
+                    nuevosDatos.guardarDatos();
+                    System.out.println("Saliendo del programa!");
                     break;
             }
         } while (!opcion.equals("9"));
-
-
 
     }
 }
