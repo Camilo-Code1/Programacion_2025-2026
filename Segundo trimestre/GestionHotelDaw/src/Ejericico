@@ -42,12 +42,6 @@ Aquí tienes la "Ficha Técnica" del **Ejercicio 5 (Hotel Management)** resumida
 
 ### 🚀 Funciones del Menú
 
-1. Registrar Huésped | 2. Crear Habitación | 3. Mostrar Huéspedes | 4. Mostrar Habitaciones | 5. Check-in | 6. Check-out | 7. Eliminar Huésped/Habitación | 8. Guardar y Salir.
+1. Registrar Huésped | 2. Crear Habitacion | 3. Mostrar Huéspedes | 4. Mostrar Habitaciones | 5. Check-in | 6. Check-out | 7. Eliminar Huésped/Habitacion | 8. Guardar y Salir.
 
 ---
-
-### ¿Cómo usar este resumen?
-
-Si alguna vez necesitas que genere el código completo basado en esto, solo tienes que decirme: *"Genera el código Java para el Ejercicio 5 usando este resumen"*.
-
-**¿Quieres que te ayude ahora mismo a escribir la clase `GestionHotelDaw` con el truco para guardar los dos Mapas en el mismo archivo?** Es la parte más técnica del ejercicio.

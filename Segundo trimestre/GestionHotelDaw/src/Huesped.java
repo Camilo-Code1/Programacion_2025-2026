@@ -63,9 +63,9 @@ public class Huesped extends Persona{
         return super.toString() +
                 " | Nacionalidad: " + nacionalidad +
                 " | Preferencias: " + preferencias +
-                " | Numero de habitacion: " + numeroHabitacion +
+                " | Numero de habitacion: " + (numeroHabitacion) +
                 " | Hospedado: " + hospedado +
                 " | PuntosClub:" + puntosClub +
-                ']';
+                " ]";
     }
 }

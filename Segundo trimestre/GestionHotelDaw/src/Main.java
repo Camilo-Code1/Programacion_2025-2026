@@ -28,7 +28,7 @@ public class Main {
 
             switch (opcion) {
                 case "1":
-                    System.out.println("Ingres el ID del huesped:");
+                    System.out.println("Ingrese el ID del huesped:");
                     id = sc.nextLine();
 
                     System.out.println("Ingrese el nombre del huesped:");
@@ -37,6 +37,8 @@ public class Main {
                     System.out.println("Ingrese la edad del huesped: ");
                     int edad = sc.nextInt();
 
+                    sc.nextLine();
+
                     System.out.println("Ingrese el numero telefonico del huesped: ");
                     String telefono = sc.nextLine();
 
@@ -44,24 +46,54 @@ public class Main {
                     String nacionalidad = sc.nextLine();
 
                     Huesped nuev = new Huesped(id, nombre, edad, telefono, nacionalidad);
+                    nuevos.agregarPersona(nuev);
 
                     break;
                 case "2":
+
+                    System.out.println("Ingrese el numero de la habitación: ");
+                    int numero = sc.nextInt();
+
+                    sc.nextLine();
+
+                    System.out.println("Ingrese el tipo de habitación: ");
+                    String tipo = sc.nextLine();
+
+                    Habitacion nuevawHabitacio = new Habitacion(numero, tipo, null);
+                    nuevos.agregarHabitacion(nuevawHabitacio);
+
                     break;
                 case "3":
                     nuevos.mostrarPersonas();
                     break;
                 case "4":
+                    nuevos.mostrarHabitaciones();
+
                     break;
                 case "5":
+
+                    nuevos.mostrarHuespedesFiltro();
+
+
                     break;
                 case "6":
+
+                    System.out.println("Ingrese el ID del huesped para asignar la habitación: ");
+                    id = sc.nextLine();
+                    System.out.println("Ingrese el numero de la habitación a asignar: ");
+                    numero = sc.nextInt();
+                    nuevos.asignarHabitacion(id, numero);
+                    
+
                     break;
                 case "7":
+
                     break;
                 case "8":
+
                     break;
                 case "9":
+
                     break;
             }
         } while (!opcion.equals("9"));

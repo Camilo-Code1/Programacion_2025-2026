@@ -12,6 +12,7 @@ public abstract class Persona implements Serializable {
     public Persona(String id, String nombre, int edad, String telefono) {
         this.id = id;
         this.nombre = nombre;
+        this.edad = edad;
         this.telefono = telefono;
     }
 
