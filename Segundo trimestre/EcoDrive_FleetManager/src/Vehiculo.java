@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +16,7 @@ public abstract class Vehiculo implements Serializable {
     private double precioBaseDia;
     private boolean disponible;
 
-    private LocalTime fechaDevolucion;
+    private LocalDate fechaDevolucion;
     private LocalDateTime fechaAlquiler;
 
     public Vehiculo(String id, String modelo, double precioBaseDia) {
@@ -51,7 +52,7 @@ public abstract class Vehiculo implements Serializable {
         this.disponible = disponible;
     }
 
-    public LocalTime getFechaDevolucion() {
+    public LocalDate getFechaDevolucion() {
         return fechaDevolucion;
     }
 
@@ -59,12 +60,10 @@ public abstract class Vehiculo implements Serializable {
         return fechaAlquiler;
     }
 
-    public void alquilar(boolean ocupado, LocalTime fechaDevolucion) {
-        if (ocupado) {
+    public void alquilar(LocalDate fechaDevolucion) {
             this.disponible = false;
             this.fechaDevolucion = fechaDevolucion;
             this.fechaAlquiler= LocalDateTime.now();
-        }
     }
     public void devolver() {
         this.disponible = true;
@@ -74,17 +73,24 @@ public abstract class Vehiculo implements Serializable {
 
     @Override
     public String toString() {
+        // 1. Usamos dtfCompleto para el LocalDateTime (Alquiler)
+        String textoAlquiler = (fechaAlquiler != null)
+                ? fechaAlquiler.format(dtfCompleto)
+                : "No alquilado";
 
-        String fechaCreac = (fechaAlquiler != null) ? fechaDevolucion.format(dtfCompleto) : "Sin fecha";
-        String fechaIngre = (fechaDevolucion != null) ? fechaAlquiler.format(dtfFecha) : "N/A";
+        // 2. Usamos dtfFecha para el LocalDate (Devolución)
+        String textoDevolucion = (fechaDevolucion != null)
+                ? fechaDevolucion.format(dtfFecha)
+                : "N/A";
 
-        return "[ VEHICULO " +
-                " | ID: " + id  +
-                " | Modelo: " + modelo  +
-                " | PrecioBaseDia: " + precioBaseDia +
-                " | Disponible: " + (!disponible ? disponible : "Disponible") +
-                " | Fecha de devolucion: " + fechaCreac +
-                " | Fecha de alquiler: " + fechaIngre +
-                ']';
+        return String.format(
+                "[ %s | ID: %s | Modelo: %s | Estado: %s | Alquilado el: %s | Devolver el: %s ]",
+                this.getClass().getSimpleName(), // Esto pondrá "CocheElectrico" o "DronCarga" automáticamente
+                id,
+                modelo,
+                (disponible ? "DISPONIBLE" : "ALQUILADO"),
+                textoAlquiler,
+                textoDevolucion
+        );
     }
 }

@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -9,11 +11,15 @@ public class Main {
 
         GestionEcoDrive gestion = new GestionEcoDrive();
 
+        gestion.cargarDatos();
+
         String emnu = "\n1. Añadir vehiculo.\n" +
                 "2. Lista de flota.\n" +
-                "3. Realizar alquiler. \n" +
-                "4. Generar reporte de ganancias.\n" +
-                "5. Guardar y salir.";
+                "3. Realizar alquiler.\n" +
+                "4. Devolver vehiculo.\n" +
+                "5. Eliminar vehiculo.\n" +
+                "6. Generar reporte de ganancias. \n" +
+                "7. Guardar y salir. ";
 
         String opcion = "";
 
@@ -74,22 +80,79 @@ public class Main {
                     gestion.mostrarVehiculos();
                     break;
                 case "3":
-                    // Lógica para realizar un alquiler
+
+                    gestion.mostrarVehiculosDisponibles();
+
+                    System.out.println("\nInserte el ID del vehiculo que quiere alquilar:");
+                    id = scanner.nextLine();
+
+                    LocalDate fechaDevolucion = obtenerFechaValida();
+
+                    boolean exitoAlquilar = gestion.alquilareVehiculo(id, fechaDevolucion);
+
+                    if (exitoAlquilar) {
+                        System.out.println("Se ha alquilado con exito.");
+                    } else {
+                        System.out.println("No se ha alquilado el vehiculo.");
+                    }
+
                     break;
                 case "4":
-                    // Lógica para generar reporte de ganancias
+                    // Lógica para devolver
+
+                    System.out.println("\nInserte el ID del vehiculo que quiere alquilar:");
+                    id = scanner.nextLine();
+
+                    
                     break;
                 case "5":
+                    // Lógica para generar reporte de ganancias
+                    break;
+                case "6":
+                    // Lógica para generar reporte de ganancias
+                    break;
+                case "7":
                     // Lógica para guardar y salir
+                    gestion.guardarDatos();
                     System.out.println("Guardando datos y saliendo...");
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, intente de nuevo.");
             }
-        } while (!opcion.equals("5"));
+        } while (!opcion.equals("7"));
 
 
 
 
+    }
+
+
+    private static LocalDate obtenerFechaValida() {
+        Scanner sc = new Scanner(System.in);
+        String fecha;
+
+        while (true) {
+            System.out.println("Inserte la fecha en que sera devuelta (dd/MM/yyyy):");
+            fecha = sc.nextLine();
+
+            if (validarFecha(fecha)) {
+                String[] p = fecha.split("/");
+                int dia = Integer.parseInt(p[0]);
+                int mes = Integer.parseInt(p[1]);
+                int anio = Integer.parseInt(p[2]);
+
+                // Validación adicional de rango
+                if (dia >= 1 && dia <= 30 && mes >= 1 && mes <= 12) {
+                    return LocalDate.of(anio, mes, dia);
+                }
+            }
+
+            System.out.println("Fecha inválida. Intente de nuevo.");
+        }
+    }
+
+    private static boolean validarFecha(String fecha) {
+        // dd/MM/yyyy
+        return fecha.matches("^\\d{2}/\\d{2}/\\d{4}$");
     }
 }
