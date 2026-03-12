@@ -10,6 +10,51 @@ public class GestionEcoDrive implements Serializable {
 
     private Map<String, Vehiculo> nuevosVehiculos = new HashMap<>();
 
+    private String correoElectronico;
+    private String numeroTelefono;
+    private String codigoPostal;
+    private double beneficio;
+
+    public GestionEcoDrive(String correoElectronico, String numeroTelefono, String codigoPostal) {
+        this.correoElectronico = correoElectronico;
+        this.numeroTelefono = numeroTelefono;
+        this.codigoPostal = codigoPostal;
+        this.beneficio = 0;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public String getNumeroTelefono() {
+        return numeroTelefono;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public double getBeneficio() {
+        return beneficio;
+    }
+
+    public void setBeneficio(double beneficio) {
+        this.beneficio = beneficio;
+    }
+
+    @Override
+    public String toString() {
+        String oportunidad = (beneficio == 0)
+                ? "Sin beneficios" : String.valueOf(beneficio);
+
+        return "[ GestionEcoDrive" +
+                " \n| Correo electronico: " + correoElectronico +
+                " \n| Numero de telefono: " + numeroTelefono +
+                " \n| Codigo postal:" + codigoPostal  +
+                " \n| Beneficio: " + oportunidad +
+                ']';
+    }
+
     public void registrarVehiculo(Vehiculo veh) {
         nuevosVehiculos.put(veh.getId(), veh);
     }
@@ -49,20 +94,6 @@ public class GestionEcoDrive implements Serializable {
         return null;
     }
 
-
-    //  ELIMINAR
-
-    public boolean eliminarVehiculo(String id) {
-        Vehiculo veh = buscarVehiculo(id);
-        if (veh != null) {
-            nuevosVehiculos.remove(id);
-            System.out.println("Persona eliminada");
-            return true;
-        }
-        System.out.println("La persona con el " + id + "no existe");
-        return false;
-    }
-
     public boolean alquilareVehiculo(String id, LocalDate fechaDevolucion) {
         Vehiculo veh = buscarVehiculo(id);
         if (veh == null) {
@@ -97,6 +128,20 @@ public class GestionEcoDrive implements Serializable {
         return true;
     }
 
+
+
+    //  ELIMINAR
+
+    public boolean eliminarVehiculo(String id) {
+        Vehiculo veh = buscarVehiculo(id);
+        if (veh != null) {
+            nuevosVehiculos.remove(id);
+            System.out.println("Vehiculo eliminada");
+            return true;
+        }
+        System.out.println("La persona con el " + id + "no existe");
+        return false;
+    }
 
 
 

@@ -30,11 +30,15 @@ public class CocheElectrico extends Vehiculo {
 
     @Override
     public String toString() {
+
+        String vacio = (comentarios == null)
+                ? "Vacio" : String.valueOf(comentarios);
+
         return super.toString() +
                 "[ COCHE ELECTRICO" +
                 " | Capacidad de bateria: " + capacidadBateria +
                 " | Autonomia restante: " + autonomiaRestante +
-                " | Comentarios: " + comentarios  +
+                " | Comentarios: " + vacio  +
                 ']';
     }
 }

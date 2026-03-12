@@ -6,11 +6,36 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        supFormatos formas = new supFormatos();
 
         Scanner scanner = new Scanner(System.in);
 
-        GestionEcoDrive gestion = new GestionEcoDrive();
-        supFormatos formas = new supFormatos();
+        System.out.println("Ingrese el correo(juan.perez@gmail.com): ");
+        String correoElectronico = scanner.nextLine();
+        while (!formas.esEmailValido(correoElectronico)) {
+            System.out.println("El correo introducido no es valido");
+            correoElectronico = scanner.nextLine();
+        }
+
+
+        System.out.println("Ingrese el telefono(9-12 digitos): ");
+        String numeroTelefono = scanner.nextLine();
+        while (!formas.esTelefonoValido(numeroTelefono)) {
+            System.out.println("El telefono introducido no es valido");
+            numeroTelefono = scanner.nextLine();
+        }
+
+        System.out.println("Ingrese el codigo postal(5 digitos) ");
+        String codigoPostal = scanner.nextLine();
+        while (!formas.esCPValido(codigoPostal)) {
+            System.out.println("El numero de telefono introducido no es valido");
+            codigoPostal = scanner.nextLine();
+        }
+
+
+        GestionEcoDrive gestion = new GestionEcoDrive(correoElectronico, numeroTelefono, codigoPostal);
+
+        System.out.println("Registro completo");
 
         gestion.cargarDatos();
 
@@ -34,27 +59,27 @@ public class Main {
                 case "1":
                     scanner = new Scanner(System.in);
 
-                    String id = formas.obtenerTextoNoVacio ("Inserte el ID del vehiculo:", scanner);
+                    String id = formas.obtenerTextoNoVacio ("\nInserte el ID del vehiculo:", scanner);
 
-                    System.out.println("Inserte el modelo del vehiculo:");
-                    String modelo = scanner.nextLine();
 
-                    System.out.println("Inserte el precio base por dia del vehiculo:");
-                    double precioBaseDia = Double.parseDouble(scanner.nextLine());
+                    String modelo = formas.obtenerTextoNoVacio("Inserte el modelo del vehiculo:", scanner);
 
-                    System.out.println("Elija el tipo de vehiculo a añadir: (1) Coche electrico, (2) Dron de carga");
-                    int tipoVehiculo = scanner.nextInt();
+
+                    double precioBaseDia = formas.obtenerDoubleValido("Inserte el precio base por dia del vehiculo:", scanner);
+
+
+                    int tipoVehiculo = formas.obtenerEnteroValido("Elija el tipo de vehiculo a añadir: (1) Coche electrico, (2) Dron de carga", scanner);
 
                     if (tipoVehiculo == 1) {
                         scanner = new Scanner(System.in);
 
-                        System.out.println("Inserte la capacidad de bateria del coche electrico(KMH):");
-                        double capacidadBateria = Double.parseDouble(scanner.nextLine());
 
-                        System.out.println("Inserte la autonomia restante del coche electrico:");
-                        double autonomiaRestante = Double.parseDouble(scanner.nextLine());
+                        double capacidadBateria = formas.obtenerDoubleValido("Inserte la capacidad de bateria del coche electrico(KMH):", scanner);
 
-                        System.out.println("Inserte comentarios adicionales del coche electrico:");
+                        System.out.println();
+                        double autonomiaRestante = formas.obtenerDoubleValido("Inserte la autonomia restante del coche electrico:", scanner);
+
+                        System.out.println("Inserte comentarios adicionales del coche electrico(Opcional):");
                         String comentarios = scanner.nextLine();
 
                         CocheElectrico coche = new CocheElectrico(id, modelo, precioBaseDia, capacidadBateria, autonomiaRestante, comentarios);
@@ -63,11 +88,10 @@ public class Main {
                     } else if (tipoVehiculo == 2) {
                         scanner = new Scanner(System.in);
 
-                        System.out.println("Inserte el peso maximo del dron de carga(KG):");
-                        double pesoMaximo = Double.parseDouble(scanner.nextLine());
+                        double pesoMaximo = formas.obtenerDoubleValido("Inserte el peso maximo del dron de carga(KG):", scanner);
 
-                        System.out.println("Inserte el numero de helices del dron de carga:");
-                        int numHelices = Integer.parseInt(scanner.nextLine());
+
+                        int numHelices = formas.obtenerEnteroValido("Inserte el numero de helices del dron de carga:", scanner);
 
                         DronCarga dron = new DronCarga(id, modelo, precioBaseDia, pesoMaximo, numHelices);
                         gestion.registrarVehiculo(dron);
@@ -84,8 +108,7 @@ public class Main {
 
                     gestion.mostrarVehiculosDisponibles();
 
-                    System.out.println("\nInserte el ID del vehiculo que quiere alquilar:");
-                    id = scanner.nextLine();
+                    id = formas.obtenerTextoNoVacio ("Inserte el ID del vehiculo:", scanner);;
 
                     LocalDate fechaDevolucion = obtenerFechaValida();
 
@@ -101,8 +124,7 @@ public class Main {
                 case "4":
                     // Lógica para devolver
 
-                    System.out.println("\nInserte el ID del vehiculo que quiere alquilar:");
-                    id = scanner.nextLine();
+                    id = formas.obtenerTextoNoVacio ("Inserte el ID del vehiculo:", scanner);
 
                     boolean exitoDevolver = gestion.devolverVehiculo(id);
                     if (exitoDevolver) {
@@ -112,10 +134,21 @@ public class Main {
                     }
                     break;
                 case "5":
-                    // Lógica para generar reporte de ganancias
+
+                    gestion.mostrarVehiculosDisponibles();
+
+                    id = formas.obtenerTextoNoVacio ("Inserte el ID del vehiculo:", scanner);
+
+                    boolean eliminadoExito = gestion.eliminarVehiculo(id);
+                    if (eliminadoExito) {
+                        System.out.println("Se ha eliminado el vehiculo.");
+                    } else {
+                        System.out.println("No se ha eliminado el vehiculo.");
+                    }
+
                     break;
                 case "6":
-                    // Lógica para generar reporte de ganancias
+                    System.out.println(gestion.toString());
                     break;
                 case "7":
                     // Lógica para guardar y salir

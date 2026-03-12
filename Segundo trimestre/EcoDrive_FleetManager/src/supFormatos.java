@@ -20,10 +20,10 @@ public class supFormatos {
         return entrada;
     }
 
-    private static int obtenerEnteroValido(String mensaje, Scanner sc) {
+    public int obtenerEnteroValido(String mensaje, Scanner scanner) {
         while (true) {
             System.out.println(mensaje);
-            String entrada = sc.nextLine();
+            String entrada = scanner.nextLine();
 
             if (entrada.matches("\\d+")) {
                 return Integer.parseInt(entrada);
@@ -32,10 +32,10 @@ public class supFormatos {
         }
     }
 
-    private static double obtenerDoubleValido(String mensaje, Scanner sc) {
+    public double obtenerDoubleValido(String mensaje, Scanner scanner) {
         while (true) {
             System.out.println(mensaje);
-            String entrada = sc.nextLine();
+            String entrada = scanner.nextLine();
 
             if (entrada.matches("\\d+(\\.\\d+)?")) {
                 return Double.parseDouble(entrada);
@@ -44,17 +44,17 @@ public class supFormatos {
         }
     }
 
-    public static LocalDate obtenerFechaValida(String fechaTexto) throws formatoInvalido {
+    public LocalDate obtenerFechaValida(String fechaTexto) throws FormatoInvalidoException {
         try {
             // LocalDate.parse ya valida bisiestos, días 31, etc.
             return LocalDate.parse(fechaTexto, FORMATO_FECHA);
         } catch (DateTimeParseException e) {
-            throw new formatoInvalido("La fecha '" + fechaTexto + "' no tiene un formato real o válido (dd/MM/yyyy).");
+            throw new FormatoInvalidoException("La fecha '" + fechaTexto + "' no tiene un formato real o válido (dd/MM/yyyy).");
         }
     }
 
 
-    private static String obtenerCodBibliotecaValido() {
+    public String obtenerCodBibliotecaValido() {
         Scanner sc = new Scanner(System.in);
         String codigo;
 
@@ -69,15 +69,33 @@ public class supFormatos {
         }
     }
 
-    public static String obtenerISBNValido(String isbn) throws formatoInvalido {
+    public String obtenerISBNValido(String isbn) throws FormatoInvalidoException {
         if (isbn.matches("^\\d{13}$")) {
             return isbn;
         }
-        throw new formatoInvalido("El ISBN debe contener exactamente 13 dígitos numéricos.");
+        throw new FormatoInvalidoException("El ISBN debe contener exactamente 13 dígitos numéricos.");
+    }
+
+
+
+        // Al ser static, se puede llamar como: supFormatos.validarEmail(...)
+        public  boolean esEmailValido(String email) {
+            return email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,7}$");
+        }
+
+        public boolean esTelefonoValido(String tel) {
+            return tel.matches("^(\\+\\d{1,3})?\\d{9,12}$");
+        }
+
+        public  boolean esCPValido(String cp) {
+            return cp.matches("^\\d{5}$");
+        }
+
+
+
+
     }
 
 
 
 
-
-}
