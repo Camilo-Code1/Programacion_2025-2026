@@ -1,0 +1,92 @@
+¡Me encanta el reto! Ya que vienes de trabajar con hoteles y artículos, vamos a subir el nivel. Estamos en 2026, la movilidad es eléctrica y compartida, así que vamos a diseñar un **Sistema de Gestión de Flota de Vehículos Autónomos (EcoDrive 2026)**.
+
+Este ejercicio te obligará a usar herencia para los tipos de motores, excepciones personalizadas para la seguridad y ficheros para no perder los datos de la flota.
+
+---
+
+## 🏎️ Reto: EcoDrive 2026 - Fleet Manager
+
+**Contexto:** Eres el jefe de software de una empresa que alquila vehículos autónomos. Tienes coches eléctricos y drones de transporte de carga.
+
+### 1. Jerarquía de Clases (Herencia)
+
+* **`Vehiculo` (Abstracta):**
+* Atributos: `id` (String), `modelo` (String), `precioBaseDia` (double), `estaDisponible` (boolean).
+* Método abstracto: `public abstract double calcularAlquiler(int dias);`
+
+
+* **`CocheElectrico` (Hereda de Vehiculo):**
+* Atributos: `capacidadBateria` (kWh), `autonomiaRestante` (km).
+* Lógica: El alquiler tiene un recargo del 10% por tasa de carga rápida.
+
+
+* **`DronCarga` (Hereda de Vehiculo):**
+* Atributos: `pesoMaximo` (kg), `numHélices` (int).
+* Lógica: El alquiler se multiplica por un factor de "riesgo de vuelo" de **1.2**.
+
+
+
+### 2. Gestión de Excepciones (Personalizadas)
+
+Debes crear y lanzar al menos dos excepciones propias:
+
+1. **`VehiculoNoDisponibleException`**: Se lanza si intentas alquilar algo que ya está ocupado.
+2. **`CapacidadExcedidaException`**: Se lanza si intentas registrar un paquete en un Dron que supera su `pesoMaximo`.
+
+### 3. Persistencia (Ficheros)
+
+* **`flota.dat`**: Fichero binario (`ObjectOutputStream`) donde guardarás toda la lista de vehículos al cerrar el programa y la cargarás al iniciar.
+* **`facturas.txt`**: Cada vez que se complete un alquiler, debes escribir en este fichero de texto plano un resumen: *"ID: V01 | Modelo: Tesla Z | Total: 150.50€"*.
+
+---
+
+### 📋 Requerimientos del Menú
+
+El sistema debe tener un menú cíclico con las siguientes opciones:
+
+1. **Añadir Vehículo:** Preguntar si es Coche o Dron y pedir sus datos específicos.
+2. **Listar Flota:** Mostrar todos los vehículos usando polimorfismo (cada uno debe mostrar sus detalles únicos en el `toString`).
+3. **Realizar Alquiler:** * Pedir ID del vehículo y días.
+* **Validar:** Si el vehículo no existe o no está disponible, lanzar la excepción correspondiente y capturarla con un `try-catch` para mostrar el mensaje al usuario sin que el programa explote.
+
+
+4. **Generar Reporte de Ganancias:** Leer el fichero `facturas.txt` y sumar el total de dinero recaudado.
+5. **Guardar y Salir.**
+
+---
+
+### 💡 Un toque de dificultad extra (Opcional)
+
+Si quieres que sea un ejercicio de "Matrícula de Honor", añade esta regla:
+
+* **Interfaz `Mantenimiento**`: Crea una interfaz con el método `realizarRevision()`. Los coches eléctricos deben implementarla (limpiar sensores LIDAR) y los drones también (revisar motores). Añade una opción en el menú para "Pasar revisión a toda la flota".
+
+---
+
+### Ejemplo de cómo empezar la lógica del Alquiler:
+
+```java
+public void alquilar(String id, int dias) {
+    try {
+        Vehiculo v = buscarVehiculo(id); // Tu método de búsqueda
+        if (v == null) throw new Exception("Vehículo inexistente.");
+
+        if (!v.isEstaDisponible()) {
+            throw new VehiculoNoDisponibleException("El vehículo " + id + " ya está en ruta.");
+        }
+
+        double total = v.calcularAlquiler(dias);
+        v.setEstaDisponible(false);
+        // Aquí escribirías en el fichero de texto facturas.txt
+        System.out.println("Alquiler realizado. Total: " + total + "€");
+
+    } catch (VehiculoNoDisponibleException e) {
+        System.out.println("ERROR CRÍTICO: " + e.getMessage());
+    } catch (Exception e) {
+        System.out.println("Error genérico: " + e.getMessage());
+    }
+}
+
+```
+
+¿Te ves con fuerzas para hincarle el diente? Si te parece bien, **¿te gustaría que te ayude a diseñar la estructura de los `Map` o prefieres empezar tú con las clases base?**
