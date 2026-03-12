@@ -10,6 +10,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         GestionEcoDrive gestion = new GestionEcoDrive();
+        supFormatos formas = new supFormatos();
 
         gestion.cargarDatos();
 
@@ -32,8 +33,8 @@ public class Main {
             switch (opcion) {
                 case "1":
                     scanner = new Scanner(System.in);
-                    System.out.println("\nInserte el ID del vehiculo:");
-                    String id = scanner.nextLine();
+
+                    String id = formas.obtenerTextoNoVacio ("Inserte el ID del vehiculo:", scanner);
 
                     System.out.println("Inserte el modelo del vehiculo:");
                     String modelo = scanner.nextLine();
@@ -47,7 +48,7 @@ public class Main {
                     if (tipoVehiculo == 1) {
                         scanner = new Scanner(System.in);
 
-                        System.out.println("Inserte la capacidad de bateria del coche electrico:");
+                        System.out.println("Inserte la capacidad de bateria del coche electrico(KMH):");
                         double capacidadBateria = Double.parseDouble(scanner.nextLine());
 
                         System.out.println("Inserte la autonomia restante del coche electrico:");
@@ -62,7 +63,7 @@ public class Main {
                     } else if (tipoVehiculo == 2) {
                         scanner = new Scanner(System.in);
 
-                        System.out.println("Inserte el peso maximo del dron de carga:");
+                        System.out.println("Inserte el peso maximo del dron de carga(KG):");
                         double pesoMaximo = Double.parseDouble(scanner.nextLine());
 
                         System.out.println("Inserte el numero de helices del dron de carga:");
@@ -103,7 +104,12 @@ public class Main {
                     System.out.println("\nInserte el ID del vehiculo que quiere alquilar:");
                     id = scanner.nextLine();
 
-                    
+                    boolean exitoDevolver = gestion.devolverVehiculo(id);
+                    if (exitoDevolver) {
+                        System.out.println("Se ha devolver con exito.");
+                    } else {
+                        System.out.println("No se ha devolver el vehiculo.");
+                    }
                     break;
                 case "5":
                     // Lógica para generar reporte de ganancias
@@ -114,7 +120,7 @@ public class Main {
                 case "7":
                     // Lógica para guardar y salir
                     gestion.guardarDatos();
-                    System.out.println("Guardando datos y saliendo...");
+                    System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, intente de nuevo.");
