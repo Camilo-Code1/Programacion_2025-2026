@@ -9,6 +9,8 @@ public class Main {
 
         Gestion nuevos = new Gestion();
 
+        nuevos.cargarDatos();
+
         String menu = "\n1. Registrar huésped.\n" +
                 "2. Crear habitación\n" +
                 "3. Ver huéspedes registrados.\n" +
@@ -23,6 +25,7 @@ public class Main {
         String id;
 
         do {
+            sc = new Scanner(System.in);
             System.out.println(menu);
             opcion = sc.nextLine();
 
@@ -71,29 +74,59 @@ public class Main {
 
                     break;
                 case "5":
-
+                    sc = new Scanner(System.in);
                     nuevos.mostrarHuespedesFiltro();
-
-
-                    break;
-                case "6":
-
                     System.out.println("Ingrese el ID del huesped para asignar la habitación: ");
                     id = sc.nextLine();
+
+                    nuevos.mostrarHabitacionesFiltro();
                     System.out.println("Ingrese el numero de la habitación a asignar: ");
                     numero = sc.nextInt();
                     nuevos.asignarHabitacion(id, numero);
+                    break;
+                case "6":
+                    sc = new Scanner(System.in);
+
+                    System.out.println("Ingrese el ID del huesped para asignar la habitación: ");
+                    id = sc.nextLine();
+
                     
+                    System.out.println("Ingrese el numero de la habitación a asignar: ");
+                    numero = sc.nextInt();
+                    nuevos.desasignarHabitacion(id, numero);
 
                     break;
                 case "7":
+                    sc = new Scanner(System.in);
+                    nuevos.mostrarHuespedesFiltro();
+                    System.out.println("Ingrese el ID del huesped para asignar la habitación: ");
+                    id = sc.nextLine();
+
+                    boolean borrarHuesped = nuevos.eliminarPersona(id);
+
+                    if (borrarHuesped) {
+                        System.out.println("Huesped eliminado");
+                    } else {
+                        System.out.println("No se puede eliminar el huesped");
+                    }
 
                     break;
                 case "8":
+                    sc = new Scanner(System.in);
+                    nuevos.mostrarHabitacionesFiltro();
+                    System.out.println("Ingrese el numero de la habitación a asignar: ");
+                    numero = sc.nextInt();
 
+                    boolean eliminarHab = nuevos.eliminarHabitacion(numero);
+                    if (eliminarHab) {
+                        System.out.println("Habitacion eliminado");
+                    } else {
+                        System.out.println("No se puede eliminar el habitacion");
+                    }
                     break;
                 case "9":
-
+                    nuevos.guardarDatos();
+                    System.out.println("Saliendo...");
                     break;
             }
         } while (!opcion.equals("9"));

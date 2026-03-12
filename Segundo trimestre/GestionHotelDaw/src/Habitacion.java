@@ -7,9 +7,8 @@ public class Habitacion implements Serializable {
 
     private static final long serialVersionUID = 5201374266536474663L;
 
-    private static final DateTimeFormatter dtfN = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-
+    private static final DateTimeFormatter dtfFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter dtfCompleto = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private int numero;
     private String tipo;
@@ -67,13 +66,18 @@ public class Habitacion implements Serializable {
 
     @Override
     public String toString() {
+        // 1. Formateamos las fechas antes de armar el String
+        String fechaCreac = (fechaCreacion != null) ? fechaCreacion.format(dtfFecha) : "N/A";
+        String fechaIngres = (fechaIngreso != null) ? fechaIngreso.format(dtfCompleto) : "Sin fecha";
+
+        // 2. IMPORTANTE: Usar las variables "bonitas" aquí abajo
         return "[ HABITACION" +
                 " | Numero: " + numero +
                 " | Tipo: " + tipo  +
-                " | Ocupada: " + ocupada +
-                " | Fecha de creación: " + fechaCreacion +
-                " | ID de Huesped Asignado: " + idHuespedAsignado  +
-                " | Fecha de ingreso: " + fechaIngreso +
+                " | Ocupada: " + (ocupada ? "SÍ" : "NO") +
+                " | Creada: " + fechaCreac +
+                " | Huésped: " + (idHuespedAsignado != null ? idHuespedAsignado : "Vacía") +
+                " | Ingreso: " + fechaIngres +
                 ']';
     }
 }
