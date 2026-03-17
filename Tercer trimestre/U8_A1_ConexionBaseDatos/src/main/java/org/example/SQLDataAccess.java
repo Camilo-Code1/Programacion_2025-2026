@@ -16,7 +16,7 @@ public class SQLDataAccess {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String SCHEMA = "tienda_pruebas";
+    private static final String SCHEMA = "MercaDaw";
     private static final String USUARIO = "developer";
     private static final String CLAVE = "developer";
 
@@ -39,19 +39,19 @@ public class SQLDataAccess {
 
     public List<String> getAllClientes() {
         List<String> nombresClientes = new ArrayList<>();
-        String getCommand = "SELECT nombre FROM clientes";
+        String getCommand = "SELECT nombre FROM Productos";
 
 
         try (Connection connection = this.getConnection();
              Statement statement = (connection != null) ? connection.createStatement() : null) {
 
             if (statement == null) {
-                return nombresClientes; // Retorna lista vacía si la conexión falló
+                return nombresClientes;
             }
 
             try (ResultSet dataSet = statement.executeQuery(getCommand)) {
                 while (dataSet.next()) {
-                    // Usamos getString(1) o el nombre de la columna "nombre"
+
                     nombresClientes.add(dataSet.getString("nombre"));
                 }
             }
@@ -64,14 +64,14 @@ public class SQLDataAccess {
 
     public void getAllProductos () {
 
-        String getCommand = "SELECT nombre_producto FROM productos";
+        String getCommand = "SELECT * FROM Productos";
 
         try (Connection connection = SQLDataAccess.getConnection();
         Statement statement = connection.createStatement();
         ResultSet dataSet = statement.executeQuery(getCommand)) {
 
             while (dataSet.next()) {
-                System.out.println("Producto: " + dataSet.getString("nombre_producto"));
+                System.out.println("Producto: " + dataSet.getString("nombre"));
             }
 
         } catch (Exception e) {
