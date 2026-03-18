@@ -11,22 +11,15 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        SQLDataAccess accesoDatos = new SQLDataAccess();
+//        SQLDataAccess accesoDatos = new SQLDataAccess();
 
-        List<String> clientes = accesoDatos.getAllClientes();
-
-
-        if (clientes.isEmpty()) {
-            System.out.println("No se encontraron clientes o la tabla está vacía.");
-        } else {
-            System.out.println("Lista de clientes en la base de datos:");
-            for (String nombre : clientes) {
-                System.out.println("- " + nombre);
-            }
-        }
+        System.out.println(SQLAcessMercaDaw.getNombresClientes());
 
 
-        accesoDatos.getAllProductos();
+
+
+
+
 
     }
 }
