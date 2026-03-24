@@ -10,18 +10,16 @@ public class TipoProducto {
         this.nombre = nombre;
     }
 
-    public int getId() {
-        return id;
+
+    public TipoProducto(String nombre) {
+        this.nombre = nombre;
     }
-    public String getNombre() {
-        return nombre;
-    }
+
+    public int getId() { return id; }
+    public String getNombre() { return nombre; }
 
     @Override
     public String toString() {
-        return "[ TipoProducto" +
-                " ID: " + id +
-                " Nombre: " + nombre +
-                ']';
+        return "\n[ TipoProducto ID: " + id + " Nombre: " + nombre + "]";
     }
 }

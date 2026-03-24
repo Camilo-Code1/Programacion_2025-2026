@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.List;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -15,32 +16,30 @@ public class Main {
 
 //        SQLDataAccess accesoDatos = new SQLDataAccess();
 
-        System.out.println(SQLAcessMercaDaw.getNombresProductos());
-
-
         int idProducto;
 
+//        System.out.println(SQLAcessMercaDaw.obtenerTodosLosProductos());
+
+        String menu = """
+                
+                1. Mostrar todos los Productos en el Inventario.
+                2. Buscar producto por referencia.
+                3. Buscar productos por tipo.
+                4. Buscar producto por cantidad.
+                5. Insertar un nuevo producto (no permitir referencias repetidas).
+                6. Eliminar Producto por referencia.
+                7. Actualizar producto (descripción, cantidad, precio, descuento, AplicarDto).
+                8. Insertar un nuevo tipo de producto.
+                9. Salir.""";
 
 
 
-        System.out.println(SQLAcessMercaDaw.obtenerTodosLosProductos());
 
-        String menu = "\n1. Mostrar todos los Productos en el Inventario.\n" +
-                "2. Buscar producto por referencia.\n" +
-                "3. Buscar productos por tipo.\n" +
-                "4. Buscar producto por cantidad.\n" +
-                "5. Insertar un nuevo producto (no permitir referencias repetidas).\n" +
-                "6. Eliminar Producto por referencia.\n" +
-                "7. Actualizar producto (descripción, cantidad, precio, descuento, AplicarDto).\n" +
-                "8. Insertar un nuevo tipo de producto.\n" +
-                "9. Salir.";
-
-
-        System.out.println(menu);
-
-        String opcion = "";
+        String opcion;
 
         do {
+            sc = new Scanner(System.in);
+            System.out.println(menu);
             System.out.println("Introduce una opción:");
             opcion = sc.nextLine();
 
@@ -49,6 +48,7 @@ public class Main {
                     System.out.println(SQLAcessMercaDaw.obtenerTodosLosProductos());
                     break;
                 case "2":
+                    System.out.println(SQLAcessMercaDaw.getNombresProductos());
                     System.out.println("Introduce el ID del producto a buscar:");
                     idProducto = sc.nextInt();
 
@@ -62,15 +62,28 @@ public class Main {
                     }
                     break;
                 case "3":
+                    System.out.println(SQLAcessMercaDaw.getNombresTipos());
+
+                    System.out.println("Introduce el ID del tipo de producto a buscar:");
+                    int idTipo = sc.nextInt();
+
+                    TipoProducto tipo = SQLAcessMercaDaw.obtenerTipoPorID(idTipo);
                     // Implementar búsqueda por tipo
                     break;
                 case "4":
                     // Implementar búsqueda por cantidad
                     break;
                 case "5":
-                    // Implementar inserción de nuevo producto
+
+                    System.out.println("Inserte el nombre del nuevo tipo de producto:");
+                    String nombreTipo = sc.nextLine();
+
+                    SQLAcessMercaDaw.insertarTipoProducto(new TipoProducto(nombreTipo));
+
                     break;
                 case "6":
+
+
                     System.out.println("Introduce el ID del producto a buscar:");
                     idProducto = sc.nextInt();
 
@@ -80,7 +93,47 @@ public class Main {
                     // Implementar actualización de producto
                     break;
                 case "8":
-                    // Implementar inserción de nuevo tipo de producto
+
+                    System.out.println("Inserte el tipo de referencia del nuevo producto:");
+                    String referencia = sc.nextLine();
+
+                    System.out.println("Inserte el nombre del nuevo producto:");
+                    String nombre = sc.nextLine();
+
+                    System.out.println("Inserte la descripción del nuevo producto:");
+                    String descripcion = sc.nextLine();
+
+                    obtenerTipos();
+                    System.out.println("Inserte el ID del tipo del nuevo producto:");
+                    int tipoid = sc.nextInt();
+
+                    System.out.println("Inserte la cantidad del nuevo producto:");
+                    int cantidad = sc.nextInt();
+
+                    System.out.println("Inserte el precio del nuevo producto:");
+                    double precio = sc.nextDouble();
+
+                    System.out.println("Inserte el descuento del nuevo producto:");
+                    int descuento = sc.nextInt();
+
+                    System.out.println("Inserte el IVA del nuevo producto:");
+                    int iva = sc.nextInt();
+
+                    System.out.println("¿Aplicar descuento? (true/false):");
+                    boolean aplicar_dto = sc.nextBoolean();
+
+                    for (TipoProducto t : SQLAcessMercaDaw.getNombresTipos()) {
+                        if (t.getId() == tipoid) {
+                            tipoid = t.getId();
+                            break;
+                        }
+                    }
+
+                    TipoProducto tipo_id = SQLAcessMercaDaw.obtenerTipoPorID(tipoid);
+
+                    SQLAcessMercaDaw.insertarProducto(new Productos(referencia, nombre, descripcion, tipo_id, cantidad, precio, descuento, iva, aplicar_dto));
+
+
                     break;
                 case "9":
                     System.out.println("Saliendo del programa...");
@@ -89,6 +142,20 @@ public class Main {
                     System.out.println("Opción no válida. Por favor, introduce una opción del 1 al 9.");
             }
         } while (!opcion.equals("9"));
+
+    }
+
+    private static void obtenerTipos(){
+        List<TipoProducto> tipos = SQLAcessMercaDaw.getNombresTipos();
+
+        if (tipos.isEmpty()){
+            System.out.println("No se encontraron tipos de productos.");
+        } else {
+            System.out.println("Tipos de productos disponibles:");
+            for (TipoProducto tipo : tipos) {
+                System.out.println(tipo);
+            }
+        }
 
     }
 }

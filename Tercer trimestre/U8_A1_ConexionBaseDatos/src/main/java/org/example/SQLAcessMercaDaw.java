@@ -21,7 +21,7 @@ public class SQLAcessMercaDaw {
                 int id = resultSet.getInt("id");
                 String nombre = resultSet.getString("nombre");
 
-                TipoProducto tipoProducto = new TipoProducto(id, nombre);
+                TipoProducto tipoProducto = new TipoProducto(nombre);
                 mapaTipos.put(id, tipoProducto);
             }
 
@@ -34,22 +34,50 @@ public class SQLAcessMercaDaw {
 
 
     public static List<String> getNombresProductos() {
-        List<String> nombresClientes = new LinkedList<>();
+        List<String> listaFormateada = new LinkedList<>();
 
-        String sqlCommand = "SELECT nombre FROM Productos";
+        String sqlCommand = "SELECT referencia, nombre FROM Productos";
 
         try (Connection connection = SQLDataAccess.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sqlCommand)) {
 
             while (resultSet.next()) {
-                nombresClientes.add(resultSet.getString(1));
+                String ref = resultSet.getString("referencia");
+                String nombre = resultSet.getString("nombre");
+
+                listaFormateada.add(String.format("\n[Referencia: %s, Nombre: %s]", ref, nombre));
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener los nombres de clientes: " + e.getMessage());
         }
-        return nombresClientes;
+        return listaFormateada;
     }
+
+    public static List<TipoProducto> getNombresTipos() {
+        List<TipoProducto> listaFormateada = new LinkedList<>();
+
+        String sqlCommand = "SELECT id, nombre FROM Tipos";
+
+        try (Connection connection = SQLDataAccess.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sqlCommand)) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nombre = resultSet.getString("nombre");
+
+                TipoProducto tipoProducto = new TipoProducto(id ,nombre);
+                listaFormateada.add(tipoProducto);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener los nombres de tipos: " + e.getMessage());
+        }
+        return listaFormateada;
+    }
+
+
+
 
     
     public static List<Productos> obtenerTodosLosProductos(){
@@ -65,7 +93,6 @@ public class SQLAcessMercaDaw {
                 TipoProducto tipo = mapaTipos.get(resultSet.getInt("tipo_id"));
 
                 Productos productos = new Productos(
-                        resultSet.getInt("id"),
                         resultSet.getString("referencia"),
                         resultSet.getString("nombre"),
                         resultSet.getString("descripcion"),
@@ -109,13 +136,38 @@ public class SQLAcessMercaDaw {
                         int iva = resultSet.getInt("iva");
                         boolean aplicar_dto = resultSet.getBoolean("aplicar_dto");
 
-                productos = new Productos(id, referencia, nombre, descripcion, tipo, cantidad, precio, descuento, iva, aplicar_dto);
+                productos = new Productos(referencia, nombre, descripcion, tipo, cantidad, precio, descuento, iva, aplicar_dto);
             }
 
         } catch (SQLException e) {
             System.out.println("Error al obtener el producto por ID: " + e.getMessage());
         }
         return productos;
+    }
+
+    public static TipoProducto obtenerTipoPorID(int id){
+        TipoProducto tipoProducto = null;
+
+        String com = "SELECT * FROM Tipos WHERE id = ?";
+
+        try(Connection connection = SQLDataAccess.getConnection();
+            PreparedStatement statement = connection.prepareStatement(com)) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()){
+
+                int idTipo = resultSet.getInt("id");
+                String nombre = resultSet.getString("nombre");
+
+                tipoProducto = new TipoProducto(nombre);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el tipo por ID: " + e.getMessage());
+        }
+        return tipoProducto;
     }
 
     public static int deleteProductoPorID(int id) {
@@ -156,8 +208,28 @@ public class SQLAcessMercaDaw {
 
             filasAfectadas = statement.executeUpdate();
 
+            System.out.println("Producto insertado correctamente.");
+
         } catch (SQLException e) {
             System.out.println("Error al insertar el producto: " + e.getMessage());
+        }
+        return filasAfectadas;
+    }
+
+    public static int insertarTipoProducto(TipoProducto tipoProducto) {
+        int filasAfectadas = -1;
+
+        String sql = "INSERT INTO Tipos (nombre) VALUES (?)";
+
+        try (Connection connection = SQLDataAccess.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, tipoProducto.getNombre());
+
+            filasAfectadas = statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error al insertar el tipo de producto: " + e.getMessage());
         }
         return filasAfectadas;
     }
