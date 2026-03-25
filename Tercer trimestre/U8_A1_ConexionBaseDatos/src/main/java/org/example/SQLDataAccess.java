@@ -31,7 +31,6 @@ public class SQLDataAccess {
             System.out.println("Error al conectar a la base de datos: " + e.getMessage());
         }
 
-        System.out.println("Conexión exitosa a la base de datos.");
 
         return databaseLink;
     }

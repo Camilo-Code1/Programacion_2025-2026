@@ -93,6 +93,7 @@ public class SQLAcessMercaDaw {
                 TipoProducto tipo = mapaTipos.get(resultSet.getInt("tipo_id"));
 
                 Productos productos = new Productos(
+                        resultSet.getInt("id"),
                         resultSet.getString("referencia"),
                         resultSet.getString("nombre"),
                         resultSet.getString("descripcion"),
@@ -112,39 +113,73 @@ public class SQLAcessMercaDaw {
 
     }
 
-    public static Productos obtenerProductoPorID(int id){
-        Productos productos = null;
 
+
+    public static Productos obtenerProductoPorID(int id) {
+        Productos productoEncontrado = null;
         String com = "SELECT * FROM Productos WHERE id = ?";
 
-        try(Connection connection = SQLDataAccess.getConnection();
-            PreparedStatement statement = connection.prepareStatement(com)) {
+        try (Connection connection = SQLDataAccess.getConnection();
+             PreparedStatement statement = connection.prepareStatement(com)) {
 
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // NO vuelvas a poner "int id =" aquí.
+                    // Simplemente lee el resto de columnas:
+                    String referencia = resultSet.getString("referencia");
+                    String nombre = resultSet.getString("nombre");
+                    String descripcion = resultSet.getString("descripcion");
+                    TipoProducto tipo = mapaTipos.get(resultSet.getInt("tipo_id"));
+                    int cantidad = resultSet.getInt("cantidad");
+                    double precio = resultSet.getDouble("precio");
+                    int descuento = resultSet.getInt("descuento");
+                    int iva = resultSet.getInt("iva");
+                    boolean aplicar_dto = resultSet.getBoolean("aplicar_dto");
 
-            if (resultSet.next()){
-
-                        resultSet.getInt("id");
-                        String referencia = resultSet.getString("referencia");
-                        String nombre = resultSet.getString("nombre");
-                        String descripcion = resultSet.getString("descripcion");
-                        TipoProducto tipo = mapaTipos.get(resultSet.getInt("tipo_id"));
-                        int cantidad = resultSet.getInt("cantidad");
-                        double precio = resultSet.getDouble("precio");
-                        int descuento = resultSet.getInt("descuento");
-                        int iva = resultSet.getInt("iva");
-                        boolean aplicar_dto = resultSet.getBoolean("aplicar_dto");
-
-                productos = new Productos(referencia, nombre, descripcion, tipo, cantidad, precio, descuento, iva, aplicar_dto);
+                    // Usamos el CONSTRUCTOR 1 (el que tiene ID)
+                    productoEncontrado = new Productos(id, referencia, nombre, descripcion, tipo, cantidad, precio, descuento, iva, aplicar_dto);
+                }
             }
-
         } catch (SQLException e) {
             System.out.println("Error al obtener el producto por ID: " + e.getMessage());
         }
-        return productos;
+        return productoEncontrado;
     }
+    public static List<Productos> obtenerProductosPorTipo(int idTipo) {
+        List<Productos> lista = new ArrayList<>();
+        // Buscamos en la tabla Productos, no en la de Tipos
+        String sql = "SELECT * FROM Productos WHERE tipo_id = ?";
 
+        try (Connection connection = SQLDataAccess.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, idTipo);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // Importante: necesitamos el objeto TipoProducto para el constructor
+                    TipoProducto tipo = obtenerTipoPorID(idTipo);
+
+                    Productos p = new Productos(
+                            rs.getInt("id"), // Aquí sí pasamos el ID de la BD
+                            rs.getString("referencia"),
+                            rs.getString("nombre"),
+                            rs.getString("descripcion"),
+                            tipo,
+                            rs.getInt("cantidad"),
+                            rs.getDouble("precio"),
+                            rs.getInt("descuento"),
+                            rs.getInt("iva"),
+                            rs.getBoolean("aplicar_dto")
+                    );
+                    lista.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al buscar productos por tipo: " + e.getMessage());
+        }
+        return lista;
+    }
     public static TipoProducto obtenerTipoPorID(int id){
         TipoProducto tipoProducto = null;
 
@@ -161,7 +196,7 @@ public class SQLAcessMercaDaw {
                 int idTipo = resultSet.getInt("id");
                 String nombre = resultSet.getString("nombre");
 
-                tipoProducto = new TipoProducto(nombre);
+                tipoProducto = new TipoProducto(idTipo, nombre);
             }
 
         } catch (SQLException e) {
@@ -187,8 +222,8 @@ public class SQLAcessMercaDaw {
         return filasAfectadas;
     }
 
-    public static int insertarProducto(Productos producto) {
-        int filasAfectadas = -1;
+    public static void insertarProducto(Productos producto) {
+
 
         String sql = "INSERT INTO Productos (referencia, nombre, descripcion, tipo_id, cantidad, precio, descuento, iva, aplicar_dto) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -206,14 +241,14 @@ public class SQLAcessMercaDaw {
             statement.setInt(8, producto.getIva());
             statement.setBoolean(9, producto.isAplicar_dto());
 
-            filasAfectadas = statement.executeUpdate();
+            statement.executeUpdate();
 
             System.out.println("Producto insertado correctamente.");
 
         } catch (SQLException e) {
             System.out.println("Error al insertar el producto: " + e.getMessage());
         }
-        return filasAfectadas;
+
     }
 
     public static int insertarTipoProducto(TipoProducto tipoProducto) {

@@ -14,8 +14,21 @@ public class Productos {
     private boolean aplicar_dto;
 
 
-    public Productos(String referencia, String nombre, String descripcion, TipoProducto tipo_id, int cantidad, double precio, int descuento, int iva, boolean aplicar_dto) {
-        this.id = id;
+    public Productos(int id, String referencia, String nombre, String descripcion, TipoProducto tipo_id, int cantidad, double precio, int descuento, int iva, boolean aplicar_dto) {
+        this.id = this.id;
+        this.referencia = referencia;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo_id = tipo_id;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.descuento = descuento;
+        this.iva = iva;
+        this.aplicar_dto = aplicar_dto;
+    }
+    public Productos(String referencia, String nombre, String descripcion,
+                     TipoProducto tipo_id, int cantidad, double precio,
+                     int descuento, int iva, boolean aplicar_dto) {
         this.referencia = referencia;
         this.nombre = nombre;
         this.descripcion = descripcion;

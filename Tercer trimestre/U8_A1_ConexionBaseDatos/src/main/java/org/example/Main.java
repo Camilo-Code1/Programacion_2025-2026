@@ -10,6 +10,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
+        supFormatos formas = new supFormatos();
 
 
         SQLAcessMercaDaw.cargarTiposDesdeBD();
@@ -65,10 +66,20 @@ public class Main {
                     System.out.println(SQLAcessMercaDaw.getNombresTipos());
 
                     System.out.println("Introduce el ID del tipo de producto a buscar:");
-                    int idTipo = sc.nextInt();
+                    int idTipoBusqueda = sc.nextInt();
 
-                    TipoProducto tipo = SQLAcessMercaDaw.obtenerTipoPorID(idTipo);
-                    // Implementar búsqueda por tipo
+                    // 2. Llamamos al NUEVO método que devuelve la LISTA de productos
+                    List<Productos> productosFiltrados = SQLAcessMercaDaw.obtenerProductosPorTipo(idTipoBusqueda);
+
+                    // 3. Mostramos los resultados
+                    if (productosFiltrados.isEmpty()) {
+                        System.out.println("No hay productos en esta categoría.");
+                    } else {
+                        System.out.println("--- Productos encontrados ---");
+                        for (Productos prod : productosFiltrados) {
+                            System.out.println(prod); // Esto usa tu toString() formateado
+                        }
+                    }
                     break;
                 case "4":
                     // Implementar búsqueda por cantidad
@@ -103,35 +114,33 @@ public class Main {
                     System.out.println("Inserte la descripción del nuevo producto:");
                     String descripcion = sc.nextLine();
 
-                    obtenerTipos();
-                    System.out.println("Inserte el ID del tipo del nuevo producto:");
-                    int tipoid = sc.nextInt();
+                    obtenerTipos(); // Muestras la lista al usuario
+                    int tipoidSeleccionado = formas.obtenerEnteroValido("Inserte el ID del tipo:", sc);
 
-                    System.out.println("Inserte la cantidad del nuevo producto:");
-                    int cantidad = sc.nextInt();
+                    TipoProducto tipoEncontrado = SQLAcessMercaDaw.obtenerTipoPorID(tipoidSeleccionado);
 
-                    System.out.println("Inserte el precio del nuevo producto:");
-                    double precio = sc.nextDouble();
 
-                    System.out.println("Inserte el descuento del nuevo producto:");
-                    int descuento = sc.nextInt();
+                    if (tipoEncontrado == null) {
+                        System.out.println("Error: El ID de tipo [" + tipoidSeleccionado + "] no existe.");
+                        return; // O vuelve al menú, pero no intentes insertar
+                    }
 
-                    System.out.println("Inserte el IVA del nuevo producto:");
-                    int iva = sc.nextInt();
+                    int cantidad = formas.obtenerEnteroValido("Inserte la cantidad del nuevo producto:", sc);
+
+
+                    double precio = formas.obtenerDoubleValido("Inserte el precio del nuevo producto:", sc);
+
+
+                    int descuento = formas.obtenerEnteroValido("Inserte el descuento del nuevo producto:", sc);
+
+                    int iva = formas.obtenerEnteroValido("Inserte el IVA del nuevo producto:", sc);
 
                     System.out.println("¿Aplicar descuento? (true/false):");
                     boolean aplicar_dto = sc.nextBoolean();
 
-                    for (TipoProducto t : SQLAcessMercaDaw.getNombresTipos()) {
-                        if (t.getId() == tipoid) {
-                            tipoid = t.getId();
-                            break;
-                        }
-                    }
 
-                    TipoProducto tipo_id = SQLAcessMercaDaw.obtenerTipoPorID(tipoid);
 
-                    SQLAcessMercaDaw.insertarProducto(new Productos(referencia, nombre, descripcion, tipo_id, cantidad, precio, descuento, iva, aplicar_dto));
+                    SQLAcessMercaDaw.insertarProducto(new Productos(referencia, nombre, descripcion, tipoEncontrado, cantidad, precio, descuento, iva, aplicar_dto));
 
 
                     break;
