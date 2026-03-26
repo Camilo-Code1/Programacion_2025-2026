@@ -17,7 +17,7 @@ public class Main {
 
 //        SQLDataAccess accesoDatos = new SQLDataAccess();
 
-        int idProducto;
+        String refDir;
 
 //        System.out.println(SQLAcessMercaDaw.obtenerTodosLosProductos());
 
@@ -50,16 +50,16 @@ public class Main {
                     break;
                 case "2":
                     System.out.println(SQLAcessMercaDaw.getNombresProductos());
-                    System.out.println("Introduce el ID del producto a buscar:");
-                    idProducto = sc.nextInt();
+                    System.out.println("Introduce la referencia del producto a buscar:");
+                    refDir = sc.nextLine();
 
-                    Productos p = SQLAcessMercaDaw.obtenerProductoPorID(idProducto);
+                    Productos p = SQLAcessMercaDaw.obtenerProductoPorREF(refDir);
 
                     if (p != null) {
                         System.out.println("Producto encontrado: ");
                         System.out.println(p);
                     } else {
-                        System.out.println("Producto no encontrado con ID: " + idProducto);
+                        System.out.println("Producto no encontrado con ID: " + refDir);
                     }
                     break;
                 case "3":
@@ -96,12 +96,48 @@ public class Main {
 
 
                     System.out.println("Introduce el ID del producto a buscar:");
-                    idProducto = sc.nextInt();
+                    refDir = sc.nextLine();
 
-                    SQLAcessMercaDaw.deleteProductoPorID(idProducto);
+                    SQLAcessMercaDaw.deleteProductoPorID(refDir);
                     break;
                 case "7":
-                    // Implementar actualización de producto
+
+                    if (SQLAcessMercaDaw.obtenerTodosLosProductos().isEmpty()){
+                        System.out.println("No hay productos en el inventario para actualizar.");
+                        break;
+                    } else {
+                        SQLAcessMercaDaw.getNombresProductos();
+
+                        System.out.println("Introduce la referencia del producto a actualizar:");
+                        refDir = sc.nextLine();
+
+                        System.out.println("Nueva descripción:");
+                        String nuevaDescripcion = sc.nextLine();
+
+                        int cantidad = formas.obtenerEnteroValido("Nueva cantidad:", sc);
+
+                        double precio = formas.obtenerDoubleValido("Nuevo precio:", sc);
+
+                        int descuento = formas.obtenerEnteroValido("Nuevo descuento:", sc);
+
+                        System.out.println("¿Aplicar descuento? (s/n):");
+                        String opcionDto = sc.nextLine();
+
+                        boolean aplicar_dto = false;
+
+                        if (opcionDto.equalsIgnoreCase("S") || opcionDto.isBlank()){
+                            opcionDto = "true";
+                        } else if (opcionDto.equalsIgnoreCase("N")){
+                            opcionDto = "false";
+                        } else {
+                            System.out.println("Opción no válida. Se aplicará el descuento por defecto (false).");
+                            opcionDto = "false";
+                        }
+
+
+                        SQLAcessMercaDaw.actualizarProducto(refDir, nuevaDescripcion, cantidad, precio, descuento, aplicar_dto);
+                    }
+
                     break;
                 case "8":
 

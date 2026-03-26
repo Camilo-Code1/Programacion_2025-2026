@@ -115,19 +115,19 @@ public class SQLAcessMercaDaw {
 
 
 
-    public static Productos obtenerProductoPorID(int id) {
+    public static Productos obtenerProductoPorREF(String referencia) {
         Productos productoEncontrado = null;
-        String com = "SELECT * FROM Productos WHERE id = ?";
+        String com = "SELECT * FROM Productos WHERE referencia = ?";
 
         try (Connection connection = SQLDataAccess.getConnection();
              PreparedStatement statement = connection.prepareStatement(com)) {
 
-            statement.setInt(1, id);
+            statement.setString(1, referencia);
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    // NO vuelvas a poner "int id =" aquí.
-                    // Simplemente lee el resto de columnas:
-                    String referencia = resultSet.getString("referencia");
+
+                    referencia = resultSet.getString("referencia");
                     String nombre = resultSet.getString("nombre");
                     String descripcion = resultSet.getString("descripcion");
                     TipoProducto tipo = mapaTipos.get(resultSet.getInt("tipo_id"));
@@ -137,8 +137,8 @@ public class SQLAcessMercaDaw {
                     int iva = resultSet.getInt("iva");
                     boolean aplicar_dto = resultSet.getBoolean("aplicar_dto");
 
-                    // Usamos el CONSTRUCTOR 1 (el que tiene ID)
-                    productoEncontrado = new Productos(id, referencia, nombre, descripcion, tipo, cantidad, precio, descuento, iva, aplicar_dto);
+
+                    productoEncontrado = new Productos(referencia, nombre, descripcion, tipo, cantidad, precio, descuento, iva, aplicar_dto);
                 }
             }
         } catch (SQLException e) {
@@ -205,15 +205,15 @@ public class SQLAcessMercaDaw {
         return tipoProducto;
     }
 
-    public static int deleteProductoPorID(int id) {
+    public static int deleteProductoPorID(String referencia) {
         int filasAfectadas = 0;
 
-        String sql = "DELETE FROM Productos WHERE id = ?";
+        String sql = "DELETE FROM Productos WHERE referencia = ?";
 
         try (Connection connection = SQLDataAccess.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setInt(1, id);
+            statement.setString(1, referencia);
             filasAfectadas = statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -221,6 +221,29 @@ public class SQLAcessMercaDaw {
         }
         return filasAfectadas;
     }
+
+    public static void actualizarProducto(String referencia, String descripcion, int cantidad, double precio, int descuento, boolean aplicar_dto){
+
+        String sql = "UPDATE Productos SET descripcion = ?, cantidad = ?, precio = ?, descuento = ?, aplicar_dto = ? WHERE referencia = ?";
+
+        try (Connection connection = SQLDataAccess.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, descripcion);
+            statement.setInt(2, cantidad);
+            statement.setDouble(3, precio);
+            statement.setInt(4, descuento);
+            statement.setBoolean(5, aplicar_dto);
+            statement.setString(6, referencia);
+
+           statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el producto: " + e.getMessage());
+
+        }
+        }
+
 
     public static void insertarProducto(Productos producto) {
 
