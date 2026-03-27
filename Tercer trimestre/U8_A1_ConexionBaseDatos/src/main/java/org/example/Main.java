@@ -15,11 +15,7 @@ public class Main {
 
         SQLAcessMercaDaw.cargarTiposDesdeBD();
 
-//        SQLDataAccess accesoDatos = new SQLDataAccess();
-
         String refDir;
-
-//        System.out.println(SQLAcessMercaDaw.obtenerTodosLosProductos());
 
         String menu = """
                 
@@ -50,10 +46,10 @@ public class Main {
                     break;
                 case "2":
                     System.out.println(SQLAcessMercaDaw.getNombresProductos());
-                    System.out.println("Introduce la referencia del producto a buscar:");
-                    refDir = sc.nextLine();
 
-                    Productos p = SQLAcessMercaDaw.obtenerProductoPorREF(refDir);
+                    refDir = formas.obtenerTextoNoVacio("Introduce la referencia del producto a buscar:", sc);
+
+                    Productos p = SQLAcessMercaDaw.obtenerProductoPorREF(refDir.toUpperCase());
 
                     if (p != null) {
                         System.out.println("Producto encontrado: ");
@@ -65,40 +61,50 @@ public class Main {
                 case "3":
                     System.out.println(SQLAcessMercaDaw.getNombresTipos());
 
-                    System.out.println("Introduce el ID del tipo de producto a buscar:");
-                    int idTipoBusqueda = sc.nextInt();
 
-                    // 2. Llamamos al NUEVO método que devuelve la LISTA de productos
+                    int idTipoBusqueda = formas.obtenerEnteroValido("Introduce el ID del tipo de producto a buscar:", sc);
+
                     List<Productos> productosFiltrados = SQLAcessMercaDaw.obtenerProductosPorTipo(idTipoBusqueda);
 
-                    // 3. Mostramos los resultados
                     if (productosFiltrados.isEmpty()) {
                         System.out.println("No hay productos en esta categoría.");
                     } else {
                         System.out.println("--- Productos encontrados ---");
                         for (Productos prod : productosFiltrados) {
-                            System.out.println(prod); // Esto usa tu toString() formateado
+                            System.out.println(prod);
                         }
                     }
                     break;
                 case "4":
-                    // Implementar búsqueda por cantidad
+
+                    int cantBuscada = formas.obtenerEnteroValido("Introduce la cantidad exacta de stock a buscar:", sc);
+
+                    List<Productos> prodsPorCant = SQLAcessMercaDaw.obtenerProductosPorCantidad(cantBuscada);
+
+                    if (prodsPorCant.isEmpty()) {
+                        System.out.println("No se encontraron productos con exactamente " + cantBuscada + " unidades.");
+                    } else {
+                        System.out.println("--- Productos con stock: " + cantBuscada + " ---");
+                        for (Productos prod : prodsPorCant) {
+                            System.out.println(prod);
+                        }
+                    }
                     break;
                 case "5":
+                    System.out.println(SQLAcessMercaDaw.getNombresProductos());
 
-                    System.out.println("Inserte el nombre del nuevo tipo de producto:");
-                    String nombreTipo = sc.nextLine();
+                    String nombreTipo = formas.obtenerTextoNoVacio("Inserte el nombre del nuevo tipo de producto:", sc);
 
-                    SQLAcessMercaDaw.insertarTipoProducto(new TipoProducto(nombreTipo));
+                    SQLAcessMercaDaw.insertarTipoProducto(new TipoProducto(nombreTipo.toUpperCase()));
 
                     break;
                 case "6":
+                    System.out.println(SQLAcessMercaDaw.getNombresProductos());
 
 
-                    System.out.println("Introduce el ID del producto a buscar:");
-                    refDir = sc.nextLine();
+                    refDir = formas.obtenerTextoNoVacio("Introduce la refencia del producto a buscar y eliminar:", sc);
 
-                    SQLAcessMercaDaw.deleteProductoPorID(refDir);
+                    SQLAcessMercaDaw.deleteProductoPorID(refDir.toUpperCase() );
                     break;
                 case "7":
 
@@ -108,8 +114,8 @@ public class Main {
                     } else {
                         SQLAcessMercaDaw.getNombresProductos();
 
-                        System.out.println("Introduce la referencia del producto a actualizar:");
-                        refDir = sc.nextLine();
+
+                        refDir = formas.obtenerTextoNoVacio("Introduce la referencia del producto a actualizar:", sc);
 
                         System.out.println("Nueva descripción:");
                         String nuevaDescripcion = sc.nextLine();
@@ -141,8 +147,8 @@ public class Main {
                     break;
                 case "8":
 
-                    System.out.println("Inserte el tipo de referencia del nuevo producto:");
-                    String referencia = sc.nextLine();
+
+                    String referencia = formas.obtenerTextoNoVacio("Inserte el tipo de referencia del nuevo producto:", sc);
 
                     System.out.println("Inserte el nombre del nuevo producto:");
                     String nombre = sc.nextLine();

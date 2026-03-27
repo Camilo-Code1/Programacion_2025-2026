@@ -146,6 +146,39 @@ public class SQLAcessMercaDaw {
         }
         return productoEncontrado;
     }
+    public static List<Productos> obtenerProductosPorCantidad(int cantidad) {
+        List<Productos> lista = new ArrayList<>();
+        String sql = "SELECT * FROM Productos WHERE cantidad = ?";
+
+        try (Connection connection = SQLDataAccess.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, cantidad);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TipoProducto tipo = mapaTipos.get(rs.getInt("tipo_id"));
+
+                    Productos p = new Productos(
+                            rs.getInt("id"),
+                            rs.getString("referencia"),
+                            rs.getString("nombre"),
+                            rs.getString("descripcion"),
+                            tipo,
+                            rs.getInt("cantidad"),
+                            rs.getDouble("precio"),
+                            rs.getInt("descuento"),
+                            rs.getInt("iva"),
+                            rs.getBoolean("aplicar_dto")
+                    );
+                    lista.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al buscar productos por cantidad: " + e.getMessage());
+        }
+        return lista;
+    }
     public static List<Productos> obtenerProductosPorTipo(int idTipo) {
         List<Productos> lista = new ArrayList<>();
         // Buscamos en la tabla Productos, no en la de Tipos
@@ -215,6 +248,8 @@ public class SQLAcessMercaDaw {
 
             statement.setString(1, referencia);
             filasAfectadas = statement.executeUpdate();
+
+            System.out.println("Producto con referencia " + referencia + " eliminado correctamente.");
 
         } catch (SQLException e) {
             System.out.println("Error al eliminar el producto por ID: " + e.getMessage());
