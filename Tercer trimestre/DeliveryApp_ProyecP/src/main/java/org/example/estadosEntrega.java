@@ -9,6 +9,9 @@ public class estadosEntrega {
         this.id = id;
         this.estado = estado;
     }
+    public estadosEntrega(String estado) {
+        this.estado = estado;
+    }
 
     public int getId() {
         return id;

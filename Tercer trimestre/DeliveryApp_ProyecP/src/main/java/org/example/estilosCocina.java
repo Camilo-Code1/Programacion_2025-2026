@@ -9,6 +9,9 @@ public class estilosCocina {
         this.id = id;
         this.nombre = nombre;
     }
+    public estilosCocina(String nombre) {
+        this.nombre = nombre;
+    }
 
     public int getId() {
         return id;
@@ -24,7 +27,6 @@ public class estilosCocina {
 
     @Override
     public String toString() {
-        return "Estilo de Cocina: " +
-                 nombre;
+        return nombre;
     }
 }
