@@ -55,6 +55,7 @@ public class Platillos {
     @Override
     public String toString() {
         return "\nPlatillos:" +
+                " ID: " + id +
                 " | Nombre: " + nombre +
                 " | Precio: " + precio +
                 " | Estilo: " + id_estilo +

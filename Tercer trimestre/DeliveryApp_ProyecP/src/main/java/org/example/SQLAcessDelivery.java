@@ -1,8 +1,5 @@
 package org.example;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
-
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -31,7 +28,8 @@ public class SQLAcessDelivery {
                 while (rs.next()){
                     int id = rs.getInt("id");
                     String nombre = rs.getString("nombre");
-                    estilosCocina estilo = new estilosCocina(nombre);
+
+                    estilosCocina estilo = new estilosCocina(id, nombre);
                     mapaEstilos.put(id, estilo);
                 }
 
@@ -56,13 +54,25 @@ public class SQLAcessDelivery {
                     int id = rs.getInt("id");
                     String estado = rs.getString("estado");
 
-                    estadosEntrega estadoEntrega = new estadosEntrega(estado);
+                    estadosEntrega estadoEntrega = new estadosEntrega(id, estado);
                     mapaEstados.put(id, estadoEntrega);
                 }
 
             } catch (Exception e) {
                 System.out.println("Error al cargar estados de entrega: " + e.getMessage());
             }
+        }
+
+        public static List<estadosEntrega> getNombresEstados() {
+        return new ArrayList<>(mapaEstados.values());
+        }
+
+        public static List<Platillos> getNombresPlatillos() {
+        return new ArrayList<>(mapaPlatillos.values());
+        }
+
+        public static List<estilosCocina> getNombresEstilos(){
+            return new ArrayList<>(mapaEstilos.values());
         }
 
         public static List<Platillos> cargarPlatillos() {
@@ -97,7 +107,7 @@ public class SQLAcessDelivery {
         return list;
     }
 
-        public static Platillos obtenerPedidosPorID(int id) {
+        public static Platillos obtenerPlatilloPorID(int id) {
             Platillos platilloEncontrado = null;
 
             String sql = "SELECT * FROM Platillos WHERE id = ?";
@@ -112,8 +122,10 @@ public class SQLAcessDelivery {
 
                     int idPedido = rs.getInt("id");
                     String nombre = rs.getString("nombre");
+                    double precio = rs.getDouble("precio");
+                    int idEstilo = rs.getInt("id_estilo");
 
-                    platilloEncontrado = new Platillos(idPedido, nombre);
+                    platilloEncontrado = new Platillos(idPedido, nombre, precio, mapaEstilos.get(idEstilo));
                 }
 
             } catch (SQLException e){
@@ -140,6 +152,52 @@ public class SQLAcessDelivery {
         }
         return estado;
     }
+
+        public static estilosCocina obtenerEstiloPorID(int id) {
+            estilosCocina estilo = null;
+
+            String sql = "SELECT * FROM EstilosCocina WHERE id = ?";
+
+            try (Connection con = SQLDataAccess.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql)) {
+
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    estilo = new estilosCocina(rs.getInt("id"), rs.getString("nombre"));
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Error al buscar estilo de cocina: " + e.getMessage());
+            }
+            return estilo;
+        }
+
+        public static List<Pedidos> mostrarPedidosPorEstado(int idEstado){
+            List<Pedidos> filtrados = new ArrayList<>();
+            String sql = "SELECT * FROM Pedidos WHERE id_estado = ?";
+
+            try (Connection con = SQLDataAccess.getConnection();
+                 PreparedStatement sta = con.prepareStatement(sql)) {
+
+                sta.setInt(1, idEstado);
+                ResultSet rs = sta.executeQuery();
+
+                while (rs.next()) {
+
+                    Platillos plato = mapaPlatillos.get(rs.getInt("id_platillo"));
+                    estadosEntrega estado = mapaEstados.get(rs.getInt("id_estado"));
+                    LocalTime hora = rs.getTimestamp("fecha_pedido").toLocalDateTime().toLocalTime();
+
+                    Pedidos p = new Pedidos(rs.getInt("id"), rs.getString("cliente"), plato, estado, hora);
+                    filtrados.add(p);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al filtrar por estado: " + e.getMessage());
+            }
+            return filtrados;
+        }
 
         public static List<Platillos> mostrarPlatillos(){
             List<Platillos> list = new java.util.ArrayList<>();
@@ -222,9 +280,9 @@ public class SQLAcessDelivery {
             }
         }
 
-    public static List<Pedidos> obtenerPedidosPorNombre(String nombreCliente) {
+        public static List<Pedidos> obtenerPedidosPorNombre(String nombreCliente) {
         List<Pedidos> resultados = new ArrayList<>();
-        // Usamos LIKE para que si busca "Juan", encuentre a "Juan Pérez"
+
         String sql = "SELECT * FROM Pedidos WHERE cliente LIKE ?";
 
         try (Connection con = SQLDataAccess.getConnection();
@@ -233,24 +291,21 @@ public class SQLAcessDelivery {
             sta.setString(1, "%" + nombreCliente + "%");
 
             try (ResultSet rs = sta.executeQuery()) {
-                // Usamos WHILE porque un cliente puede tener varios pedidos
+
                 while (rs.next()) {
-                    // 1. Sacamos los IDs de la base de datos
+
                     int idPedido = rs.getInt("id");
                     String cliente = rs.getString("cliente");
                     int idPlatilloDB = rs.getInt("id_platillo");
                     int idEstadoDB = rs.getInt("id_estado");
 
-                    // 2. BUSCAMOS los objetos en nuestros Maps (Caché)
-                    // Ojo: asegúrate de haber llamado a cargarPlatillos() y cargarEstados() antes
+
                     Platillos plato = mapaPlatillos.get(idPlatilloDB);
                     estadosEntrega estado = mapaEstados.get(idEstadoDB);
 
-                    // 3. Extraemos la fecha/hora
-                    // Convertimos el Timestamp de SQL a LocalTime de Java
+
                     LocalTime hora = rs.getTimestamp("fecha_pedido").toLocalDateTime().toLocalTime();
 
-                    // 4. Creamos el objeto Pedido completo
                     Pedidos pedido = new Pedidos(idPedido, cliente, plato, estado, hora);
                     resultados.add(pedido);
                 }
@@ -262,7 +317,7 @@ public class SQLAcessDelivery {
         return resultados;
     }
 
-    public static boolean eliminarPedido(String nombreCliente){
+        public static boolean eliminarPedido(String nombreCliente){
             boolean eliminado = false;
 
             String sql = "DELETE FROM Pedidos WHERE cliente LIKE ?";
@@ -286,5 +341,87 @@ public class SQLAcessDelivery {
             }
             return eliminado;
     }
+
+        public static void actualizarEstadoPedido(int idPedido, int nuevoIdEstado) {
+            String sql = "UPDATE Pedidos SET id_estado = ? WHERE id = ?";
+
+            try (Connection con = SQLDataAccess.getConnection();
+                 PreparedStatement sta = con.prepareStatement(sql)) {
+
+                sta.setInt(1, nuevoIdEstado);
+                sta.setInt(2, idPedido);
+
+                int rows = sta.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("Estado del pedido actualizado exitosamente");
+                } else {
+                    System.out.println("No se encontró el pedido para actualizar");
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Error al actualizar estado del pedido: " + e.getMessage());
+            }
+        }
+
+        public static void agregarEstiloCocina(estilosCocina estilo) {
+            String sql = "INSERT INTO EstilosCocina (nombre) VALUES (?)";
+
+            try (Connection con = SQLDataAccess.getConnection();
+                 PreparedStatement sta = con.prepareStatement(sql)) {
+
+                sta.setString(1, estilo.getNombre());
+                sta.executeUpdate();
+
+                System.out.println("Estilo de cocina agregado exitosamente");
+
+            } catch (SQLException e) {
+                System.out.println("Error al agregar estilo de cocina: " + e.getMessage());
+            }
+        }
+
+        public static void insertarPlatillo(Platillos platillo){
+            String sql = "INSERT INTO Platillos (nombre, precio, id_estilo) VALUES (?,?,?)";
+
+            try (Connection con = SQLDataAccess.getConnection();
+                 PreparedStatement sta = con.prepareStatement(sql)) {
+
+                sta.setString(1, platillo.getNombre());
+                sta.setDouble(2, platillo.getPrecio());
+                sta.setInt(3, platillo.getId_estilo().getId());
+
+                sta.executeUpdate();
+
+                System.out.println("Platillo agregado exitosamente");
+
+            } catch (SQLException e) {
+                System.out.println("Error al agregar platillo: " + e.getMessage());
+            }
+        }
+
+        public static void actualizarPlatillo(Platillos platillo, int idPlatillo) {
+            String sql = "UPDATE Platillos SET nombre = ?, precio = ?, id_estilo = ? WHERE id = ?";
+
+            try (Connection con = SQLDataAccess.getConnection();
+                 PreparedStatement sta = con.prepareStatement(sql)) {
+
+                sta.setString(1, platillo.getNombre());
+                sta.setDouble(2, platillo.getPrecio());
+                sta.setInt(3, platillo.getId_estilo().getId());
+                sta.setInt(4, platillo.getId());
+
+                int rows = sta.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("Platillo actualizado exitosamente");
+                } else {
+                    System.out.println("No se encontró el platillo para actualizar");
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Error al actualizar platillo: " + e.getMessage());
+            }
+        }
+
 
 }

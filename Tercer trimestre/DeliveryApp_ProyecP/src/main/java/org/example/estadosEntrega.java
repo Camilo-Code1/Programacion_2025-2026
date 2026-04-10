@@ -23,7 +23,7 @@ public class estadosEntrega {
 
     @Override
     public String toString() {
-        return "Estado de entrega: " +
+        return id + " " +
                 estado;
     }
 }
