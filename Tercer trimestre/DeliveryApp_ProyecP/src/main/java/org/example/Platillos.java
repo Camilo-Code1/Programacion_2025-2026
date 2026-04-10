@@ -13,6 +13,10 @@ public class Platillos {
         this.precio = precio;
         this.id_estilo = id_estilo;
     }
+    public Platillos(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 
     public Platillos(String nombre, double precio, estilosCocina id_estilo) {
         this.nombre = nombre;

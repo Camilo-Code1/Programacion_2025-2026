@@ -17,11 +17,10 @@ public class Pedidos {
         this.id_estado = id_estado;
         this.fecha_pedido = fecha_pedido;
     }
-    public Pedidos(String cliente, Platillos id_platillo, estadosEntrega id_estado, LocalTime fecha_pedido) {
+    public Pedidos(String cliente, Platillos id_platillo, estadosEntrega id_estado) {
         this.cliente = cliente;
         this.id_platillo = id_platillo;
         this.id_estado = id_estado;
-        this.fecha_pedido = fecha_pedido;
     }
 
     public int getId() {
