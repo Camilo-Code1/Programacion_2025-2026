@@ -58,7 +58,6 @@ public class Platillos {
                 " ID: " + id +
                 " | Nombre: " + nombre +
                 " | Precio: " + precio +
-                " | Estilo: " + id_estilo +
-                '}';
+                " | Estilo: " + id_estilo;
     }
 }

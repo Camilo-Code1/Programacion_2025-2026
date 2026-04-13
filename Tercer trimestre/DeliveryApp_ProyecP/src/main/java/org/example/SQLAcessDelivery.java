@@ -63,6 +63,22 @@ public class SQLAcessDelivery {
             }
         }
 
+        public static List<String> obtenerClientesConPedidos() {
+        List<String> clientes = new ArrayList<>();
+        String sql = "SELECT DISTINCT cliente FROM Pedidos";
+
+        try (Connection con = SQLDataAccess.getConnection();
+             Statement sta = con.createStatement();
+             ResultSet rs = sta.executeQuery(sql)) {
+            while (rs.next()) {
+                clientes.add(rs.getString("cliente"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener lista de clientes: " + e.getMessage());
+        }
+        return clientes;
+    }
+
         public static List<estadosEntrega> getNombresEstados() {
         return new ArrayList<>(mapaEstados.values());
         }
@@ -197,35 +213,6 @@ public class SQLAcessDelivery {
                 System.out.println("Error al filtrar por estado: " + e.getMessage());
             }
             return filtrados;
-        }
-
-        public static List<Platillos> mostrarPlatillos(){
-            List<Platillos> list = new java.util.ArrayList<>();
-
-            String sql = "SELECT * FROM Platillos";
-
-            try (Connection con = SQLDataAccess.getConnection();
-            Statement sta = con.createStatement();
-            ResultSet rs = sta.executeQuery(sql)){
-
-                while (rs.next()){
-
-                    estilosCocina estilo = mapaEstilos.get(rs.getInt("id_estilo"));
-
-                    Platillos platillo = new Platillos(
-                            rs.getInt("id"),
-                            rs.getString("nombre"),
-                            rs.getDouble("precio"),
-                            estilo
-                    );
-                    list.add(platillo);
-
-                }
-
-            } catch (Exception e) {
-                System.out.println("Error al cargar platillos: " + e.getMessage());
-            }
-            return list;
         }
 
         public static List<Pedidos> cargarPedidos(){
@@ -423,5 +410,46 @@ public class SQLAcessDelivery {
             }
         }
 
+
+    public static void generarReporteVentas() {
+        double beneficiosHoy = 0;
+        double previstoHoy = 0;
+        int contadorPedidos = 0;
+
+        String sql = "SELECT p.id_estado, pl.precio " +
+                "FROM Pedidos p " +
+                "JOIN Platillos pl ON p.id_platillo = pl.id " +
+                "WHERE DATE(p.fecha_pedido) = CURDATE()";
+
+        try (Connection con = SQLDataAccess.getConnection();
+             Statement sta = con.createStatement();
+             ResultSet rs = sta.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int idEstado = rs.getInt("id_estado");
+                double precio = rs.getDouble("precio");
+
+                if (idEstado == 4) {
+                    beneficiosHoy += precio;
+                } else {
+                    previstoHoy += precio;
+                }
+                contadorPedidos++;
+            }
+
+            System.out.println("\n*****************************************");
+            System.out.println("   📊 REPORTE DE VENTAS - " + java.time.LocalDate.now());
+            System.out.println("*****************************************");
+            System.out.println(" Pedidos hoy: " + contadorPedidos);
+            System.out.printf(" ✅ Beneficios reales:    %.2f€\n", beneficiosHoy);
+            System.out.printf(" ⏳ Dinero previsto:      %.2f€\n", previstoHoy);
+            System.out.println("-----------------------------------------");
+            System.out.printf(" 📈 Total Proyectado:     %.2f€\n", (beneficiosHoy + previstoHoy));
+            System.out.println("*****************************************\n");
+
+        } catch (SQLException e) {
+            System.out.println("Error al generar reporte: " + e.getMessage());
+        }
+    }
 
 }

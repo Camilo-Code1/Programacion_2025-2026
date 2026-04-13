@@ -23,7 +23,7 @@ public class estadosEntrega {
 
     @Override
     public String toString() {
-        return id + " " +
+        return id + ". " +
                 estado;
     }
 }

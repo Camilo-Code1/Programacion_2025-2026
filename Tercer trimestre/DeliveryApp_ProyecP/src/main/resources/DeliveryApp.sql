@@ -14,7 +14,7 @@ CREATE TABLE EstadosEntrega (
     estado VARCHAR(30) NOT NULL UNIQUE
 );
 
--- 3. Platillos (Antes Restaurantes)
+-- 3. Platillos
 CREATE TABLE Platillos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE Platillos (
 CREATE TABLE Pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cliente VARCHAR(100) NOT NULL,
-    id_platillo INT, -- Para simplificar, un pedido = un platillo
+    id_platillo INT, 
     id_estado INT,
     fecha_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_platillo) REFERENCES Platillos(id),
@@ -36,21 +36,49 @@ CREATE TABLE Pedidos (
 
 -- --- INSERCIÓN DE DATOS ---
 
-INSERT INTO EstilosCocina (nombre) VALUES ('Italiana'), ('Mexicana'), ('Americana');
+-- Añadimos 5 estilos en total
+INSERT INTO EstilosCocina (nombre) VALUES 
+('Italiana'), 
+('Mexicana'), 
+('Americana'), 
+('Asiática'), 
+('Mediterránea');
 
-INSERT INTO EstadosEntrega (estado) VALUES ('Pendiente'), ('En Cocina'), ('En Reparto'), ('Entregado');
+-- Estados estándar
+INSERT INTO EstadosEntrega (estado) VALUES 
+('Pendiente'), -- ID 1
+('En Cocina'), -- ID 2
+('En Reparto'), -- ID 3
+('Entregado');  -- ID 4
 
--- Insertamos algunos platillos
+-- Insertamos platillos variados
 INSERT INTO Platillos (nombre, precio, id_estilo) VALUES 
-('Pizza Margherita', 12.50, 1),
+('Pizza Margarita', 12.50, 1),
 ('Tacos al Pastor', 8.90, 2),
-('Hamburguesa Doble Queso', 11.00, 3);
+('Hamburguesa Doble Queso', 11.00, 3),
+('Sushi Variado 12 pzs', 18.50, 4),
+('Ramen de Tonkotsu', 13.20, 4),
+('Paella de Marisco', 15.00, 5),
+('Ensalada Griega', 9.50, 5);
 
--- Insertamos pedidos de prueba
+-- --- PEDIDOS DE PRUEBA (2 por cada estado) ---
+
 INSERT INTO Pedidos (cliente, id_platillo, id_estado) VALUES 
-('Juan Pérez', 1, 2),  -- Pizza en Cocina
-('María García', 2, 1), -- Tacos Pendiente
-('Luis López', 3, 3);  -- Hamburguesa en Reparto
+-- Pendientes (ID 1)
+('María García', 2, 1),
+('Carlos Ruiz', 4, 1),
+
+-- En Cocina (ID 2)
+('Juan Pérez', 1, 2),
+('Ana Belén', 5, 2),
+
+-- En Reparto (ID 3)
+('Luis López', 3, 3),
+('Pedro Mármol', 6, 3),
+
+-- Entregados (ID 4)
+('Sofía Soler', 7, 4),
+('Miguel Ángel', 1, 4);
 
 SELECT * FROM Pedidos;
 

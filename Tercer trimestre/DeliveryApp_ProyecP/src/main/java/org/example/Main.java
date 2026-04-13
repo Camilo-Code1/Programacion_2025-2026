@@ -9,6 +9,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        supFormatos Formas  = new supFormatos();
+
         SQLAcessDelivery.cargarEstilos();
         SQLAcessDelivery.cargarEstados();
         SQLAcessDelivery.cargarPedidos();
@@ -18,7 +20,7 @@ public class Main {
 
         String menu = """
                 
-                \n1. Lista de Pedido.
+                1. Lista de Pedido.
                 2. Lista de Platillos.\s
                 3. Realizar Nuevo Pedido.\s
                 4. Gestión de Estados.
@@ -66,35 +68,19 @@ public class Main {
                     break;
                 case "3":
 
-                    System.out.println("Inserte el nombre del Cliente:");
-                    String cliente = sc.nextLine();
-
-                    obtenerEstados();
-                    System.out.println("Inserte el numero de Platillo que ha ordenado:");
-                    int idPlatilloElegido = sc.nextInt();
-
-                    Platillos id_platillo = SQLAcessDelivery.obtenerPlatilloPorID(idPlatilloElegido);
-
-                    if (id_platillo == null) {
-                        System.out.println("Error: ID de Platillo no existe");
-                    } else {
-                        System.out.println("ID aceptada");
-                    }
-
+                    String cliente = Formas.obtenerTextoNoVacio("Inserte el nombre del Cliente:", sc);
 
                     obtenerPlatillos();
-                    System.out.println("Inserte el numero del Estado:");
-                    int estadoElegido = sc.nextInt();
+                    int idPlatilloElegido = Formas.obtenerEnteroValido("Inserte el número del Platillo que se ordena:", sc);
 
-                    estadosEntrega id_estado = SQLAcessDelivery.obtenerEstadoPorID(estadoElegido);
-                    if (id_estado == null) {
-                        System.out.println("Error: ID de Estado no existe");
+                    estadosEntrega id_estado = SQLAcessDelivery.obtenerEstadoPorID(1); // Automático: Pendiente
+                    Platillos platillo = SQLAcessDelivery.obtenerPlatilloPorID(idPlatilloElegido);
+
+                    if (platillo == null) {
+                        System.out.println("Error: ID de Platillo no existe.");
                     } else {
-                        System.out.println("ID aceptada");
+                        SQLAcessDelivery.insertarPedido(new Pedidos(cliente, platillo, id_estado));
                     }
-
-                    SQLAcessDelivery.insertarPedido(new Pedidos(cliente, id_platillo, id_estado));
-
                     break;
                 case "4":
                     do {
@@ -107,12 +93,12 @@ public class Main {
 
                                 System.out.println(SQLAcessDelivery.cargarPedidos());
 
-                                System.out.println("Inserte el numero de ID del Pedido a actualizar:");
-                                int idPlatilloActualizar = sc.nextInt();
+
+                                int idPlatilloActualizar = Formas.obtenerEnteroValido("Inserte el numero de ID del Pedido a actualizar:", sc);
 
                                 obtenerEstados();
-                                System.out.println("Indique el nuevo estado del Pedido:");
-                                int estadoActualizar = sc.nextInt();
+
+                                int estadoActualizar = Formas.obtenerEnteroValido("Indique el nuevo estado del Pedido:", sc);
 
                                 SQLAcessDelivery.actualizarEstadoPedido(idPlatilloActualizar, estadoActualizar);
 
@@ -122,8 +108,8 @@ public class Main {
 
                                 obtenerEstados();
 
-                                System.out.println("Inserte el numero del Estado para listar los pedidos:");
-                                int estadoListar = sc.nextInt();
+
+                                int estadoListar = Formas.obtenerEnteroValido("Inserte el numero del Estado para listar los pedidos:", sc);
 
                                 List<Pedidos> pedidosPorEstado = SQLAcessDelivery.mostrarPedidosPorEstado(estadoListar);
 
@@ -152,36 +138,62 @@ public class Main {
                         switch (subopcion){
                             case "a":
 
-                                System.out.println("Desea agregar un nuevo platillo o actualizar uno existente? (1 Para agregar o 2 Para actualizar)");
-                                int accion = sc.nextInt();
-                                if (accion == 1){
+                                int action = Formas.obtenerEnteroValido("Desea agregar un nuevo platillo o actualizar uno existente? (1 Para agregar o 2 Para actualizar)", sc);
+                                if (action == 1){
                                     sc = new Scanner(System.in);
-                                    System.out.println("Ingrese el nombre del nuevo platillo:");
-                                    String nombrePlatillo = sc.nextLine();
+                                    String nombrePlatillo = Formas.obtenerTextoNoVacio("Ingrese el nombre del nuevo platillo:", sc);
 
-                                    System.out.println("Ingrese el precio del nuevo platillo:");
-                                    double precioPlatillo = sc.nextDouble();
+                                    double precioPlatillo = Formas.obtenerDoubleValido("Ingrese el precio del nuevo platillo:", sc);
 
                                     obtenerEstilos();
-                                    System.out.println("Ingrese el numero del estilo de cocina del nuevo platillo:");
-                                    int estiloPlatillo = sc.nextInt();
+
+                                    int estiloPlatillo = Formas.obtenerEnteroValido("Ingrese el numero del estilo de cocina del nuevo platillo:", sc);
 
                                     estilosCocina seleccionado = SQLAcessDelivery.obtenerEstiloPorID(estiloPlatillo);
 
                                      SQLAcessDelivery.insertarPlatillo(new Platillos(nombrePlatillo, precioPlatillo, seleccionado));
 
-                                } else if (accion == 2) {
+                                } else if (action == 2) {
+                                    sc = new Scanner(System.in);
 
+                                    obtenerPlatillos();
 
+                                    int idAEditar = Formas.obtenerEnteroValido("Ingrese el ID del platillo que desea ACTUALIZAR:", sc);
 
+                                    Platillos platilloExistente = SQLAcessDelivery.obtenerPlatilloPorID(idAEditar);
+
+                                    if (platilloExistente == null) {
+                                        System.out.println("Error: No existe un platillo con ese ID.");
+                                    } else {
+                                        System.out.println("--- Editando: " + platilloExistente.getNombre() + " ---");
+
+                                        sc = new Scanner(System.in);
+
+                                        String nuevoNombre = Formas.obtenerTextoNoVacio("Nuevo nombre (Actual: " + platilloExistente.getNombre() + "):", sc);
+
+                                        double nuevoPrecio = Formas.obtenerDoubleValido("Nuevo precio (Actual: " + platilloExistente.getPrecio() + "):", sc);
+
+                                        obtenerEstilos();
+
+                                        int nuevoEstiloId = Formas.obtenerEnteroValido("Nuevo ID de estilo de cocina:", sc);
+
+                                        estilosCocina nuevoEstilo = SQLAcessDelivery.obtenerEstiloPorID(nuevoEstiloId);
+
+                                        if (nuevoEstilo == null) {
+                                            System.out.println("Error: El estilo de cocina no existe. Actualización abortada.");
+                                        } else {
+                                            Platillos platilloActualizado = new Platillos(idAEditar, nuevoNombre, nuevoPrecio, nuevoEstilo);
+
+                                            SQLAcessDelivery.actualizarPlatillo(platilloActualizado, idAEditar);
+                                        }
+                                    }
                                 }
 
 
                                 break;
                             case "b":
 
-                                System.out.println("Introduzca el nombre del nuevo estilo de cocina:");
-                                String nuevoEstilo = sc.nextLine();
+                                String nuevoEstilo = Formas.obtenerTextoNoVacio("Introduzca el nombre del nuevo estilo de cocina:", sc);
 
                                 SQLAcessDelivery.agregarEstiloCocina(new estilosCocina(nuevoEstilo));
 
@@ -193,8 +205,8 @@ public class Main {
                     } while (!subopcion.equals("c"));
                     break;
                 case "6":
-                    System.out.println("Introduzca el nombre del cliente a buscar:");
-                    nombreBuscar = sc.nextLine();
+                    mostrarNombresClientes();
+                    nombreBuscar = Formas.obtenerTextoNoVacio("\nIntroduzca el nombre del cliente a buscar:", sc);
 
                     List<Pedidos> encontrados = SQLAcessDelivery.obtenerPedidosPorNombre(nombreBuscar);
 
@@ -215,19 +227,17 @@ public class Main {
 
                         switch (subopcion){
                             case "a":
-                                System.out.println("Introduzca el nombre del cliente a buscar:");
-                                nombreBuscar = sc.nextLine();
+
+                                mostrarNombresClientes();
+                                nombreBuscar = Formas.obtenerTextoNoVacio("Introduzca el nombre del cliente a buscar:", sc);
 
                                 boolean exito = SQLAcessDelivery.eliminarPedido(nombreBuscar);
 
-                                if (exito) {
-                                    System.out.println("Pedido eliminado");
-                                } else {
-                                    System.out.println("Pedido no eliminado");
-                                }
+
                                 break;
                             case "b":
-
+                                System.out.println("A");
+                                SQLAcessDelivery.generarReporteVentas();
                                 break;
                             case "c":
                                 System.out.println("Saliendo al menú principal...");
@@ -236,6 +246,7 @@ public class Main {
                     } while (!subopcion.equals("c"));
                     break;
                 case "8":
+                    System.out.println("Saliendo del sistema...");
                     break;
             }
         } while (!opcion.equals("8"));
@@ -283,8 +294,17 @@ public class Main {
         } else {
             System.out.println("--- ESTILOS DE COCINA ---");
             for (estilosCocina e : estilos) {
-                System.out.println(e);
+                System.out.println(e.getId() + ". " + e.getNombre());
             }
+        }
+    }
+    public static void mostrarNombresClientes() {
+        List<String> clientes = SQLAcessDelivery.obtenerClientesConPedidos();
+        if (clientes.isEmpty()) {
+            System.out.println("No hay clientes registrados actualmente.");
+        } else {
+            System.out.println("--- CLIENTES ACTUALES CON PEDIDOS ---");
+            clientes.forEach(System.out::println);
         }
     }
 }
