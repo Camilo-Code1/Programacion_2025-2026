@@ -411,7 +411,7 @@ public class SQLAcessDelivery {
         }
 
 
-    public static void generarReporteVentas() {
+        public static void generarReporteVentas() {
         double beneficiosHoy = 0;
         double previstoHoy = 0;
         int contadorPedidos = 0;

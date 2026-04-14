@@ -70,8 +70,8 @@ public class Main {
 
                     String cliente = Formas.obtenerTextoNoVacio("Inserte el nombre del Cliente:", sc);
 
-                    obtenerPlatillos();
-                    int idPlatilloElegido = Formas.obtenerEnteroValido("Inserte el número del Platillo que se ordena:", sc);
+                    System.out.println(SQLAcessDelivery.cargarPlatillos());
+                    int idPlatilloElegido = Formas.obtenerEnteroValido("\nInserte el número del Platillo que se ordena:", sc);
 
                     estadosEntrega id_estado = SQLAcessDelivery.obtenerEstadoPorID(1); // Automático: Pendiente
                     Platillos platillo = SQLAcessDelivery.obtenerPlatilloPorID(idPlatilloElegido);
