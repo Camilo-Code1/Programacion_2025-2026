@@ -91,6 +91,7 @@ public class SQLAcessDelivery {
             return new ArrayList<>(mapaEstilos.values());
         }
 
+
         public static List<Platillos> cargarPlatillos() {
         List<Platillos> list = new ArrayList<>();
         mapaPlatillos.clear();
