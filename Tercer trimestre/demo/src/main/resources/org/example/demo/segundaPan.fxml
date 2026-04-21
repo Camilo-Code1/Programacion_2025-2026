@@ -13,12 +13,12 @@
     </padding>
    <Pane prefHeight="327.0" prefWidth="428.0">
       <children>
-          <Button layoutX="116.0" layoutY="214.0" onAction="#onHelloButtonClick" text="Siguiente pantalla">
+          <Button layoutX="124.0" layoutY="213.0" onAction="#onBackButtonClick" text="Volver al comienzo ">
             <font>
                <Font size="18.0" />
             </font>
          </Button>
-         <Button layoutX="140.0" layoutY="59.0" onAction="#onNightHelloClick" text="Buenos dias">
+         <Button layoutX="155.0" layoutY="60.0" onAction="#onSegundoImpaClick" prefHeight="90.0" prefWidth="110.0" text="Secundo impacto" textAlignment="CENTER" wrapText="true">
             <font>
                <Font size="18.0" />
             </font>
