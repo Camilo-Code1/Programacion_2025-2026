@@ -13,8 +13,7 @@
     </padding>
    <Pane prefHeight="327.0" prefWidth="428.0">
       <children>
-          <Button layoutX="116.0" layoutY="214.0" onAction="#onHelloButtonClick" text="Siguiente pantalla">
-            <font>
+          <Button fx:id="onPasarPantalla" layoutX="116.0" layoutY="214.0" onAction="#onPasarPantalla" text="Siguiente pantalla">            <font>
                <Font size="18.0" />
             </font>
          </Button>
