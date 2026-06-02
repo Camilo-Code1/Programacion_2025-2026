@@ -11,6 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.practtiendabasic.model.estadoHab;
+import org.example.practtiendabasic.model.habitaciones;
+import org.example.practtiendabasic.model.tipoHabitacion;
 
 
 import java.io.IOException;
@@ -19,18 +22,29 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
-//
-//    private productos newProducto;
-//    private boolean isNewProducto = true;
+;
+    private habitaciones newHabitacion;
+    private boolean isNewHabitacion = true;
 
+    private int idHabitacionEnEdicion;
 
-    // Variable para actualizar Producto
-    private int idProductoEnEdicion;
+    @FXML private TextField numeroHab, precioNoche;
 
+    @FXML private ComboBox<tipoHabitacion> tipoHabCombo;
+    @FXML private ComboBox<estadoHab> estadoHabCombo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        if (tipoHabCombo != null){
+//            tipoHabCombo.getItems().addAll("Individual", "Doble", "Suite");
+                tipoHabCombo.setItems(FXCollections.observableArrayList(tipoHabitacion.values()));
+        }
+
+        if (estadoHabCombo != null){
+//            estadoHabCombo.getItems().addAll("Disponible", "Ocupada", "Mantenimiento");
+                estadoHabCombo.setItems(FXCollections.observableArrayList(estadoHab.values()));
+        }
 
     }
 
@@ -39,7 +53,7 @@ public class HelloController implements Initializable {
     }
 
     public void registerButtonOnAction(ActionEvent event) {
-        cambiarPantalla(event, "registerProducto.fxml");
+        cambiarPantalla(event, "registerHabitacion.fxml");
     }
 
     public void salirButtonOnAction(ActionEvent event) {
@@ -47,12 +61,28 @@ public class HelloController implements Initializable {
     }
 
     public void buscarButtonOnAction(ActionEvent event) {
-        cambiarPantalla(event, "productTable.fxml");
+        cambiarPantalla(event, "habitacionTable.fxml");
     }
 
     public void guardarOnAction(ActionEvent event) {
 
+        if (numeroHab.getText().isEmpty() || precioNoche.getText().isEmpty()) {
+            mostrarAlerta("Error", "Por favor, complete todos los campos.");
+            return;
+        }
 
+        tipoHabitacion tipoSeleccionado = tipoHabCombo.getValue();
+        estadoHab estadoSeleccionado = estadoHabCombo.getValue();
+
+        if (tipoSeleccionado == null || estadoSeleccionado == null) {
+            mostrarAlerta("Error", "Por favor, seleccione un tipo y un estado.");
+            return;
+        }
+
+        String tSelect = tipoHabCombo.getSelectionModel().getSelectedItem().toString();
+        String eSelect = estadoHabCombo.getSelectionModel().getSelectedItem().toString();
+
+        
     }
 
 
@@ -99,7 +129,5 @@ public class HelloController implements Initializable {
         alert.setContentText(msj);
         alert.show();
     }
-
-
 
 }
