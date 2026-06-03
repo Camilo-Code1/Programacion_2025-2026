@@ -149,7 +149,7 @@ public class HelloController implements Initializable {
 
 
     public void registerGastButtonOnAction(ActionEvent event) {
-        cambiarPantalla(event, "registerGasto.fxml");
+        cambiarPantalla(event, "registerReserva.fxml");
     }
 
     public void buscarGastButtonOnAction(ActionEvent event) {
