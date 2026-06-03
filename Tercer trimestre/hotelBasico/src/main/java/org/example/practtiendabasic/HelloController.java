@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.practtiendabasic.model.SQLModelHabitacion;
 import org.example.practtiendabasic.model.estadoHab;
 import org.example.practtiendabasic.model.habitaciones;
 import org.example.practtiendabasic.model.tipoHabitacion;
@@ -79,12 +80,57 @@ public class HelloController implements Initializable {
             return;
         }
 
-        String tSelect = tipoHabCombo.getSelectionModel().getSelectedItem().toString();
-        String eSelect = estadoHabCombo.getSelectionModel().getSelectedItem().toString();
 
-        
+        double precio;
+        try {
+            precio = Double.parseDouble(precioNoche.getText());
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Error", "Por favor, ingrese un precio válido.");
+            return;
+        }
+
+        if (isNewHabitacion){
+            this.newHabitacion = new habitaciones(
+                    numeroHab.getText(),
+                    tipoSeleccionado,
+                    precio,
+                    estadoSeleccionado
+            );
+
+            if (SQLModelHabitacion.createHabitacioon(newHabitacion)){
+                mostrarAlerta("Exito", "Habitacion creada con exito");
+                limpiarCampos();
+            } else {
+                mostrarAlerta("Error", "No se pudo crear la habitacion.");
+            }
+        } else {
+            habitaciones habitacionEnEdicion = new habitaciones(
+                    idHabitacionEnEdicion,
+                    numeroHab.getText(),
+                    tipoSeleccionado,
+                    precio,
+                    estadoSeleccionado
+            );
+
+            if (SQLModelHabitacion.updateHabitacion(habitacionEnEdicion)){
+                mostrarAlerta("Exito", "Habitacion actualizada con exito");
+                limpiarCampos();
+                isNewHabitacion = true;
+            } else {
+                mostrarAlerta("Error", "No se pudo actualizar la habitacion.");
+            }
+        }
     }
 
+    public void cargarHabitacionParaEditar(habitaciones hab){
+        this.isNewHabitacion = false;
+        this.idHabitacionEnEdicion = hab.getId_habitacion();
+
+        numeroHab.setText(hab.getNumero_habitacion());
+        precioNoche.setText(String.valueOf(hab.getPrecio_noche()));
+        tipoHabCombo.setValue(hab.getTipo());
+        estadoHabCombo.setValue(hab.getEstado());
+    }
 
     public void borrarOnAction(ActionEvent event) {
         limpiarCampos();
@@ -95,11 +141,10 @@ public class HelloController implements Initializable {
     }
 
     private void limpiarCampos(){
-//        nombreProduct.clear();
-//        precioProduct.clear();
-//        stockProduct.clear();
-//        categoriaCombo.getSelectionModel().clearSelection();
-//        proveedorCombo.getSelectionModel().clearSelection();
+        numeroHab.clear();
+        precioNoche.clear();
+        tipoHabCombo.getSelectionModel().clearSelection();
+        estadoHabCombo.getSelectionModel().clearSelection();
     }
 
 
@@ -108,7 +153,7 @@ public class HelloController implements Initializable {
     }
 
     public void buscarGastButtonOnAction(ActionEvent event) {
-        cambiarPantalla(event, "gastoTable.fxml");
+        cambiarPantalla(event, "reservasTable.fxml");
     }
     
     private void cambiarPantalla(ActionEvent event, String archivoFXML) {

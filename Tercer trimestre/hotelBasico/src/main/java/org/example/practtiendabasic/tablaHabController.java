@@ -42,6 +42,14 @@ public class tablaHabController implements Initializable {
 
     }
     public void editarTableOnAction(ActionEvent event) {
+        habitaciones seleccionado = habitacionTablaView.getSelectionModel().getSelectedItem();
+
+        if (seleccionado == null) {
+            mostrarAlerta("Error", "Por favor, seleccione un producto para editar.");
+            return;
+        }
+
+        cambiarPantallaConDatos(event, "registerHabitacion.fxml", seleccionado);
     }
 
     public void borrarTableOnAction(ActionEvent event) {
@@ -61,6 +69,26 @@ public class tablaHabController implements Initializable {
 
     public void salirOnAction(ActionEvent event) {
         cambiarPantalla(event, "mainview.fxml");
+    }
+
+    private void cambiarPantallaConDatos(ActionEvent event, String archivoFXML, habitaciones hab) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(archivoFXML));
+            Parent root = loader.load();
+
+            if (hab != null) {
+                HelloController formularioController = loader.getController();
+                formularioController.cargarHabitacionParaEditar(hab);
+            }
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar " + archivoFXML + ": " + e.getMessage());
+            mostrarAlerta("Error de Navegación", "No se pudo abrir el formulario de edición.");
+        }
     }
 
     private void cambiarPantalla(ActionEvent event, String archivoFXML) {

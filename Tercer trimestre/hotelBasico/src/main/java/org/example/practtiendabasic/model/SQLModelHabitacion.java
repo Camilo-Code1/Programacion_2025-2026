@@ -67,4 +67,23 @@ public class SQLModelHabitacion {
         }
     }
 
+    public static boolean updateHabitacion(habitaciones h){
+        String sql = "UPDATE habitaciones SET numero_habitacion = ?, tipo = ?, precio_noche = ?, estado = ? WHERE id_habitacion = ?";
+
+        try (Connection con = SQLDataAccess.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)){
+
+            st.setString(1, h.getNumero_habitacion());
+            st.setString(2, h.getTipo().toString());
+            st.setDouble(3, h.getPrecio_noche());
+            st.setString(4, h.getEstado().toString());
+            st.setInt(5, h.getId_habitacion());
+
+            return st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar habitacion: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
