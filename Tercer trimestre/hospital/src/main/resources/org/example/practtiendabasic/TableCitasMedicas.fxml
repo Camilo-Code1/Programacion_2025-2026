@@ -7,14 +7,14 @@
 
 <AnchorPane prefHeight="490.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practtiendabasic.citaMedicaTableController">
     <children>
-        <TableView fx:id="MedicosTableView" layoutX="46.0" layoutY="97.0" prefHeight="319.0" prefWidth="542.0">
+        <TableView fx:id="CitaMedicasTableView" layoutX="46.0" layoutY="97.0" prefHeight="319.0" prefWidth="542.0">
             <columns>
-                <TableColumn fx:id="nombreMedic" prefWidth="114.4000244140625" text="ID Paciente" />
-                <TableColumn fx:id="dniMedico" prefWidth="86.39996337890625" text="DNI" />
-                <TableColumn fx:id="telefonoMedic" prefWidth="78.4000244140625" text="Telefono" />
-                <TableColumn fx:id="tipoPersonalMedic" prefWidth="109.60003662109375" text="Tipo de personal" />
-                <TableColumn fx:id="especialidadMedic" prefWidth="75.0" text="Especialidad" />
-                <TableColumn fx:id="licenciaMedic" prefWidth="75.0" text="Licencia" />
+                <TableColumn fx:id="idPacienteCita" prefWidth="76.0" text="ID Paciente" />
+                <TableColumn fx:id="idMedicoCita" text="ID Medico" />
+                <TableColumn fx:id="fechaCita" prefWidth="96.0" text="Fecha cita" />
+                <TableColumn fx:id="horaCita" prefWidth="86.4000244140625" text="Hora cita" />
+                <TableColumn fx:id="motivoCita" prefWidth="94.4000244140625" text="Motivo" />
+                <TableColumn fx:id="estadoCita" prefWidth="117.5999755859375" text="Estado" />
             </columns>
         </TableView>
         <Button layoutX="627.0" layoutY="123.0" mnemonicParsing="false" onAction="#editarTableOnAction" prefHeight="34.0" prefWidth="59.0" text="Editar" />

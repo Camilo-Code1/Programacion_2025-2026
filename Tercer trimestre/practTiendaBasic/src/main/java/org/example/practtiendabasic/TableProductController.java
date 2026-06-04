@@ -45,11 +45,6 @@ public class TableProductController implements Initializable {
     }
 
 
-    
-    
-    
-    
-    
     private void cambiarPantalla(ActionEvent event, String archivoFXML) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(archivoFXML));

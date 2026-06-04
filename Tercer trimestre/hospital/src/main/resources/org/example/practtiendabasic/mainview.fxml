@@ -12,10 +12,12 @@
             <Font size="46.0" />
          </font>
       </Text>
-      <Button layoutX="209.0" layoutY="204.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar producto" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="414.0" layoutY="204.0" mnemonicParsing="false" onAction="#buscarButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar productos" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="592.0" layoutY="404.0" mnemonicParsing="false" onAction="#salirButtonOnAction" prefHeight="48.0" prefWidth="78.0" text="Salir" />
-      <Button layoutX="209.0" layoutY="311.0" mnemonicParsing="false" onAction="#registerGastButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar gasto" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="414.0" layoutY="311.0" mnemonicParsing="false" onAction="#buscarGastButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar gasto" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="93.0" layoutY="155.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar médico" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="498.0" layoutY="155.0" mnemonicParsing="false" onAction="#buscarButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar médicos" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="630.0" layoutY="427.0" mnemonicParsing="false" onAction="#salirButtonOnAction" prefHeight="48.0" prefWidth="78.0" text="Salir" />
+      <Button layoutX="93.0" layoutY="266.0" mnemonicParsing="false" onAction="#registerGastButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar enfermero" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="498.0" layoutY="266.0" mnemonicParsing="false" onAction="#buscarGastButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar enfermero" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="93.0" layoutY="365.0" mnemonicParsing="false" onAction="#registerCitaButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar cita medica" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="498.0" layoutY="365.0" mnemonicParsing="false" onAction="#buscarCitaButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar citas medicas" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

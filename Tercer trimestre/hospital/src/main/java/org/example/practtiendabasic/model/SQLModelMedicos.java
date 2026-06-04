@@ -11,7 +11,7 @@ public class SQLModelMedicos {
     public static List<medicos> getAllMedicos() {
         List<medicos> lista = new LinkedList<>();
 
-        String sql = "SELECT p.nombre, p.dni_empleado, p.telefono, p.tipo_personal, " +
+        String sql = "SELECT p.id_personal, p.nombre, p.dni_empleado, p.telefono, p.tipo_personal, " +
                 "m.especialidad, m.licencia_medica " +
                 "FROM personal p " +
                 "INNER JOIN medicos m ON p.id_personal = m.id_personal";
@@ -22,6 +22,7 @@ public class SQLModelMedicos {
 
             while (rs.next()) {
                 medicos med = new medicos(
+                        rs.getInt("id_personal"),       // ← añadir esto
                         rs.getString("nombre"),
                         rs.getString("dni_empleado"),
                         rs.getString("telefono"),
@@ -153,5 +154,7 @@ public class SQLModelMedicos {
         }
         return false;
     }
+
+
 
 }
