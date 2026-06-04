@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practtiendabasic.medicosController">
+   <children>
+      <Text layoutX="264.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registro personal">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="nombrePersonal" layoutX="91.0" layoutY="143.0" promptText="Nombre" />
+      <TextField fx:id="dniEmpleado" layoutX="91.0" layoutY="211.0" promptText="DNI empleado" />
+      <ComboBox fx:id="tipoPersonal" layoutX="409.0" layoutY="245.0" prefWidth="150.0" promptText="Estado" />
+      <Button layoutX="559.0" layoutY="393.0" mnemonicParsing="false" onAction="#guardarOnAction" text="Guardar" />
+      <Button layoutX="472.0" layoutY="393.0" mnemonicParsing="false" onAction="#borrarOnAction" text="Borrar" />
+      <Button layoutX="378.0" layoutY="393.0" mnemonicParsing="false" onAction="#salirOnAction" text="Salir" />
+      <TextField fx:id="telefonoPersonal" layoutX="409.0" layoutY="143.0" promptText="Telefono" />
+      <TextField fx:id="especialidadMedico" layoutX="91.0" layoutY="278.0" promptText="Especialidad" />
+      <TextField fx:id="licenciaMedica" layoutX="91.0" layoutY="355.0" promptText="Licencia medica" />
+   </children>
+</AnchorPane>

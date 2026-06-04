@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practtiendabasic.personalController">
+   <children>
+      <TableView fx:id="personalTableView" layoutX="57.0" layoutY="97.0" prefHeight="319.0" prefWidth="435.0">
+        <columns>
+          <TableColumn fx:id="nombrePersonal" prefWidth="116.0" text="Nombre" />
+          <TableColumn fx:id="dniPersonal" prefWidth="84.0" text="DNI" />
+            <TableColumn fx:id="telefonoPersonal" prefWidth="111.2000732421875" text="Telefono" />
+            <TableColumn fx:id="tipoPersonal" prefWidth="115.99993896484375" text="Tipo de personal" />
+        </columns>
+      </TableView>
+      <Button layoutX="580.0" layoutY="143.0" mnemonicParsing="false" onAction="#editarTableOnAction" prefHeight="34.0" prefWidth="59.0" text="Editar" />
+      <Button layoutX="580.0" layoutY="204.0" mnemonicParsing="false" onAction="#borrarTableOnAction" prefHeight="33.0" prefWidth="59.0" text="Borrar" />
+      <Button layoutX="580.0" layoutY="399.0" mnemonicParsing="false" onAction="#salirOnAction" prefHeight="34.0" prefWidth="59.0" text="Salir" />
+   </children>
+</AnchorPane>
