@@ -19,5 +19,7 @@
       <Button layoutX="498.0" layoutY="266.0" mnemonicParsing="false" onAction="#buscarGastButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar enfermero" textAlignment="CENTER" wrapText="true" />
       <Button layoutX="93.0" layoutY="365.0" mnemonicParsing="false" onAction="#registerCitaButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar cita medica" textAlignment="CENTER" wrapText="true" />
       <Button layoutX="498.0" layoutY="365.0" mnemonicParsing="false" onAction="#buscarCitaButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar citas medicas" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="212.0" layoutY="235.0" mnemonicParsing="false" onAction="#registerPaciButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar paciente" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="398.0" layoutY="235.0" mnemonicParsing="false" onAction="#buscarPaciButtonOnAction" prefHeight="62.0" prefWidth="78.0" text="Mostrar pacientes" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

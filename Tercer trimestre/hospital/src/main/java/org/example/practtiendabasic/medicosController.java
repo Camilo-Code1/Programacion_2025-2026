@@ -66,7 +66,12 @@ public class medicosController implements Initializable {
             } else {
                 mostrarAlerta("Error", "No se pudo registrar el médico.");
             }
-        } else {
+
+        }
+
+        // EDITANDO
+
+        else {
             medicos medicoEditado = new medicos(
                     nombrePersonal.getText(), dniEmpleado.getText(),
                     telefonoPersonal.getText(), TipoPersonal.Medico,
@@ -94,7 +99,9 @@ public class medicosController implements Initializable {
     }
 
     public void borrarOnAction(ActionEvent event) { }
-    public void salirOnAction(ActionEvent event) { }
+    public void salirOnAction(ActionEvent event) {
+        cambiarPantalla(event, "mainview.fxml");
+    }
 
     private void mostrarAlerta(String titulo, String msj) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -102,5 +109,16 @@ public class medicosController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(msj);
         alert.show();
+    }
+    private void cambiarPantalla(ActionEvent event, String archivoFXML) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(archivoFXML));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error al cargar " + archivoFXML + ": " + e.getMessage());
+            mostrarAlerta("Error de Navegación", "No se encontró el archivo FXML: " + archivoFXML);
+        }
     }
 }

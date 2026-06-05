@@ -40,7 +40,6 @@ public class citaMedicaController implements Initializable {
         pacienteCita.setItems(FXCollections.observableArrayList(SQLModelPacientes.getAllPacientes()));
         medicoCita.setItems(FXCollections.observableArrayList(SQLModelMedicos.getAllMedicos()));
 
-        // 2. Decirle al combo de Pacientes que muestre solo el NOMBRE_COMPLETO
         pacienteCita.setConverter(new javafx.util.StringConverter<pacientes>() {
             @Override
             public String toString(pacientes p) {
@@ -50,7 +49,6 @@ public class citaMedicaController implements Initializable {
             public pacientes fromString(String string) { return null; }
         });
 
-        // 3. Decirle al combo de Médicos que muestre solo el NOMBRE (que viene de la tabla padre)
         medicoCita.setConverter(new javafx.util.StringConverter<medicos>() {
             @Override
             public String toString(medicos m) {
@@ -68,9 +66,10 @@ public class citaMedicaController implements Initializable {
             horaInicio = horaInicio.plusMinutes(30); // Intervalos de 30 minutos
         }
 
-        estadoCita.getItems().add(EstadoEnum.Pendiente);
+        // Busca estas líneas al final de tu initialize() actual y déjalas así:
+        estadoCita.getItems().setAll(EstadoEnum.values()); // Cargamos todos los estados (Pendiente, Completada, Cancelada)
         estadoCita.setValue(EstadoEnum.Pendiente);
-        estadoCita.setDisable(true);
+// NO lo deshabilites aquí directamente de forma fija. Lo manejaremos en los flujos.
 
     }
 
@@ -110,9 +109,43 @@ public class citaMedicaController implements Initializable {
             }
 
 
+        }else {
+            // 🚀 LÓGICA DE EDICIÓN TERMINADA
+            // Usamos el constructor completo pasando la ID de la cita original y el estado del combo
+            citas_medicas citaEditada = new citas_medicas(
+                    citaMedicaSeleccionada.getId_cita(),
+                    idPaciente,
+                    idMedico,
+                    fechaSelect,
+                    horaSelect,
+                    motivoCita.getText(),
+                    estadoCita.getValue()
+            );
+
+            if (SQLModelCitasMedicas.updateCitaMedica(citaEditada)) {
+                mostrarAlerta("Éxito", "Cita médica actualizada correctamente.");
+                limpiarCampos();
+            } else {
+                mostrarAlerta("Error", "No se pudo actualizar la cita médica.");
+            }
         }
     }
 
+
+    public void cargarCitaMedicaParaEditar(citas_medicas cita) {
+        this.isNewCitaMedica = false;
+        this.citaMedicaSeleccionada = cita;
+
+        pacienteCita.setValue(SQLModelPacientes.getAllPacientes().stream().filter(p -> p.getId_paciente() == cita.getId_paciente()).findFirst().orElse(null));
+        medicoCita.setValue((medicos) SQLModelMedicos.getAllMedicos().stream().filter(m -> m.getId_personal() == cita.getId_medico()).findFirst().orElse(null));
+        fechaCita.setValue(cita.getFecha_cita());
+        horaCita.setValue(cita.getHora_cita());
+        motivoCita.setText(cita.getMotivo());
+        estadoCita.setValue(cita.getEstado());
+
+        // 🚀 AÑADIDO: Como estamos editando, permitimos cambiar el estado
+        estadoCita.setDisable(false);
+    }
 
     public void limpiarCampos(){
         pacienteCita.setValue(null);

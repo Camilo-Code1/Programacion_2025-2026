@@ -9,11 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.practtiendabasic.model.SQLModelCitasMedicas;
+import org.example.practtiendabasic.model.SQLModelPacientes;
 import org.example.practtiendabasic.model.citas_medicas;
 
 import java.io.IOException;
@@ -23,6 +25,8 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class citaMedicaTableController implements Initializable {
+
+    private citas_medicas citaMedicaSeleccionada = null;
 
     @FXML TableView <citas_medicas> CitaMedicasTableView;
 
@@ -44,26 +48,65 @@ public class citaMedicaTableController implements Initializable {
 
         cargarTabla();
 
+        CitaMedicasTableView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, anterior, seleccionado) -> {
+                    if (seleccionado != null) {
+                        citaMedicaSeleccionada = seleccionado;
+                    }
+                }
+        );
+
     }
 
     public void editarTableOnAction(ActionEvent event) {
+        if (citaMedicaSeleccionada == null) {
+            mostrarAlerta("Aviso", "Selecciona una cita médica de la tabla primero.");
+            return;
+        }
+
+        try {
+            // 1. Cargamos el FXML del formulario (asumiendo que se llama citaMedicaView.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("registerCitasMedicas.fxml"));
+            Parent root = loader.load();
+
+            // 2. Obtenemos el controlador del formulario y le pasamos la cita seleccionada
+            citaMedicaController formularioCtrl = loader.getController();
+            formularioCtrl.cargarCitaMedicaParaEditar(citaMedicaSeleccionada);
+
+            // 3. Hacemos el cambio de pantalla físico
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al abrir el formulario de edición: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudo abrir el formulario de edición.");
+        }
     }
 
     public void borrarTableOnAction(ActionEvent event) {
 
-        citas_medicas seleccionado = CitaMedicasTableView.getSelectionModel().getSelectedItem();
-
-        if (seleccionado == null){
-            mostrarAlerta("Error", "Debe de seleccionar una cita médica para poder eliminarla");
+        if (citaMedicaSeleccionada == null) {
+            mostrarAlerta("Aviso", "Selecciona una cita médica de la tabla primero.");
             return;
         }
 
-        if (SQLModelCitasMedicas.deleteCitaMedica(seleccionado.getId_cita())){
-            CitaMedicasTableView.getItems().remove(seleccionado);
-            mostrarAlerta("Éxito", "Cita médica eliminada correctamente");
-        } else {
-            mostrarAlerta("Error", "No se pudo eliminar la cita médica");
-        }
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmar borrado");
+        confirm.setHeaderText(null);
+        confirm.setContentText("¿Seguro que quieres borrar a " + citaMedicaSeleccionada.getMotivo() + "?");
+        confirm.showAndWait().ifPresent(respuesta -> {
+            if (respuesta == ButtonType.OK) {
+                if (SQLModelCitasMedicas.deleteCitaMedica(citaMedicaSeleccionada.getId_cita())) {
+                    mostrarAlerta("Éxito", "Cita médica eliminada correctamente.");
+                    cargarTabla();
+                    citaMedicaSeleccionada = null;
+                } else {
+                    mostrarAlerta("Error", "No se pudo eliminar la cita médica.");
+                }
+            }
+        });
+
 
     }
 

@@ -76,4 +76,12 @@ public class menuController implements Initializable {
     public void buscarCitaButtonOnAction(ActionEvent event) {
         cambiarPantalla(event, "TableCitasMedicas.fxml");
     }
+
+    public void buscarPaciButtonOnAction(ActionEvent event) {
+        cambiarPantalla(event, "TablePacientes.fxml");
+    }
+
+    public void registerPaciButtonOnAction(ActionEvent event) {
+        cambiarPantalla(event, "registerPacientes.fxml");
+    }
 }

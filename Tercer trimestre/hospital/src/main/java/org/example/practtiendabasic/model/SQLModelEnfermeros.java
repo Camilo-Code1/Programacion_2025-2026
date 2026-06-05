@@ -82,5 +82,56 @@ public class SQLModelEnfermeros {
         }
 
 
+        public static boolean deleteEnfermero(String dniEmpleado){
+
+            final String sql = "DELETE FROM personal WHERE dni_empleado = ?";
+
+            try (Connection con = SQLDataAccess.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+                ps.setString(1, dniEmpleado);
+                return ps.executeUpdate() > 0;
+
+            } catch (SQLException e) {
+                System.err.println("Error al eliminar enfermero: " + e.getMessage());
+                return false;
+
+            }
+
+        }
+
+        public static boolean updateEnfermeros(enfermeros en){
+            final String sqlPersonal = "UPDATE personal SET nombre = ?, telefono = ? \" +\n" +
+                    "                \"WHERE dni_empleado = ?";
+
+            final String sqlEnfermero = "UPDATE enfermeros SET turno = ?, area_asignada = ?" +
+                    "WHERE id_personal = (SELECT id_personal FROM personal WHERE dni_empleado = ?)";
+
+
+            try (Connection con = SQLDataAccess.getConnection()){
+                con.setAutoCommit(false);
+
+                try (PreparedStatement psPersonal = con.prepareStatement(sqlPersonal)){
+                    psPersonal.setString(1, en.getNombre());
+                    psPersonal.setString(2, en.getTelefono());
+                    psPersonal.setString(3, en.getDni_empleado());
+                    psPersonal.executeUpdate();
+                }
+
+                try (PreparedStatement psEnfermero = con.prepareStatement(sqlEnfermero)) {
+                    psEnfermero.setString(1, en.getTurno());
+                    psEnfermero.setString(2, en.getArea_asignada());
+                    psEnfermero.setString(3, en.getDni_empleado());
+                    psEnfermero.executeUpdate();
+                }
+
+                con.commit();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Rollback aplicado: " + e.getMessage());
+                return false;
+            }
+
+        }
 
 }

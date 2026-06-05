@@ -60,10 +60,39 @@ public class enfermerosController implements Initializable {
             }
         }
 
+        else {
+            enfermeros enfermeroEditado = new enfermeros(
+                    nombrePersonal.getText(), dniEmpleado.getText(),
+                    telefonoPersonal.getText(), TipoPersonal.Enfermero,
+                    turnoEnfermero.getText(), areaAsignadaEnfermero.getText()
+            );
+            if (SQLModelEnfermeros.updateEnfermeros(enfermeroEditado)){
+                mostrarAlerta("Éxito", "Enfermero editado correctamente.");
+                limpiarCampos();
+                isNewEnfermero = true;
+                enfermeroSeleccionado = null;
+                dniEmpleado.setEditable(true);
+            } else {
+                mostrarAlerta("Error", "No se pudo editar el enfermero.");
+            }
+
+        }
+
 
     }
 
     public void borrarOnAction(ActionEvent event) {
+    }
+
+    public void cargarEnfermeroEdicion(enfermeros en) {
+        isNewEnfermero = false;
+        enfermeroSeleccionado = en;
+        nombrePersonal.setText(en.getNombre());
+        dniEmpleado.setText(en.getDni_empleado());
+        telefonoPersonal.setText(en.getTelefono());
+        turnoEnfermero.setText(en.getTurno());
+        areaAsignadaEnfermero.setText(en.getArea_asignada());
+        dniEmpleado.setEditable(false);
     }
 
     public void salirOnAction(ActionEvent event) {

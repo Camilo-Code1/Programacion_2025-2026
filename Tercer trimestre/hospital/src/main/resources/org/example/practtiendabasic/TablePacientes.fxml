@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practtiendabasic.pacienteTableController">
+   <children>
+      <TableView fx:id="pacientesTableView" layoutX="57.0" layoutY="97.0" prefHeight="319.0" prefWidth="491.0">
+        <columns>
+          <TableColumn fx:id="nombreCompletoPaciente" prefWidth="191.20001220703125" text="Nombre completo " />
+          <TableColumn fx:id="fechaNacimientoColum" prefWidth="124.79998779296875" text="Fecha nacimiento" />
+            <TableColumn fx:id="historialCinicoColum" prefWidth="176.0" text="Historial clinico" />
+        </columns>
+      </TableView>
+      <Button layoutX="580.0" layoutY="143.0" mnemonicParsing="false" onAction="#editarTableOnAction" prefHeight="34.0" prefWidth="59.0" text="Editar" />
+      <Button layoutX="580.0" layoutY="204.0" mnemonicParsing="false" onAction="#borrarTableOnAction" prefHeight="33.0" prefWidth="59.0" text="Borrar" />
+      <Button layoutX="580.0" layoutY="399.0" mnemonicParsing="false" onAction="#salirOnAction" prefHeight="34.0" prefWidth="59.0" text="Salir" />
+   </children>
+</AnchorPane>
