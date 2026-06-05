@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.practtiendabasic.model.SQLModelCitasMedicas;
+import org.example.practtiendabasic.model.SQLModelMedicos;
 import org.example.practtiendabasic.model.SQLModelPacientes;
 import org.example.practtiendabasic.model.citas_medicas;
 
@@ -32,15 +33,44 @@ public class citaMedicaTableController implements Initializable {
 
     @FXML
     TableColumn <citas_medicas, String> motivoCita, estadoCita;
-    @FXML TableColumn <citas_medicas, Integer> idPacienteCita, idMedicoCita;
+// Cambia esto:
+// @FXML TableColumn <citas_medicas, Integer> idPacienteCita, idMedicoCita;
+
+    // Por esto:
+    @FXML TableColumn <citas_medicas, String> idPacienteCita, idMedicoCita;
     @FXML TableColumn <citas_medicas, LocalDate> fechaCita;
     @FXML TableColumn <citas_medicas, LocalTime> horaCita;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        idPacienteCita.setCellValueFactory(new PropertyValueFactory<>("id_paciente"));
-        idMedicoCita.setCellValueFactory(new PropertyValueFactory<>("id_medico"));
+        // 🚀 LÓGICA PERSONALIZADA PARA MOSTRAR EL NOMBRE DEL PACIENTE
+        idPacienteCita.setCellValueFactory(cellData -> {
+            int idPaciente = cellData.getValue().getId_paciente();
+            // Buscamos el paciente en la BD usando su ID y extraemos su nombre completo
+            String nombrePaciente = SQLModelPacientes.getAllPacientes().stream()
+                    .filter(p -> p.getId_paciente() == idPaciente)
+                    .map(p -> p.getNombre_completo())
+                    .findFirst()
+                    .orElse("Paciente Desconocido (ID: " + idPaciente + ")");
+
+            return new javafx.beans.property.SimpleStringProperty(nombrePaciente);
+        });
+
+        // 🚀 LÓGICA PERSONALIZADA PARA MOSTRAR EL NOMBRE DEL MÉDICO
+        idMedicoCita.setCellValueFactory(cellData -> {
+            int idMedico = cellData.getValue().getId_medico();
+            // Buscamos el médico en la BD usando su ID y extraemos su nombre
+            String nombreMedico = SQLModelMedicos.getAllMedicos().stream()
+                    .filter(m -> m.getId_personal() == idMedico)
+                    .map(m -> m.getNombre())
+                    .findFirst()
+                    .orElse("Médico Desconocido (ID: " + idMedico + ")");
+
+            return new javafx.beans.property.SimpleStringProperty(nombreMedico);
+        });
+
+        // Las demás columnas se quedan exactamente igual con sus PropertyValueFactory
         fechaCita.setCellValueFactory(new PropertyValueFactory<>("fecha_cita"));
         horaCita.setCellValueFactory(new PropertyValueFactory<>("hora_cita"));
         motivoCita.setCellValueFactory(new PropertyValueFactory<>("motivo"));
@@ -55,7 +85,6 @@ public class citaMedicaTableController implements Initializable {
                     }
                 }
         );
-
     }
 
     public void editarTableOnAction(ActionEvent event) {
