@@ -33,9 +33,12 @@ public class mascotaController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-            if (tipoMascota != null) {
-                cargar();
-            }
+        if (tipoMascota == null) {
+            System.out.println("❌ ERROR: tipoMascota es NULL. Revisa el fx:id en el FXML.");
+        } else {
+            System.out.println("✅ tipoMascota detectado correctamente. Intentando cargar datos...");
+            cargar();
+        }
             if (dniProMascota != null) {
                 cargarComboDNI();
             }
