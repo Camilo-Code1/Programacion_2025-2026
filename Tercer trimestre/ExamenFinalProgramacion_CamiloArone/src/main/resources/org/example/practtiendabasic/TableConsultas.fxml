@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practtiendabasic.consultaTable">
+   <children>
+      <TableView fx:id="ConsultaTableView" layoutX="79.0" layoutY="97.0" prefHeight="319.0" prefWidth="509.0">
+        <columns>
+          <TableColumn fx:id="fechaConsulta" prefWidth="75.0" text="Fecha" />
+          <TableColumn fx:id="duracionConsulta" prefWidth="75.0" text="Duracion" />
+            <TableColumn fx:id="observacionesConsul" prefWidth="91.0" text="Observaciones" />
+            <TableColumn fx:id="mascotPasConsul" prefWidth="134.0" text="Mas. Pasaporte" />
+            <TableColumn fx:id="propietarioPassConsul" prefWidth="132.0" text="Propietario Pasaporte" />
+        </columns>
+      </TableView>
+      <Button layoutX="610.0" layoutY="128.0" mnemonicParsing="false" onAction="#editarTableOnAction" prefHeight="34.0" prefWidth="59.0" text="Editar" />
+      <Button layoutX="610.0" layoutY="212.0" mnemonicParsing="false" onAction="#borrarTableOnAction" prefHeight="33.0" prefWidth="59.0" text="Borrar" />
+      <Button layoutX="610.0" layoutY="382.0" mnemonicParsing="false" onAction="#salirOnAction" prefHeight="34.0" prefWidth="59.0" text="Salir" />
+   </children>
+</AnchorPane>

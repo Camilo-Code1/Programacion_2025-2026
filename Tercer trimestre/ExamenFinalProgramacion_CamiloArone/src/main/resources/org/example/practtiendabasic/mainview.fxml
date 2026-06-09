@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.practtiendabasic.menuController">
+   <children>
+      <Text layoutX="281.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VetDaw">
+         <font>
+            <Font size="46.0" />
+         </font>
+      </Text>
+      <Button layoutX="98.0" layoutY="159.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar Propietario" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="504.0" layoutY="159.0" mnemonicParsing="false" onAction="#buscarButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Mostrar Propietarios" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="321.0" layoutY="417.0" mnemonicParsing="false" onAction="#salirButtonOnAction" prefHeight="48.0" prefWidth="78.0" text="Salir" />
+      <Button layoutX="98.0" layoutY="249.0" mnemonicParsing="false" onAction="#registerGastButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar Mascota" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="504.0" layoutY="249.0" mnemonicParsing="false" onAction="#buscarGastButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Mostrar Mascotas" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="98.0" layoutY="342.0" mnemonicParsing="false" onAction="#registerConsulButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Registrar Consulta" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="504.0" layoutY="342.0" mnemonicParsing="false" onAction="#buscarConsulButtonOnAction" prefHeight="62.0" prefWidth="90.0" text="Mostrar Consultas" textAlignment="CENTER" wrapText="true" />
+   </children>
+</AnchorPane>
